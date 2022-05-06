@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\TargetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
+});
+
+Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+    Route::get('target', [TargetController::class, 'index'])->name('target.index');
 });

@@ -1,0 +1,38 @@
+$table-row-hover-background-color: hsl(228, 26%, 27%);
+$table-color: aliceblue;
+$table-background-color: hsl(228, 28%, 20%);
+$table-head-cell-color: aliceblue;
+
+@import './node_modules/bulma-scss/bulma';
+
+body, html {
+    background-color: hsl(232, 19%, 15%);
+    color: aliceblue;
+}
+
+.table {
+    border-radius: 7px;
+    text-align: center;
+
+    tbody tr {
+        transition: 0.2s ease;
+    }
+}
+
+.ticket-class {
+    padding: 3px 10px;
+    color: #fff;
+    border-radius: 50px;
+
+    &.ticket-class-blue {
+        background-color: #467fcf;
+    }
+
+    &.ticket-class-red {
+        background-color: #c21a1a;
+    }
+}
+
+.pointer-events-none {
+    pointer-events: none;
+}

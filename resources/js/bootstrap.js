@@ -1,3 +1,8 @@
+import Vue from 'vue'
+import 'vue-slider-component/theme/default.css'
+import VueSlider from 'vue-slider-component'
+
+
 window._ = require('lodash');
 
 /**
