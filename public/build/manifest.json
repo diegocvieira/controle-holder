@@ -1,18 +1,11 @@
 {
-  "resources/js/target.css": {
-    "file": "assets/target-95854fbb.css",
-    "src": "resources/js/target.css"
-  },
-  "resources/js/target.js": {
-    "css": [
-      "assets/target-95854fbb.css"
-    ],
-    "file": "assets/target-4347a580.js",
+  "resources/js/target-asset-classes.js": {
+    "file": "assets/target-asset-classes-cb3e5c65.js",
     "isEntry": true,
-    "src": "resources/js/target.js"
+    "src": "resources/js/target-asset-classes.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-39e5a197.css",
+    "file": "assets/app-2dd6c067.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
