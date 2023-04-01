@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 
 class TargetController extends Controller
 {
-    public function index()
+    public function assets()
     {
-        return view('dashboard.target.index');
+        return view('dashboard.target.assets');
+    }
+
+    public function assetClasses()
+    {
+        return view('dashboard.target.asset-classes');
     }
 }

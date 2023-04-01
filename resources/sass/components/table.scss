@@ -1,0 +1,118 @@
+.table {
+    text-align: center;
+    width: 100%;
+    color: #f1f5f9;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+    table-layout: fixed;
+
+    thead {
+        background-color: #101d2e;
+
+        tr th {
+            padding: 15px 10px;
+        }
+    }
+
+    tbody {
+        background-color: #162334;
+
+        tr {
+            transition: 0.2s ease;
+
+            &:nth-child(even) {
+                background-color: #101d2e;
+            }
+
+            &:hover {
+                background-color: #273749;
+            }
+
+            td {
+                padding: 15px 10px;
+                border: 0;
+
+                &:not(:last-child) {
+                    border-right: 1px solid rgb(51, 65, 85);
+                }
+
+                .input-field {
+                    width: auto;
+                    margin: auto;
+                    text-align: center;
+                    padding: 0;
+                }
+
+                .asset-class {
+                    border-radius: 15px;
+                    padding: 5px 15px;
+                    font-size: 13px;
+
+                    &.acoes {
+                        background-color: #f64047;
+                    }
+
+                    &.fiis {
+                        background-color: #0085f2;
+                    }
+
+                    &.cryptocurrencies {
+                        background-color: #f0b12c;
+                    }
+                }
+
+                .button {
+                    background-color: transparent;
+                    border: 0;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 34px;
+                    height: 34px;
+                    transition: .2s ease;
+                    border-radius: 5px;
+
+                    &:first-child {
+                        margin-right: 5px;
+                    }
+
+                    &.button-edit {
+                        background-color: #0085f2;
+
+                        &:hover {
+                            background-color: #0067e7;
+                        }
+                    }
+
+                    &.button-save {
+                        background-color: #00baa1;
+
+                        &:hover {
+                            background-color: #00726d;
+                        }
+                    }
+
+                    &.button-delete {
+                        background-color: #f64047;
+
+                        &:hover {
+                            background-color: #e21e2b;
+                        }
+                    }
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+
+                        path {
+                            fill: #ffffff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

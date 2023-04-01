@@ -12,7 +12,7 @@
     	<meta name="theme-color" content="#1f212e">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ Vite::asset('resources/sass/app.scss') }}">
     </head>
     <body>
         @yield('content')
