@@ -1,33 +1,39 @@
 <template id="header-template">
-    <header id="header">
-        <nav>
-            <ul>
-                <li v-for="(item, key) in items" :key="key">
-                    <a :href="item.url" class="link" :class="item.is_active == true ? 'is-active' : ''" v-on:click.prevent="openDropdown(item.slug)">
-                        <span class="icon" :class="item.slug" v-html="item.icon"></span>
+    <div style="display: flex; align-items: flex-end;">
+        <header id="header">
+            <button type="button" @click="openOrHideAside()">OPEN/HIDE</button>
+        </header>
 
-                        {{ item.name }}
+        <aside id="aside">
+            <nav>
+                <ul>
+                    <li v-for="(item, key) in items" :key="key">
+                        <a :href="item.url" class="link" :class="item.is_active == true ? 'is-active' : ''" v-on:click.prevent="openDropdown(item.slug, item.url)" :title="item.name">
+                            <span class="icon" :class="item.slug" v-html="item.icon"></span>
 
-                        <span class="icon-dropdown" v-if="item.dropdown_items.length > 0">
-                            <svg viewBox="0 0 24 24" v-if="checkDropdownIcon(item.slug)">
-                                <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"></path>
-                            </svg>
+                            {{ item.name }}
 
-                            <svg viewBox="0 0 24 24" v-else>
-                                <path fill="currentColor" d="M19,13H5V11H19V13Z"></path>
-                            </svg>
-                        </span>
-                    </a>
+                            <span class="icon-dropdown" v-if="item.dropdown_items.length > 0">
+                                <svg viewBox="0 0 24 24" v-if="!isActiveMenu(item.slug)">
+                                    <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"></path>
+                                </svg>
 
-                    <ul class="dropdown-menu" v-if="item.dropdown_items.length > 0" v-show="isActiveMenu(item.slug)">
-                        <li v-for="(dropdown_item, key) in item.dropdown_items" :key="key">
-                            <a :href="dropdown_item.url" class="link" :class="dropdown_item.is_active == true ? 'is-active' : ''">{{ dropdown_item.name}}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+                                <svg viewBox="0 0 24 24" v-else>
+                                    <path fill="currentColor" d="M19,13H5V11H19V13Z"></path>
+                                </svg>
+                            </span>
+                        </a>
+
+                        <ul class="dropdown-menu" v-if="item.dropdown_items.length > 0" v-show="isActiveMenu(item.slug)">
+                            <li v-for="(dropdown_item, key) in item.dropdown_items" :key="key">
+                                <a :href="dropdown_item.url" class="link" :class="dropdown_item.is_active == true ? 'is-active' : ''">{{ dropdown_item.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
 </template>
 
 <script>
@@ -42,7 +48,7 @@
                     {
                         name: 'Dashboard',
                         slug: 'dashboard',
-                        url: '#',
+                        url: '/dashboard',
                         icon: `<svg aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path fill="currentColor" d="M296 32h192c13.255 0 24 10.745 24 24v160c0 13.255-10.745 24-24 24H296c-13.255 0-24-10.745-24-24V56c0-13.255 10.745-24 24-24zm-80 0H24C10.745 32 0 42.745 0 56v160c0 13.255 10.745 24 24 24h192c13.255 0 24-10.745 24-24V56c0-13.255-10.745-24-24-24zM0 296v160c0 13.255 10.745 24 24 24h192c13.255 0 24-10.745 24-24V296c0-13.255-10.745-24-24-24H24c-13.255 0-24 10.745-24 24zm296 184h192c13.255 0 24-10.745 24-24V296c0-13.255-10.745-24-24-24H296c-13.255 0-24 10.745-24 24v160c0 13.255 10.745 24 24 24z"></path>
                             </svg>`,
@@ -119,14 +125,23 @@
             }
         },
         methods: {
-            openDropdown: function(value) {
-                this.choice = this.choice === value ? '' : value;
+            openDropdown: function(linkSlug, linkUrl) {
+                if (linkUrl != '#') {
+                    window.open(linkUrl, '_self')
+                }
+
+                this.openOrHideAside(linkUrl);
+                this.choice = this.choice === linkSlug ? '' : linkSlug;
             },
             isActiveMenu: function(value) {
-            return this.choice === value;
+                return this.choice === value;
             },
-            checkDropdownIcon: function(value) {
-                return this.choice !== value;
+            openOrHideAside: function(linkUrl = false) {
+                const aside = document.getElementById('aside');
+
+                if (linkUrl === false || linkUrl == '#' && aside.classList.contains('aside-small')) {
+                    aside.classList.toggle('aside-small');
+                }
             }
         },
         mounted () {

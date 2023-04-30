@@ -7,7 +7,7 @@
     <alert-message-component ref="alertMessage"></alert-message-component>
     <modal-component ref="modal"></modal-component>
 
-    <div class="container">
+    <div class="main-content">
         <form method="POST" id="form-add-asset" @submit.prevent="addAsset">
             <div class="field-container">
                 <select v-model="form.asset_class" class="select-field">
