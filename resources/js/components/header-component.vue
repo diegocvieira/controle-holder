@@ -139,7 +139,9 @@
             openOrHideAside: function(linkUrl = false) {
                 const aside = document.getElementById('aside');
 
-                if (linkUrl === false || linkUrl == '#' && aside.classList.contains('aside-small')) {
+                if (window.getComputedStyle(aside).width == '0px' || linkUrl != '#' && aside.classList.contains('aside-large')) {
+                    aside.classList.toggle('aside-large');
+                } else if (linkUrl === false || linkUrl == '#' && aside.classList.contains('aside-small')) {
                     aside.classList.toggle('aside-small');
                 }
             }

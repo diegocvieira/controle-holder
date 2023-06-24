@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
-    public static function formatPrice($price)
+    public static function formatRealToDollar($value)
     {
-        return number_format($price, 2, ',', '.');
+        return number_format(str_replace(['.', ','], ['', '.'], $value), 2, '.', '');
     }
 
     public static function getPriceFromSession($ticker)

@@ -68,9 +68,58 @@
         .modal-body {
             display: flex;
             margin: 15px 0 50px 0;
+
             p {
                 font-size: 16px;
                 margin: 0;
+            }
+
+            .manual-investment {
+                display: flex;
+                width: 100%;
+                flex-wrap: wrap;
+
+                .field-container {
+                    display: flex;
+                    width: 100%;
+
+                    input[type=text] {
+                        text-align: center;
+                        padding: 0;
+                    }
+                }
+
+                .operations {
+                    display: flex;
+                    width: 100%;
+                    margin-bottom: 20px;
+                    justify-content: center;
+
+                    svg {
+                        width: 50px;
+                        height: 50px;
+                        fill: #ffffff;
+                        margin: 0 20px;
+                    }
+
+                    label {
+                        background-color: #1E293B;
+                        border-color: #1E293B;
+                        color: #ffffff;
+                    }
+
+                    input[type=radio] {
+                        display: none;
+
+                        &#buy:checked ~ label[for=buy] {
+                            background-color: #00baa1;
+                        }
+
+                        &#sell:checked ~ label[for=sell] {
+                            background-color: #f64047;
+                        }
+                    }
+                }
             }
         }
 

@@ -13,7 +13,8 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/target-asset-classes.js',
-                'resources/js/target-assets.js'
+                'resources/js/target-assets.js',
+                'resources/js/rebalancing.js'
             ],
             refresh: true
         }),

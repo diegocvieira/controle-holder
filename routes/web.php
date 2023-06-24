@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\TargetController;
+use App\Http\Controllers\Dashboard\RebalancingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,5 @@ Route::get('/', function () {
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('target/assets', [TargetController::class, 'assets'])->name('target.assets');
     Route::get('target/asset-classes', [TargetController::class, 'assetClasses'])->name('target.asset-classes');
+    Route::get('rebalancing', [RebalancingController::class, 'index'])->name('rebalancing');
 });
