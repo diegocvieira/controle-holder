@@ -4,27 +4,28 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\UserAsset;
-use App\Models\UserAssetClass;
-use App\Models\Asset;
 use App\Helpers\Helper;
+use Illuminate\Http\JsonResponse;
+use App\Repositories\UserAssetRepository;
+use App\Repositories\UserAssetClassRepository;
+use App\Repositories\AssetRepository;
 
 class AssetController extends Controller
 {
-    public function getAssets()
-    {
-        $userId = 1;
+    protected $userAssetRepository;
+    protected $userAssetClassRepository;
+    protected $assetRepository;
 
-        $assets = UserAsset::with([
-                'asset' => function ($query) {
-                    $query->select(['id', 'ticker']);
-                },
-                'userAssetClass.assetClass' => function ($query) {
-                    $query->select(['id', 'name', 'slug']);
-                },
-            ])
-            ->where('user_id', $userId)
-            ->get();
+    public function __construct(UserAssetRepository $userAssetRepository, UserAssetClassRepository $userAssetClassRepository, AssetRepository $assetRepository)
+    {
+        $this->userAssetRepository = $userAssetRepository;
+        $this->userAssetClassRepository = $userAssetClassRepository;
+        $this->assetRepository = $assetRepository;
+    }
+
+    public function getAssets(): JsonResponse
+    {
+        $assets = $this->userAssetRepository->getAllAssets(1); // TODO change 1 for user auth id
 
         $data = $assets->map(function ($asset) {
             return [
@@ -40,59 +41,53 @@ class AssetController extends Controller
             ];
         })->all();
 
-        return response()->json([
-            'data' => $data
-        ]);
+        return response()->json(['data' => $data], 200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $userId = 1;
+        $userId = 1;  // TODO Change 1 for Auth id
 
-        $asset = Asset::where('ticker', $request->ticker)->first();
+        $asset = $this->assetRepository->getAssetByTicker($request->ticker);
 
         if (!$asset) {
             return response()->json([
-                'success' => false
+                'success' => false,
+                'message' => 'O ativo não foi encontrado no nosso sistema. Solicite a inclusão dele.'
             ], 404);
         }
 
-        $assetClass = UserAssetClass::with('assetClass')
-            ->whereHas('assetClass', function ($query) use ($request) {
-                $query->where('slug', $request->asset_class_slug);
-            })
-            ->where('user_id', $userId)
-            ->first();
+        $assetClass = $this->userAssetClassRepository->getClassBySlug($userId, $request->asset_class_slug);
 
-        UserAsset::create([
+        if (!$assetClass) {
+            return response()->json([
+                'success' => false,
+                'message' => 'A classe de ativos não foi encontrada no nosso sistema.'
+            ], 404);
+        }
+
+        $data = [
             'user_id' => $userId,
             'user_asset_class_id' => $assetClass->id,
             'asset_id' => $asset->id,
             'quantity' => $request->quantity,
             'rating' => $request->rating
-        ]);
+        ];
 
-        return response()->json([
-            'success' => true
-        ], 204);
+        $this->userAssetRepository->createAsset($data);
+
+        return response()->json([], 204);
     }
 
-    public function update(Request $request)
+    public function update(Request $request): JsonResponse
     {
-        $userId = 1;
+        $dataToUpdate = [
+            'quantity' => $request->quantity,
+            'rating' => $request->rating
+        ];
 
-        UserAsset::with('asset')
-            ->whereHas('asset', function ($query) use ($request) {
-                $query->where('ticker', $request->ticker);
-            })
-            ->where('user_id', $userId)
-            ->update([
-                'quantity' => $request->quantity,
-                'rating' => $request->rating
-            ]);
+        $this->userAssetRepository->updateAsset(1, $request->ticker, $dataToUpdate); // TODO Change 1 for Auth id
 
-        return response()->json([
-            'success' => true
-        ], 204);
+        return response()->json([], 204);
     }
 }

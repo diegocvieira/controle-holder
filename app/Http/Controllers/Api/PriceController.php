@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class PriceController extends Controller
 {
@@ -33,64 +33,56 @@ class PriceController extends Controller
 
         // return $cachedPrices[$ticket]['price'];
 
-        $prices = [];
+        // $prices[] = [
+        //     'ticker' => $data['ticker'],
+        //     'price' => 12.50
+        // ];
+        // continue;
 
-        foreach ($request->data as $data) {
-            $prices[] = [
-                'ticker' => $data['ticker'],
-                'price' => 12.50
+        $ticker = $request->ticker;
+        $assetClass = $request->asset_class;
+        $cacheKey = 'asset_price_' . $ticker;
+
+        if (Cache::has($cacheKey)) {
+            return [
+                'ticker' => $ticker,
+                'price' => Helper::getPriceFromSession($ticker)
             ];
-            continue;
-
-
-
-
-
-
-            $cacheKey = 'asset_price_' . $data['ticker'];
-
-            if (Cache::has($cacheKey)) {
-                $prices[] = [
-                    'ticker' => $data['ticker'],
-                    'price' => Cache::get($cacheKey)
-                ];
-            } else {
-                $curl = curl_init();
-                $requestType = 'GET';
-                $url = 'https://investidor10.com.br/' . $data['asset_class'] . '/' . strtolower($data['ticker']) . '/';
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => $url,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 30,
-                    CURLOPT_FOLLOWLOCATION => false,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => $requestType,
-                    CURLOPT_POSTFIELDS => '',
-                    CURLOPT_HTTPHEADER => [],
-                ]);
-
-                $response = curl_exec($curl);
-                curl_close($curl);
-                libxml_use_internal_errors(true);
-                $dom = new \DOMDocument();
-                $dom->loadHTML($response);
-                $xpath = new \DOMXPath($dom);
-
-                $price = $xpath->query('//div[@class="_card cotacao"]//span[@class="value"]')->item(0)->nodeValue;
-                $price = preg_replace('/[^\d,.]+/', '', $price);
-
-                $prices[] = [
-                    'ticker' => $data['ticker'],
-                    'price' => $price
-                ];
-
-                Cache::put($cacheKey, $price, 86400);
-            }
         }
 
-        return $prices;
+        $curl = curl_init();
+        $requestType = 'GET';
+        $url = 'https://investidor10.com.br/' . $assetClass . '/' . strtolower($ticker) . '/';
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $requestType,
+            CURLOPT_POSTFIELDS => '',
+            CURLOPT_HTTPHEADER => [],
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        libxml_use_internal_errors(true);
+        $dom = new \DOMDocument();
+        $dom->loadHTML($response);
+        $xpath = new \DOMXPath($dom);
+
+        $price = $xpath->query('//div[@class="_card cotacao"]//span[@class="value"]')->item(0)->nodeValue;
+        $price = preg_replace('/[^\d,.]+/', '', $price);
+        $price = Helper::formatRealToDollar($price);
+
+        Cache::put($cacheKey, $price, 86400);
+
+        return [
+            'ticker' => $ticker,
+            'price' => $price
+        ];
 
         // CRIPTOMOEDAS CONFIG
         // $url = 'https://investidor10.com.br/criptomoedas/bitcoin/';

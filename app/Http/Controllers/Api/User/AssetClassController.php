@@ -5,19 +5,20 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserAssetClass;
+use App\Repositories\UserAssetClassRepository;
 
 class AssetClassController extends Controller
 {
+    protected $userAssetClassRepository;
+
+    public function __construct(UserAssetClassRepository $userAssetClassRepository)
+    {
+        $this->userAssetClassRepository = $userAssetClassRepository;
+    }
+
     public function getAssetClasses()
     {
-        $userId = 1;
-
-        $assetClasses = UserAssetClass::with([
-            'assetClass' => function ($query) {
-                $query->select(['id', 'name', 'slug']);
-            }])
-            ->where('user_id', $userId)
-            ->get();
+        $assetClasses = $this->userAssetClassRepository->getAllAssetClasses(1); // TODO change 1 for user auth id
 
         $data = $assetClasses->map(function ($assetClass) {
             return [
