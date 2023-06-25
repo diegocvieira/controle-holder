@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Dashboard\TargetController;
-use App\Http\Controllers\Dashboard\RebalancingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
-    Route::get('target/assets', [TargetController::class, 'assets'])->name('target.assets');
-    Route::get('target/asset-classes', [TargetController::class, 'assetClasses'])->name('target.asset-classes');
-    Route::get('rebalancing', [RebalancingController::class, 'index'])->name('rebalancing');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';
