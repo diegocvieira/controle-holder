@@ -8,7 +8,7 @@
     <modal-component ref="modal"></modal-component>
 
     <div class="main-content">
-        <form method="POST" id="form-add-asset" @submit.prevent="calculateInvestment">
+        <form method="POST" class="form form-inline" @submit.prevent="calculateInvestment">
             <div class="field-container">
                 <input type="input" v-model="investmentAmount" @input="formatMoney()" placeholder="Valor do aporte" class="input-field" />
             </div>

@@ -15,11 +15,9 @@
         }
     }
 
-    &#form-add-asset {
+    &.form-inline {
         .field-container {
-            position: relative;
-            flex: 1 0 0;
-            display: inline-flex;
+            flex: 1;
             margin: 0;
 
             &:not(:last-child) {
@@ -38,6 +36,7 @@
     height: 48px;
     padding: 0 0 0 10px;
     transition: .2s ease;
+    box-sizing: border-box;
 
     &:focus-visible {
         outline: none;

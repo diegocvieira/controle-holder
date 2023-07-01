@@ -80,7 +80,6 @@ body, html {
     color: #cbd5e1;
     display: flex;
     padding: 5px 10px;
-    // flex: auto;
     transition: .2s;
 
     &:hover {
@@ -91,4 +90,9 @@ body, html {
         font-weight: 700;
         color: #ffffff;
     }
+}
+
+.page-title {
+    color: $whiteColor;
+    font-weight: normal;
 }

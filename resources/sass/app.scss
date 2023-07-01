@@ -1,14 +1,16 @@
-@import 'variables';
+@import 'system/variables';
 @import 'vue-slider-component/theme/default.css';
-@import 'normalize';
-@import 'helper';
-@import 'default';
+@import 'system/normalize';
+@import 'system/helper';
+@import 'system/default';
 
 @import 'components/alert-message';
 @import 'components/header';
 @import 'components/table';
 @import 'components/form';
 @import 'components/modal';
+
+@import 'pages/login-page';
 
 .form-group {
     background-color: #0f172ab3;
@@ -36,39 +38,5 @@
 
     ul {
         display: flex;
-    }
-}
-
-#login-page {
-    .main-content {
-        margin-top: 0;
-        padding: 0;
-        display: flex;
-
-        .left-content, .right-content {
-            width: 50%;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-
-            .form {
-                background-color: transparent;
-                margin-bottom: 0;
-            }
-        }
-
-        .right-content {
-            background-color: $darkBlueColor;
-        }
-
-        @media screen and (max-width: $mobile) {
-            .left-content {
-                display: none;
-            }
-
-            .right-content {
-                width: 100%;
-            }
-        }
     }
 }

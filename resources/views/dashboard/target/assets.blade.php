@@ -8,7 +8,7 @@
     <modal-component ref="modal"></modal-component>
 
     <div class="main-content">
-        <form method="POST" id="form-add-asset" @submit.prevent="addAsset">
+        <form method="POST" class="form form-inline" @submit.prevent="addAsset">
             <div class="field-container">
                 <select v-model="form.asset_class" class="select-field">
                     <option v-for="filterOption in filterOptions" :value="filterOption.slug" v-if="filterOption.slug != 'all'">
