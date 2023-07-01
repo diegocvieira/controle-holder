@@ -1,7 +1,6 @@
 import '../app';
 import HeaderComponent from '../components/header-component.vue';
 import AlertMessageComponent from '../components/alert-message-component.vue';
-import ModalComponent from '../components/modal-component.vue';
 
 new Vue({
     el: '#login-page',
@@ -33,7 +32,6 @@ new Vue({
                 this.$refs.alertMessage.show = true;
             }).then(() => {
                 this.submitButtonIsDisabled = false;
-                console.log('submit');
             });
         },
         validateFields() {
@@ -50,7 +48,6 @@ new Vue({
     },
     components: {
         HeaderComponent,
-        AlertMessageComponent,
-        ModalComponent
+        AlertMessageComponent
     }
 });
