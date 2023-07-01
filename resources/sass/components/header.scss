@@ -38,6 +38,7 @@
                 a {
                     padding: 15px 20px;
                     align-items: center;
+                    flex: auto;
 
                     .icon {
                         width: 38px;
@@ -86,6 +87,6 @@
     #aside {
         position: fixed;
         width: 0;
-        background-color: #13141b;
+        background-color: $blackColor;
     }
 }

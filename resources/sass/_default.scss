@@ -1,7 +1,7 @@
 body, html {
-    background-color: #13141b;
+    background-color: $blackColor;
     font-family: sans-serif;
-    color: #f1f5f9;
+    color: $whiteColor;
 }
 
 .main {
@@ -48,9 +48,9 @@ body, html {
 
 .button {
     background-color: transparent;
-    border: 2px solid #0067e7;
+    border: 2px solid $blueColor;
     transition: .2s ease;
-    color: #0067e7;
+    color: $blueColor;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
@@ -62,17 +62,17 @@ body, html {
 
     &.bg-filled {
         background-color: #0085f2;
-        color: #f1f5f9;
+        color: $whiteColor;
         border-color: transparent;
 
         &:hover {
-            background-color: #0067e7;
+            background-color: $blueColor;
         }
     }
 
     &:hover {
-        color: #f1f5f9;
-        background-color: #0067e7;
+        color: $whiteColor;
+        background-color: $blueColor;
     }
 }
 
@@ -80,9 +80,8 @@ body, html {
     color: #cbd5e1;
     display: flex;
     padding: 5px 10px;
-    flex: auto;
+    // flex: auto;
     transition: .2s;
-    display: flex;
 
     &:hover {
         color: #ffffff;

@@ -38,3 +38,37 @@
         display: flex;
     }
 }
+
+#login-page {
+    .main-content {
+        margin-top: 0;
+        padding: 0;
+        display: flex;
+
+        .left-content, .right-content {
+            width: 50%;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+
+            .form {
+                background-color: transparent;
+                margin-bottom: 0;
+            }
+        }
+
+        .right-content {
+            background-color: $darkBlueColor;
+        }
+
+        @media screen and (max-width: $mobile) {
+            .left-content {
+                display: none;
+            }
+
+            .right-content {
+                width: 100%;
+            }
+        }
+    }
+}

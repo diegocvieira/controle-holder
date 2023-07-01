@@ -1,17 +1,30 @@
-#form-add-asset {
+.form {
     background-color: #101d2e;
     border-radius: 15px;
     padding: 20px;
     margin: 0 0 50px 0;
     display: flex;
+    flex-wrap: wrap;
 
     .field-container {
-        position: relative;
-        flex: 1 0 0;
-        display: inline-flex;
+        display: flex;
+        width: 100%;
 
         &:not(:last-child) {
-            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    }
+
+    &#form-add-asset {
+        .field-container {
+            position: relative;
+            flex: 1 0 0;
+            display: inline-flex;
+            margin: 0;
+
+            &:not(:last-child) {
+                margin-right: 20px;
+            }
         }
     }
 }
@@ -19,7 +32,7 @@
 .select-field, .input-field {
     background-color: transparent;
     border: 2px solid #354251;
-    color: #f1f5f9;
+    color: $whiteColor;
     border-radius: 5px;
     width: 100%;
     height: 48px;
@@ -28,7 +41,7 @@
 
     &:focus-visible {
         outline: none;
-        border-color: #0067e7;
+        border-color: $blueColor;
     }
 
     &::-webkit-input-placeholder {
