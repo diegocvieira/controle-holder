@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserAssetClass;
 use App\Repositories\UserAssetClassRepository;
+use Illuminate\Http\JsonResponse;
 
 class AssetClassController extends Controller
 {
@@ -16,7 +17,7 @@ class AssetClassController extends Controller
         $this->userAssetClassRepository = $userAssetClassRepository;
     }
 
-    public function getAssetClasses()
+    public function getAssetClasses(): JsonResponse
     {
         $assetClasses = $this->userAssetClassRepository->getAllAssetClasses(1); // TODO change 1 for user auth id
 
@@ -30,6 +31,6 @@ class AssetClassController extends Controller
 
         return response()->json([
             'data' => $data
-        ]);
+        ], 200);
     }
 }
