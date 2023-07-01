@@ -14,7 +14,8 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/target-asset-classes.js',
                 'resources/js/target-assets.js',
-                'resources/js/rebalancing.js'
+                'resources/js/rebalancing.js',
+                'resources/js/auth/login.js'
             ],
             refresh: true
         }),
