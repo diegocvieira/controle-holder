@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
 
+use App\Http\Controllers\Web\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Dashboard\TargetController;
 use App\Http\Controllers\Web\Dashboard\RebalancingController;
 
@@ -26,7 +27,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('target/assets', [TargetController::class, 'assets'])->name('target.assets');
     Route::get('target/asset-classes', [TargetController::class, 'assetClasses'])->name('target.asset-classes');
     Route::get('rebalancing', [RebalancingController::class, 'index'])->name('rebalancing');
