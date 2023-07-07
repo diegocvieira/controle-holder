@@ -31,9 +31,18 @@
         height: 100%;
 
         ul {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
             li {
                 display: flex;
                 flex-wrap: wrap;
+
+                &:last-child {
+                    flex: auto;
+                    align-items: flex-end;
+                }
 
                 a {
                     padding: 15px 20px;
@@ -78,6 +87,7 @@
                 position: relative;
                 background-color: #142031;
                 width: 100%;
+                height: auto;
             }
         }
     }
