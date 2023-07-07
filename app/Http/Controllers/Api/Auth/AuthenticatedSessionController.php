@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +12,7 @@ class AuthenticatedSessionController extends Controller
 {
     public function store(LoginRequest $request): JsonResponse
     {
-        if ($request->authenticate()) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
             $request->session()->regenerate();
 
             return response()->json([
@@ -27,13 +26,15 @@ class AuthenticatedSessionController extends Controller
         ], 404);
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): JsonResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return response()->json([
+            'success' => true
+        ], 200);
     }
 }

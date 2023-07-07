@@ -30,20 +30,6 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function authenticate(): bool
-    {
-        if (Auth::attempt($this->only('email', 'password'), true)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array<string, string>
