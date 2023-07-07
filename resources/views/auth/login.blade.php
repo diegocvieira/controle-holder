@@ -17,8 +17,6 @@
             <h1 class="page-title">Acesse sua conta</h1>
 
             <form @submit.prevent="formSubmit" id="form-login" class="form">
-                @csrf
-
                 <div class="field-container">
                     <input type="input" v-model="email" placeholder="holder@gmail.com" class="input-field" />
                 </div>
@@ -42,11 +40,5 @@
         </div>
     </div>
 </main>
-
-@endsection
-
-@section('script')
-
-<script type="module" src="{{ Vite::asset('resources/js/auth/login.js') }}"></script>
 
 @endsection

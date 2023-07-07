@@ -1,8 +1,7 @@
-import './app';
 import VueSlider from 'vue-slider-component';
-import HeaderComponent from './components/header-component.vue';
+import HeaderComponent from '../../components/header-component.vue';
 
-new Vue({
+export default new Vue({
     el: '#target-asset-classes-page',
     data () {
         return {

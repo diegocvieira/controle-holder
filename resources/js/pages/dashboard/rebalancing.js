@@ -1,10 +1,11 @@
-import './app';
-import { numberFormat } from './app';
-import HeaderComponent from './components/header-component.vue';
-import AlertMessageComponent from './components/alert-message-component.vue';
-import ModalComponent from './components/modal-component.vue';
+import HeaderComponent from '../../components/header-component.vue';
+import AlertMessageComponent from '../../components/alert-message-component.vue';
+import ModalComponent from '../../components/modal-component.vue';
+import MoneyFormatPlugin from '../../plugins/money-format-plugin';
 
-new Vue({
+Vue.use(MoneyFormatPlugin);
+
+export default new Vue({
     el: '#rebalancing-page',
     data () {
         return {
@@ -14,7 +15,7 @@ new Vue({
     },
     methods: {
         formatMoney() {
-            this.investmentAmount = numberFormat(this.investmentAmount);
+            this.investmentAmount = this.$moneyFormat(this.investmentAmount);
         },
         invest(ticker) {
             const assetIndex = this.wallet.findIndex((data => data.ticker == ticker));
@@ -24,7 +25,7 @@ new Vue({
                 return;
             }
 
-            const currentInvestmentAmount = numberFormat(this.investmentAmount, 'USD').replace(/[^0-9.-]/g, '');
+            const currentInvestmentAmount = this.$moneyFormat(this.investmentAmount, 'USD').replace(/[^0-9.-]/g, '');
             const newInvestmentAmount = (currentInvestmentAmount - this.wallet[assetIndex].investmentAmount).toFixed(2);
             const newQuantity = investmentQuantity + this.wallet[assetIndex].quantity;
 
@@ -60,7 +61,7 @@ new Vue({
                 return;
             }
 
-            const totalValue = numberFormat(this.investmentAmount, 'USD').replace(/[^0-9.-]/g, '');
+            const totalValue = this.$moneyFormat(this.investmentAmount, 'USD').replace(/[^0-9.-]/g, '');
             let totalInvestedValue = 0;
             let remainingAmount = 0;
             let stopCalculating = false;
@@ -95,7 +96,7 @@ new Vue({
             });
         },
         formatPrice(value) {
-            return numberFormat(value);
+            return this.$moneyFormat(value);
         },
         getTickets() {
             axios.get('/api/assets').then(response => {

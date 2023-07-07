@@ -29,9 +29,3 @@
 </main>
 
 @endsection
-
-@section('script')
-
-<script type="module" src="{{ Vite::asset('resources/js/target-asset-classes.js') }}"></script>
-
-@endsection

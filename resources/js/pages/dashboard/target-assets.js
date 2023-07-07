@@ -1,9 +1,8 @@
-import './app';
-import HeaderComponent from './components/header-component.vue';
-import AlertMessageComponent from './components/alert-message-component.vue';
-import ModalComponent from './components/modal-component.vue';
+import HeaderComponent from '../../components/header-component.vue';
+import AlertMessageComponent from '../../components/alert-message-component.vue';
+import ModalComponent from '../../components/modal-component.vue';
 
-new Vue({
+export default new Vue({
     el: '#target-assets-page',
     data () {
         return {

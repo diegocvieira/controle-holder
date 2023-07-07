@@ -1,8 +1,7 @@
-import '../app';
 import HeaderComponent from '../components/header-component.vue';
 import AlertMessageComponent from '../components/alert-message-component.vue';
 
-new Vue({
+export default new Vue({
     el: '#login-page',
     data () {
         return {
@@ -25,7 +24,7 @@ new Vue({
             };
 
             axios.post('/api/auth/login', data).then(response => {
-                console.log(response);
+                window.open('/dashboard', '_self');
             }).catch(error => {
                 this.$refs.alertMessage.type = 'error';
                 this.$refs.alertMessage.message = error.response.data.message;

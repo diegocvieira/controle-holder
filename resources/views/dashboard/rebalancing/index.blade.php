@@ -30,7 +30,7 @@
                         <th class="tooltip" data-title="Valor total investido nesse ativo">VLR INV.</th>
                         <th class="tooltip" data-title="Porcentagem desejada, definida na carteira meta">% META</th>
                         <th class="tooltip" data-title="Porcentagem atual alocado nesse ativo">% ATUAL</th>
-                        <th class="tooltip" data-title="Diferença entre a porcenteagem atual e objetivo">% DIF</th>
+                        <th class="tooltip" data-title="Diferença entre a porcentagem atual e objetivo">% DIF</th>
                         <th class="tooltip" data-title="Quantidade que deve ser aportada nesse ativo">QTD APT</th>
                         <th class="tooltip" data-title="Valor que deve ser aportado">VLR APT</th>
                         <td class="tooltip" data-title="Lançar as operações de entrada e saída. Para lançar a nossa sugestão clique no botão verde">OP</td>
@@ -60,11 +60,5 @@
         </div>
     </div>
 </main>
-
-@endsection
-
-@section('script')
-
-<script type="module" src="{{ Vite::asset('resources/js/rebalancing.js') }}"></script>
 
 @endsection

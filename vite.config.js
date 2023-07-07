@@ -12,10 +12,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
-                'resources/js/target-asset-classes.js',
-                'resources/js/target-assets.js',
-                'resources/js/rebalancing.js',
-                'resources/js/auth/login.js'
+                'resources/js/app.js'
             ],
             refresh: true
         }),

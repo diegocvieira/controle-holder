@@ -5,13 +5,29 @@ window.Vue = Vue;
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-export const numberFormat = (number, currency = 'BRL') => {
-    const numericValue = number.toString().replace(/\D/g, '');
-    const locale = currency === 'BRL' ? 'pt-BR' : 'en-US';
+loadPageScript();
 
-    return new Intl.NumberFormat(locale, {
-        style: 'currency',
-        currency: currency,
-        minimumFractionDigits: 2
-    }).format(numericValue / 100);
-};
+function loadPageScript() {
+    const mainElement = document.querySelector('main');
+    const mainId = mainElement.getAttribute('id');
+
+    switch (mainId) {
+        case 'target-assets-page':
+            import('./pages/dashboard/target-assets.js');
+            break;
+        case 'rebalancing-page':
+            import('./pages/dashboard/rebalancing.js');
+            break;
+        case 'login-page':
+            import('./pages/auth/login.js');
+            break;
+        case 'dashboard-page':
+            import('./pages/dashboard/dashboard.js');
+            break;
+        case 'target-asset-classes-page':
+            import('./pages/dashboard/target-asset-classes.js');
+            break;
+        default:
+            break;
+    }
+}

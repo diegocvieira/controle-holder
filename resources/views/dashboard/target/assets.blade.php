@@ -101,9 +101,3 @@
 </main>
 
 @endsection
-
-@section('script')
-
-<script type="module" src="{{ Vite::asset('resources/js/target-assets.js') }}"></script>
-
-@endsection
