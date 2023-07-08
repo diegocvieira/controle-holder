@@ -1,6 +1,7 @@
 import HeaderComponent from '../../components/header-component.vue';
 import AlertMessageComponent from '../../components/alert-message-component.vue';
 import ModalComponent from '../../components/modal-component.vue';
+import LoaderComponent from '../../components/loader-component.vue';
 
 export default new Vue({
     el: '#target-assets-page',
@@ -154,6 +155,9 @@ export default new Vue({
     created () {
         this.getAssets();
     },
+    updated () {
+        this.$refs.loader.show = false;
+    },
     computed: {
         filteredWallet() {
             if (this.classFilter == 'all') {
@@ -184,6 +188,7 @@ export default new Vue({
     components: {
         HeaderComponent,
         AlertMessageComponent,
-        ModalComponent
+        ModalComponent,
+        LoaderComponent
     }
 });

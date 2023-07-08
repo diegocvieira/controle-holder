@@ -1,6 +1,7 @@
 import HeaderComponent from '../../components/header-component.vue';
 import AlertMessageComponent from '../../components/alert-message-component.vue';
 import ModalComponent from '../../components/modal-component.vue';
+import LoaderComponent from '../../components/loader-component.vue';
 import MoneyFormatPlugin from '../../plugins/money-format-plugin';
 
 Vue.use(MoneyFormatPlugin);
@@ -174,6 +175,9 @@ export default new Vue({
     created () {
         this.getTickets();
     },
+    updated () {
+        this.$refs.loader.show = false;
+    },
     watch: {
         wallet: {
             handler(assets) {
@@ -192,6 +196,7 @@ export default new Vue({
     components: {
         HeaderComponent,
         AlertMessageComponent,
-        ModalComponent
+        ModalComponent,
+        LoaderComponent
     }
 });

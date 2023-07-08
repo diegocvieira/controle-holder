@@ -6,6 +6,7 @@
     <header-component page="rebalancing"></header-component>
     <alert-message-component ref="alertMessage"></alert-message-component>
     <modal-component ref="modal"></modal-component>
+    <loader-component ref="loader"></loader-component>
 
     <div class="main-content">
         <form method="POST" class="form form-inline" @submit.prevent="calculateInvestment">
@@ -18,7 +19,7 @@
             </div>
         </form>
 
-        <div class="table">
+        <div class="table" v-cloak>
             <table>
                 <thead>
                     <tr>

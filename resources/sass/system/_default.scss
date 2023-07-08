@@ -4,6 +4,10 @@ body, html {
     color: $whiteColor;
 }
 
+[v-cloak] {
+    display: none;
+}
+
 .main {
     display: flex;
     overflow: hidden;
