@@ -11,7 +11,7 @@ export default new Vue({
     data () {
         return {
             wallet: [],
-            investmentAmount: null
+            investmentAmount: 'R$ 0,00'
         }
     },
     methods: {
@@ -30,7 +30,7 @@ export default new Vue({
             const newInvestmentAmount = (currentInvestmentAmount - this.wallet[assetIndex].investmentAmount).toFixed(2);
             const newQuantity = investmentQuantity + this.wallet[assetIndex].quantity;
 
-            this.investmentAmount = newInvestmentAmount;
+            this.investmentAmount = this.$moneyFormat(newInvestmentAmount);
             this.wallet[assetIndex].quantity = newQuantity;
             this.wallet[assetIndex].investmentQuantity = 0;
             this.wallet[assetIndex].investmentAmount = 0;
