@@ -1,5 +1,5 @@
 import HeaderComponent from '../../components/header-component.vue';
-import AlertMessageComponent from '../../components/alert-message-component.vue';
+import AlertComponent from '../../components/alert-component.vue';
 import ModalComponent from '../../components/modal-component.vue';
 import LoaderComponent from '../../components/loader-component.vue';
 
@@ -26,10 +26,7 @@ export default new Vue({
     methods: {
         addAsset(event) {
             if (!this.form.asset_class || !this.form.ticker || !this.form.quantity || !this.form.rating) {
-                this.$refs.alertMessage.type = 'warning';
-                this.$refs.alertMessage.message = 'Preencha todos os campos.';
-                this.$refs.alertMessage.show = true;
-
+                this.$refs.alert.showWarning('Preencha todos os campos.');
                 return false;
             }
 
@@ -61,14 +58,10 @@ export default new Vue({
                     showInputs: false
                 });
 
-                this.$refs.alertMessage.type = 'success';
-                this.$refs.alertMessage.message = 'Ativo adicionado com sucesso!';
-                this.$refs.alertMessage.show = true;
+                this.$refs.alert.showSuccess('Ativo adicionado com sucesso!');
             }).catch(error => {
                 if (error.response?.status === 404) {
-                    this.$refs.alertMessage.type = 'warning';
-                    this.$refs.alertMessage.message = 'Ativo não encontrado. Por favor, entre em contato <a href="#">por aqui</a> e peça a inclusão dele no sistema.';
-                    this.$refs.alertMessage.show = true;
+                    this.$refs.alert.showWarning('Ativo não encontrado. Por favor, entre em contato <a href="#">por aqui</a> e peça a inclusão dele no sistema.');
                 }
             });
         },
@@ -89,9 +82,7 @@ export default new Vue({
             }
 
             axios.put('/api/assets', data).then(response => {
-                this.$refs.alertMessage.type = 'success';
-                this.$refs.alertMessage.message = 'Ativo alterado com sucesso!';
-                this.$refs.alertMessage.show = true;
+                this.$refs.alert.showSuccess('Ativo alterado com sucesso!');
             }).catch(error => console.log(error));
         },
         deleteAsset(ticker) {
@@ -187,7 +178,7 @@ export default new Vue({
     },
     components: {
         HeaderComponent,
-        AlertMessageComponent,
+        AlertComponent,
         ModalComponent,
         LoaderComponent
     }

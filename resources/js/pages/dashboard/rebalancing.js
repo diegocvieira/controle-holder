@@ -1,5 +1,4 @@
 import HeaderComponent from '../../components/header-component.vue';
-import AlertMessageComponent from '../../components/alert-message-component.vue';
 import ModalComponent from '../../components/modal-component.vue';
 import LoaderComponent from '../../components/loader-component.vue';
 import MoneyFormatPlugin from '../../plugins/money-format-plugin';
@@ -195,7 +194,6 @@ export default new Vue({
     },
     components: {
         HeaderComponent,
-        AlertMessageComponent,
         ModalComponent,
         LoaderComponent
     }

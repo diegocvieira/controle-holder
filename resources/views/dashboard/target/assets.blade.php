@@ -4,7 +4,7 @@
 
 <main class="main" id="target-assets-page">
     <header-component page="target-assets"></header-component>
-    <alert-message-component ref="alertMessage"></alert-message-component>
+    <alert-component ref="alert"></alert-component>
     <modal-component ref="modal"></modal-component>
     <loader-component ref="loader"></loader-component>
 

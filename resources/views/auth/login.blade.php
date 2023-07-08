@@ -3,7 +3,7 @@
 @section('content')
 
 <main class="main" id="login-page">
-    <alert-message-component ref="alertMessage"></alert-message-component>
+    <alert-component ref="alert"></alert-component>
 
     <div class="main-content">
         <div class="left-content">

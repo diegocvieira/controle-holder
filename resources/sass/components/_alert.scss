@@ -1,4 +1,4 @@
-.alert-message {
+.alert {
     position: fixed;
     top: 50px;
     width: 350px;
@@ -43,6 +43,6 @@
     }
 }
 
-.alert-message-slide-enter, .alert-message-slide-leave-to {
+.alert-slide-enter, .alert-slide-leave-to {
     transform: translateX(200%);
 }

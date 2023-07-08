@@ -1,5 +1,5 @@
 import HeaderComponent from '../components/header-component.vue';
-import AlertMessageComponent from '../components/alert-message-component.vue';
+import AlertComponent from '../components/alert-component.vue';
 
 export default new Vue({
     el: '#login-page',
@@ -26,19 +26,14 @@ export default new Vue({
             axios.post('/api/auth/login', data).then(response => {
                 window.open('/dashboard', '_self');
             }).catch(error => {
-                this.$refs.alertMessage.type = 'error';
-                this.$refs.alertMessage.message = error.response.data.message;
-                this.$refs.alertMessage.show = true;
+                this.$refs.alert.showError(error.response.data.message);
             }).then(() => {
                 this.submitButtonIsDisabled = false;
             });
         },
         validateFields() {
             if (!this.email || !this.password) {
-                this.$refs.alertMessage.type = 'warning';
-                this.$refs.alertMessage.message = 'Preencha todos os campos.';
-                this.$refs.alertMessage.show = true;
-
+                this.$refs.alert.showWarning('Preencha todos os campos.');
                 return false;
             }
 
@@ -47,6 +42,6 @@ export default new Vue({
     },
     components: {
         HeaderComponent,
-        AlertMessageComponent
+        AlertComponent
     }
 });

@@ -1,6 +1,6 @@
-<template id="alert-message-template">
-    <transition name="alert-message-slide">
-        <div class="alert-message" :class="type" v-if="show">
+<template id="alert-template">
+    <transition name="alert-slide">
+        <div class="alert" :class="type" v-if="show">
             <svg viewBox="0 0 24 24" v-if="type == 'success'">
                 <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z"></path>
             </svg>
@@ -18,8 +18,8 @@
 
 <script>
     export default {
-        name: 'alert-message-component',
-        template: '#alert-message-template',
+        name: 'alert-component',
+        template: '#alert-template',
         data () {
             return {
                 show: false,
@@ -40,6 +40,21 @@
         methods: {
             closeModal() {
                 this.show = false;
+            },
+            showWarning(message) {
+                this.type = 'warning';
+                this.message = message;
+                this.show = true;
+            },
+            showError(message) {
+                this.type = 'error';
+                this.message = message;
+                this.show = true;
+            },
+            showSuccess(message) {
+                this.type = 'success';
+                this.message = message;
+                this.show = true;
             }
         }
     }

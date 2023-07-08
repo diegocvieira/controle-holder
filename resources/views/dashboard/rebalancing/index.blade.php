@@ -4,7 +4,6 @@
 
 <main class="main" id="rebalancing-page">
     <header-component page="rebalancing"></header-component>
-    <alert-message-component ref="alertMessage"></alert-message-component>
     <modal-component ref="modal"></modal-component>
     <loader-component ref="loader"></loader-component>
 

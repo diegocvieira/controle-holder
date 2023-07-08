@@ -1,4 +1,4 @@
-<template id="alert-message-template">
+<template id="loader-template">
     <div id="preloader" v-if="show">
         <div id="loader"></div>
     </div>
