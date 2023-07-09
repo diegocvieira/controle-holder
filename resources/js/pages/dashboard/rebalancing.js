@@ -145,10 +145,7 @@ export default new Vue({
         },
         operations(ticker) {
             this.$refs.modal.title = 'Comprar ' + ticker;
-            this.$refs.modal.data.ticker = ticker;
-            this.$refs.modal.data.showManualInvestment = true;
-            this.$refs.modal.data.quantity = 0;
-            this.$refs.modal.data.operation = 'buy';
+            this.$refs.modal.data = { ticker: ticker, showManualInvestment: true, quantity: 0, operation: 'buy' };
             this.$refs.modal.confirmMethod = this.handleOperations;
             this.$refs.modal.show = true;
         },
