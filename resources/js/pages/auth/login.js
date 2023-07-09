@@ -1,5 +1,5 @@
-import HeaderComponent from '../components/header-component.vue';
-import AlertComponent from '../components/alert-component.vue';
+import HeaderComponent from '../../components/header-component.vue';
+import AlertComponent from '../../components/alert-component.vue';
 
 export default new Vue({
     el: '#login-page',
