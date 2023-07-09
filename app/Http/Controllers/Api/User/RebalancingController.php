@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\UserAssetRepository;
+use Illuminate\Support\Facades\Auth;
 
 class RebalancingController extends Controller
 {
@@ -18,7 +19,9 @@ class RebalancingController extends Controller
 
     public function buy(Request $request): JsonResponse
     {
-        $asset = $this->userAssetRepository->getAssetByTicker(1, $request->ticker); // TODO Change 1 for Auth id
+        $userId = Auth::id();
+
+        $asset = $this->userAssetRepository->getAssetByTicker($userId, $request->ticker);
 
         if (!$asset) {
             return response()->json([
@@ -29,14 +32,16 @@ class RebalancingController extends Controller
 
         $newQuantity = $asset->quantity + (int) $request->quantity;
         $dataToUpdate = ['quantity' => $newQuantity];
-        $this->userAssetRepository->updateAsset(1, $request->ticker, $dataToUpdate); // TODO Change 1 for Auth id
+        $this->userAssetRepository->updateAsset($userId, $request->ticker, $dataToUpdate);
 
         return response()->json([], 204);
     }
 
     public function sell(Request $request): JsonResponse
     {
-        $asset = $this->userAssetRepository->getAssetByTicker(1, $request->ticker); // TODO Change 1 for Auth id
+        $userId = Auth::id();
+
+        $asset = $this->userAssetRepository->getAssetByTicker($userId, $request->ticker);
 
         if (!$asset) {
             return response()->json([
@@ -55,7 +60,7 @@ class RebalancingController extends Controller
         }
 
         $dataToUpdate = ['quantity' => $newQuantity];
-        $this->userAssetRepository->updateAsset(1, $request->ticker, $dataToUpdate); // TODO Change 1 for Auth id
+        $this->userAssetRepository->updateAsset($userId, $request->ticker, $dataToUpdate);
 
         return response()->json([], 204);
     }

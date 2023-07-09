@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\UserAssetRepository;
 use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AssetController extends Controller
 {
@@ -25,7 +26,9 @@ class AssetController extends Controller
 
     public function getAssets(): JsonResponse
     {
-        $assets = $this->userAssetRepository->getAllAssets(1); // TODO change 1 for user auth id
+        $userId = Auth::id();
+
+        $assets = $this->userAssetRepository->getAllAssets($userId);
 
         $data = $assets->map(function ($asset) {
             return [
@@ -46,7 +49,7 @@ class AssetController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $userId = 1;  // TODO Change 1 for Auth id
+        $userId = Auth::id();
 
         $asset = $this->assetRepository->getAssetByTicker($request->ticker);
 
@@ -81,12 +84,14 @@ class AssetController extends Controller
 
     public function update(Request $request): JsonResponse
     {
+        $userId = Auth::id();
+
         $dataToUpdate = [
             'quantity' => $request->quantity,
             'rating' => $request->rating
         ];
 
-        $this->userAssetRepository->updateAsset(1, $request->ticker, $dataToUpdate); // TODO Change 1 for Auth id
+        $this->userAssetRepository->updateAsset($userId, $request->ticker, $dataToUpdate);
 
         return response()->json([], 204);
     }

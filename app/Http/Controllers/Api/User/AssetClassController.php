@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\UserAssetClass;
 use App\Repositories\UserAssetClassRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AssetClassController extends Controller
 {
@@ -19,7 +19,9 @@ class AssetClassController extends Controller
 
     public function getAssetClasses(): JsonResponse
     {
-        $assetClasses = $this->userAssetClassRepository->getAllAssetClasses(1); // TODO change 1 for user auth id
+        $userId = Auth::id();
+
+        $assetClasses = $this->userAssetClassRepository->getAllAssetClasses($userId);
 
         $data = $assetClasses->map(function ($assetClass) {
             return [
