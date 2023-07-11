@@ -32,13 +32,10 @@ export default new Vue({
 
             const assetClass = this.filterOptions.find(item => item.slug === this.form.asset_class);
 
-            this.sortAssetsByAssetClass();
-
             let data = {
                 ticker: this.form.ticker,
                 quantity: this.form.quantity,
-                asset_class_slug: assetClass.slug,
-                rating: this.form_rating
+                rating: this.form.rating
             };
 
             event.target.reset();
@@ -58,10 +55,12 @@ export default new Vue({
                     showInputs: false
                 });
 
-                this.$refs.alert.showSuccess('Ativo adicionado com sucesso!');
+                this.sortAssetsByAssetClass();
+
+                this.$refs.alert.showSuccess(response.data.message);
             }).catch(error => {
                 if (error.response?.status === 404) {
-                    this.$refs.alert.showWarning('Ativo não encontrado. Por favor, entre em contato <a href="#">por aqui</a> e peça a inclusão dele no sistema.');
+                    this.$refs.alert.showWarning(error.response.data.message);
                 }
             });
         },

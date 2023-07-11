@@ -56,16 +56,16 @@ class AssetController extends Controller
         if (!$asset) {
             return response()->json([
                 'success' => false,
-                'message' => 'O ativo não foi encontrado no nosso sistema. Solicite a inclusão dele.'
+                'message' => 'Ativo não encontrado. Entre em contato <a href="#">por aqui</a> e peça a inclusão dele no sistema.'
             ], 404);
         }
 
-        $assetClass = $this->userAssetClassRepository->getClassBySlug($userId, $request->asset_class_slug);
+        $assetClass = $this->userAssetClassRepository->getAssetClassByAssetClassId($userId, $asset->asset_class_id);
 
         if (!$assetClass) {
             return response()->json([
                 'success' => false,
-                'message' => 'A classe de ativos não foi encontrada no nosso sistema.'
+                'message' => 'Cadastre a classe de ativos antes de adicionar o ativo.'
             ], 404);
         }
 
@@ -79,7 +79,10 @@ class AssetController extends Controller
 
         $this->userAssetRepository->createAsset($data);
 
-        return response()->json([], 204);
+        return response()->json([
+            'success' => true,
+            'message' => 'Ativo adicionado com sucesso!'
+        ], 200);
     }
 
     public function update(Request $request): JsonResponse

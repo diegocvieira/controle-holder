@@ -20,13 +20,10 @@ class UserAssetClassRepository
             ->get();
     }
 
-    public function getClassBySlug(int $userId, string $slug): ?object
+    public function getAssetClassByAssetClassId(int $userId, int $assetClassId): ?object
     {
-        return $this->model->with('assetClass')
-            ->whereHas('assetClass', function ($query) use ($slug) {
-                $query->where('slug', $slug);
-            })
-            ->where('user_id', $userId)
+        return $this->model->where('user_id', $userId)
+            ->where('asset_class_id', $assetClassId)
             ->first();
     }
 }

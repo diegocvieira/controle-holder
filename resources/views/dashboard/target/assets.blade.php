@@ -11,14 +11,6 @@
     <div class="main-content">
         <form method="POST" class="form form-inline" @submit.prevent="addAsset">
             <div class="field-container">
-                <select v-model="form.asset_class" class="select-field">
-                    <option v-for="filterOption in filterOptions" :value="filterOption.slug" v-if="filterOption.slug != 'all'">
-                        @{{ filterOption.name }}
-                    </option>
-                </select>
-            </div>
-
-            <div class="field-container">
                 <input type="text" v-model="form.ticker" placeholder="Ticker" class="input-field" />
             </div>
 
