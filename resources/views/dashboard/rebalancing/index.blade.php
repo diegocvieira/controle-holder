@@ -6,6 +6,7 @@
     <header-component page="rebalancing"></header-component>
     <modal-component ref="modal"></modal-component>
     <loader-component ref="loader"></loader-component>
+    <alert-component ref="alert"></alert-component>
 
     <div class="main-content">
         <form method="POST" class="form form-inline" @submit.prevent="calculateInvestment">
@@ -18,7 +19,12 @@
             </div>
         </form>
 
-        <div class="table" v-cloak>
+        <div v-if="wallet.length === 0">
+            @include ('partials.empty-results', [
+                'message' => 'Você ainda não tem nenhum ativo cadastrado...<br><br>Cadastre seus ativos clicando <a href="dashboard/target/assets">aqui</a>.'
+            ])
+        </div>
+        <div class="table" v-cloak v-else>
             <table>
                 <thead>
                     <tr>

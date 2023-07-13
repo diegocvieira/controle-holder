@@ -102,3 +102,24 @@ body, html {
     color: $whiteColor;
     font-weight: normal;
 }
+
+.empty-results {
+    background-color: $darkBlueColor;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    flex-direction: column;
+
+    p {
+        color: #94A3B8;
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    a {
+        color: #cbd5e1;
+    }
+}

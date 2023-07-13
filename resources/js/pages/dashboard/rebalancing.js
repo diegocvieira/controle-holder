@@ -1,6 +1,7 @@
 import HeaderComponent from '../../components/header-component.vue';
 import ModalComponent from '../../components/modal-component.vue';
 import LoaderComponent from '../../components/loader-component.vue';
+import AlertComponent from '../../components/alert-component.vue';
 import MoneyFormatPlugin from '../../plugins/money-format-plugin';
 
 Vue.use(MoneyFormatPlugin);
@@ -58,6 +59,9 @@ export default new Vue({
         },
         calculateInvestment() {
             if (!this.investmentAmount) {
+                return;
+            } else if (this.wallet.length === 0) {
+                this.$refs.alert.showWarning('Você ainda não tem nenhum ativo cadastrado.');
                 return;
             }
 
@@ -192,6 +196,7 @@ export default new Vue({
     components: {
         HeaderComponent,
         ModalComponent,
-        LoaderComponent
+        LoaderComponent,
+        AlertComponent
     }
 });
