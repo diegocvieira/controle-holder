@@ -22,7 +22,8 @@ class UserAssetClassRepository
 
     public function getAssetClassByAssetClassId(int $userId, int $assetClassId): ?object
     {
-        return $this->model->where('user_id', $userId)
+        return $this->model->with('assetClass')
+            ->where('user_id', $userId)
             ->where('asset_class_id', $assetClassId)
             ->first();
     }

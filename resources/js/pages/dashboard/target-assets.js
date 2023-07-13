@@ -24,44 +24,36 @@ export default new Vue({
         }
     },
     methods: {
-        addAsset(event) {
-            if (!this.form.asset_class || !this.form.ticker || !this.form.quantity || !this.form.rating) {
+        addAsset() {
+            const { ticker, quantity, rating } = this.form;
+
+            if (!ticker || !quantity || !rating) {
                 this.$refs.alert.showWarning('Preencha todos os campos.');
                 return false;
             }
 
-            const assetClass = this.filterOptions.find(item => item.slug === this.form.asset_class);
-
-            let data = {
-                ticker: this.form.ticker,
-                quantity: this.form.quantity,
-                rating: this.form.rating
-            };
-
-            event.target.reset();
+            const data = { ticker, quantity, rating };
+            this.form = { ticker: '', quantity: '', rating: '' };
 
             axios.post('/api/assets', data).then(response => {
-                console.log(response.data);
+                const responseData = response.data.data;
 
                 this.wallet.push({
-                    ticker: this.form.ticker,
-                    quantity: this.form.quantity,
+                    ticker: responseData.ticker,
+                    quantity: responseData.quantity,
                     idealPercentage: 0,
-                    rating: this.form.rating,
+                    rating: responseData.rating,
                     asset_class: {
-                        name: assetClass.name,
-                        slug: assetClass.slug
+                        name: responseData.asset_class_name,
+                        slug: responseData.asset_class_slug
                     },
                     showInputs: false
                 });
 
                 this.sortAssetsByAssetClass();
-
                 this.$refs.alert.showSuccess(response.data.message);
             }).catch(error => {
-                if (error.response?.status === 404) {
-                    this.$refs.alert.showWarning(error.response.data.message);
-                }
+                this.$refs.alert.showWarning(error.response.data.message);
             });
         },
         editAsset(ticker) {

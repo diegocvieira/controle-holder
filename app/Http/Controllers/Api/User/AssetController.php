@@ -10,6 +10,7 @@ use App\Repositories\UserAssetRepository;
 use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UserAssetRequest;
 
 class AssetController extends Controller
 {
@@ -47,27 +48,12 @@ class AssetController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(UserAssetRequest $request): JsonResponse
     {
         $userId = Auth::id();
 
-        $asset = $this->assetRepository->getAssetByTicker($request->ticker);
-
-        if (!$asset) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Ativo não encontrado. Entre em contato <a href="#">por aqui</a> e peça a inclusão dele no sistema.'
-            ], 404);
-        }
-
-        $assetClass = $this->userAssetClassRepository->getAssetClassByAssetClassId($userId, $asset->asset_class_id);
-
-        if (!$assetClass) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cadastre a classe de ativos antes de adicionar o ativo.'
-            ], 404);
-        }
+        $asset = $request->validateAsset();
+        $assetClass = $request->validateAssetClass($asset->asset_class_id);
 
         $data = [
             'user_id' => $userId,
@@ -79,9 +65,18 @@ class AssetController extends Controller
 
         $this->userAssetRepository->createAsset($data);
 
+        $responseData = [
+            'ticker' => $request->ticker,
+            'rating' => $request->rating,
+            'quantity' => $request->quantity,
+            'asset_class_name' => $assetClass->asset_class->name,
+            'asset_class_slug' => $assetClass->asset_class->slug
+        ];
+
         return response()->json([
             'success' => true,
-            'message' => 'Ativo adicionado com sucesso!'
+            'message' => 'Ativo adicionado com sucesso!',
+            'data' => $responseData
         ], 200);
     }
 
