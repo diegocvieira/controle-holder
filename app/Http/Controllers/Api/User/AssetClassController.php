@@ -32,6 +32,7 @@ class AssetClassController extends Controller
         })->all();
 
         return response()->json([
+            'success' => true,
             'data' => $data
         ], 200);
     }
