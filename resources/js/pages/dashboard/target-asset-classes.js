@@ -1,5 +1,6 @@
 import VueSlider from 'vue-slider-component';
 import HeaderComponent from '../../components/header-component.vue';
+import LoaderComponent from '../../components/loader-component.vue';
 
 export default new Vue({
     el: '#target-asset-classes-page',
@@ -84,19 +85,19 @@ export default new Vue({
     methods: {
         getAssetClasses() {
             axios.get('/api/asset-classes').then(response => {
-                response.data.data.map(data => {
-                    this.assetClasses.map((assetClass) => {
-                        if (assetClass.slug == data.slug) {
-                            assetClass.percentage = data.percentage;
-                            assetClass.last_percentage = data.percentage;
-                        }
-                    });
+                response.data.data.forEach(data => {
+                    const assetClass = this.assetClasses.find(assetClass => assetClass.slug === data.slug);
+                    assetClass.percentage = data.percentage;
+                    assetClass.last_percentage = data.percentage;
                 });
             }).catch(error => console.log(error));
         }
     },
-    created () {
+    created() {
         this.getAssetClasses();
+    },
+    updated() {
+        this.$refs.loader.show = false;
     },
     watch: {
         assetClasses: {
@@ -115,12 +116,12 @@ export default new Vue({
 
                 if (this.progressBar > 100 && indexChanged != null) {
                     const assetChanged = assetClasses[indexChanged];
-                    const newValue = parseInt(assetChanged.percentage) - 1;
+                    const newPercentage = parseInt(assetChanged.percentage) - 1;
 
-                    assetChanged.percentage = newValue;
+                    assetChanged.percentage = newPercentage;
 
                     this.$nextTick(() => {
-                        this.$refs[assetChanged.slider][0].setValue(newValue);
+                        this.$refs[assetChanged.slider][0].setValue(newPercentage);
                     });
                 }
             },
@@ -129,6 +130,7 @@ export default new Vue({
     },
     components: {
         VueSlider,
-        HeaderComponent
+        HeaderComponent,
+        LoaderComponent
     }
 });

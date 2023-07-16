@@ -4,8 +4,9 @@
 
 <main class="main" id="target-asset-classes-page">
     <header-component page="target-asset-classes"></header-component>
+    <loader-component ref="loader"></loader-component>
 
-    <div class="container">
+    <div class="main-content">
         <div class="columns">
             <div class="column is-12">
                 <h2>Sua carteira de investimentos</h2>
@@ -13,7 +14,7 @@
             </div>
         </div>
 
-        <div class="columns">
+        <div class="columns" style="display: flex;">
             <template v-for="assetClass in assetClasses">
                 <div class="column is-4">
                     <div class="form-group">
