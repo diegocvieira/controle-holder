@@ -57,12 +57,11 @@ export default new Vue({
             });
         },
         editAsset(ticker) {
-            const assetIndex = this.wallet.findIndex((asset => asset.ticker == ticker));
-            this.wallet[assetIndex].showInputs = true
+            const asset = this.wallet.find(asset => asset.ticker === ticker);
+            asset.showInputs = true;
         },
         saveEditAsset(ticker) {
-            const assetIndex = this.wallet.findIndex((asset => asset.ticker == ticker));
-            const asset = this.wallet[assetIndex];
+            const asset = this.wallet.find(asset => asset.ticker === ticker);
 
             asset.showInputs = false;
 
@@ -77,8 +76,7 @@ export default new Vue({
             }).catch(error => console.log(error));
         },
         deleteAsset(ticker) {
-            const assetIndex = this.wallet.findIndex((asset => asset.ticker == ticker));
-            const asset = this.wallet[assetIndex];
+            const asset = this.wallet.find(asset => asset.ticker === ticker);
 
             this.$refs.modal.title = 'Excluir ativo';
             this.$refs.modal.message = 'Tem certeza que deseja excluir o ativo ' + asset.ticker + '?';

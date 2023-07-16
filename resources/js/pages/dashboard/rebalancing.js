@@ -19,21 +19,21 @@ export default new Vue({
             this.investmentAmount = this.$moneyFormat(this.investmentAmount);
         },
         invest(ticker) {
-            const assetIndex = this.wallet.findIndex((data => data.ticker == ticker));
-            const investmentQuantity = this.wallet[assetIndex].investmentQuantity;
+            const asset = this.wallet.find(asset => asset.ticker === ticker);
+            const investmentQuantity = asset.investmentQuantity;
 
             if (investmentQuantity === 0) {
                 return;
             }
 
             const currentInvestmentAmount = this.$moneyFormat(this.investmentAmount, 'USD').replace(/[^0-9.-]/g, '');
-            const newInvestmentAmount = (currentInvestmentAmount - this.wallet[assetIndex].investmentAmount).toFixed(2);
-            const newQuantity = investmentQuantity + this.wallet[assetIndex].quantity;
+            const newInvestmentAmount = (currentInvestmentAmount - asset.investmentAmount).toFixed(2);
+            const newQuantity = investmentQuantity + asset.quantity;
 
             this.investmentAmount = this.$moneyFormat(newInvestmentAmount);
-            this.wallet[assetIndex].quantity = newQuantity;
-            this.wallet[assetIndex].investmentQuantity = 0;
-            this.wallet[assetIndex].investmentAmount = 0;
+            asset.quantity = newQuantity;
+            asset.investmentQuantity = 0;
+            asset.investmentAmount = 0;
 
             const data = {
                 ticker: ticker,
@@ -92,17 +92,16 @@ export default new Vue({
                 }
             }
 
-            let wallet = this.wallet;
-            assets.forEach(function(asset) {
-                const assetIndex = wallet.findIndex((data => data.ticker == asset.ticker));
-                wallet[assetIndex].investmentQuantity = asset.quantity - wallet[assetIndex].quantity;
-                wallet[assetIndex].investmentAmount = (wallet[assetIndex].investmentQuantity * asset.price).toFixed(2);
+            assets.forEach(asset => {
+                const assetSelected = this.wallet.find(data => data.ticker === asset.ticker);
+                assetSelected.investmentQuantity = asset.quantity - assetSelected.quantity;
+                assetSelected.investmentAmount = (assetSelected.investmentQuantity * asset.price).toFixed(2);
             });
         },
         formatPrice(value) {
             return this.$moneyFormat(value);
         },
-        getTickets() {
+        getAssets() {
             axios.get('/api/assets').then(response => {
                 const assets = response.data.data;
                 const totalRatings = assets.reduce((accumulator, currentValue) => {
@@ -162,18 +161,20 @@ export default new Vue({
             };
 
             axios.put('/api/rebalancing/' + data.operation, dataRequest).then(response => {
-                const assetIndex = this.wallet.findIndex((asset => asset.ticker == data.ticker));
-                const asset = this.wallet[assetIndex];
-                const newQuantity = data.operation == 'buy' ? asset.quantity + parseInt(data.quantity) : asset.quantity - parseInt(data.quantity);
+                const asset = this.wallet.find(asset => asset.ticker === data.ticker);
 
-                asset.quantity = newQuantity;
+                if (data.operation === 'buy') {
+                    asset.quantity = asset.quantity + parseInt(data.quantity);
+                } else {
+                    asset.quantity = asset.quantity - parseInt(data.quantity);
+                }
 
                 console.log(response);
             }).catch(error => console.log(error));
         }
     },
     created () {
-        this.getTickets();
+        this.getAssets();
     },
     updated () {
         this.$refs.loader.show = false;
