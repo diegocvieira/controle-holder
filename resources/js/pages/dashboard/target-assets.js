@@ -35,7 +35,7 @@ export default new Vue({
             const data = { ticker, quantity, rating };
             this.form = { ticker: '', quantity: '', rating: '' };
 
-            axios.post('/api/assets', data).then(response => {
+            axios.post('/api/user/assets', data).then(response => {
                 const responseData = response.data.data;
 
                 this.wallet.push({
@@ -71,7 +71,7 @@ export default new Vue({
                 'rating': asset.rating
             }
 
-            axios.put('/api/assets', data).then(response => {
+            axios.put('/api/user/assets', data).then(response => {
                 this.$refs.alert.showSuccess('Ativo alterado com sucesso!');
             }).catch(error => console.log(error));
         },
@@ -95,7 +95,7 @@ export default new Vue({
             }
         },
         getAssets() {
-            axios.get('/api/assets').then(response => {
+            axios.get('/api/user/assets').then(response => {
                 response.data.data.map(asset => {
                     if (!this.filterOptions.some(item => item.slug === asset.asset_class.slug)) {
                         this.filterOptions.push({

@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
 
 use App\Http\Controllers\Api\PriceController;
-use App\Http\Controllers\Api\User\AssetController;
-use App\Http\Controllers\Api\User\AssetClassController;
+use App\Http\Controllers\Api\User\AssetController as UserAssetController;
+use App\Http\Controllers\Api\User\AssetClassController as UserAssetClassController;
 use App\Http\Controllers\Api\User\RebalancingController;
 
 /*
@@ -28,11 +28,14 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('auth/logout', [AuthenticatedSessionController::class, 'destroy']);
 
-    Route::get('asset-classes', [AssetClassController::class, 'getAssetClasses']);
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('asset-classes', [UserAssetClassController::class, 'getAssetClasses']);
+        Route::post('asset-classes', [UserAssetClassController::class, 'store']);
 
-    Route::get('assets', [AssetController::class, 'getAssets']);
-    Route::post('assets', [AssetController::class, 'store']);
-    Route::put('assets', [AssetController::class, 'update']);
+        Route::get('assets', [UserAssetController::class, 'getAssets']);
+        Route::post('assets', [UserAssetController::class, 'store']);
+        Route::put('assets', [UserAssetController::class, 'update']);
+    });
 
     Route::put('rebalancing/buy', [RebalancingController::class, 'buy']);
     Route::put('rebalancing/sell', [RebalancingController::class, 'sell']);
