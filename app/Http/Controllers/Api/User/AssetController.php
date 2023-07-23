@@ -69,8 +69,8 @@ class AssetController extends Controller
             'ticker' => $request->ticker,
             'rating' => $request->rating,
             'quantity' => $request->quantity,
-            'asset_class_name' => $assetClass->asset_class->name,
-            'asset_class_slug' => $assetClass->asset_class->slug
+            'asset_class_name' => $assetClass->assetClass->name,
+            'asset_class_slug' => $assetClass->assetClass->slug
         ];
 
         return response()->json([
