@@ -20,11 +20,19 @@ class UserAssetClassRepository
             ->get();
     }
 
-    public function getAssetClassByAssetClassId(int $userId, int $assetClassId): ?object
+    public function getByAssetClassId(int $userId, int $assetClassId): ?object
     {
         return $this->model->with('assetClass')
             ->where('user_id', $userId)
             ->where('asset_class_id', $assetClassId)
             ->first();
+    }
+
+    public function save(int $userId, int $assetClassId, int $percentage): void
+    {
+        $this->model->updateOrCreate(
+            ['user_id' => $userId, 'asset_class_id' => $assetClassId],
+            ['percentage' => $percentage]
+        );
     }
 }

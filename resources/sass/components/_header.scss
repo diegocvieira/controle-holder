@@ -10,7 +10,7 @@
 #aside {
     width: 250px;
     height: calc(100% - $headerHeight);
-    z-index: 1;
+    z-index: 6;
     transition: .5s;
     overflow: auto;
 

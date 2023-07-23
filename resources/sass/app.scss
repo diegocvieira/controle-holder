@@ -1,9 +1,9 @@
 @import 'system/variables';
-@import 'vue-slider-component/theme/default.css';
 @import 'system/normalize';
 @import 'system/helper';
 @import 'system/default';
 
+@import 'components/slider';
 @import 'components/loader';
 @import 'components/alert';
 @import 'components/header';
@@ -12,26 +12,7 @@
 @import 'components/modal';
 
 @import 'pages/login-page';
-
-.form-group {
-    background-color: #0f172ab3;
-    padding: 50px 25px;
-    border-radius: 4px;
-}
-
-.ticket-class {
-    padding: 3px 10px;
-    color: #fff;
-    border-radius: 50px;
-
-    &.ticket-class-blue {
-        background-color: #467fcf;
-    }
-
-    &.ticket-class-red {
-        background-color: #c21a1a;
-    }
-}
+@import 'pages/target-asset-classes-page';
 
 .table-navigation {
     display: flex;

@@ -89,7 +89,7 @@ class UserAssetRequest extends FormRequest
 
     public function validateAssetClass(int $assetClassId): object
     {
-        $assetClass = $this->userAssetClassRepository->getAssetClassByAssetClassId($this->user()->id, $assetClassId);
+        $assetClass = $this->userAssetClassRepository->getByAssetClassId($this->user()->id, $assetClassId);
 
         if ($assetClass) {
             return $assetClass;
