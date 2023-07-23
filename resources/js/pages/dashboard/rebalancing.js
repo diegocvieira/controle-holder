@@ -102,7 +102,7 @@ export default new Vue({
             return this.$moneyFormat(value);
         },
         getAssets() {
-            axios.get('/api/assets').then(response => {
+            axios.get('/api/user/assets').then(response => {
                 const assets = response.data.data;
                 const totalRatings = assets.reduce((accumulator, currentValue) => {
                     return accumulator + parseInt(currentValue.rating);
