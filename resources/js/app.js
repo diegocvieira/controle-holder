@@ -2,6 +2,8 @@ import Vue from 'vue';
 import axios from 'axios';
 
 window.Vue = Vue;
+window.Vue.prototype.asset = window.asset;
+
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -26,6 +28,9 @@ function loadPageScript() {
             break;
         case 'target-asset-classes-page':
             import('./pages/dashboard/target-asset-classes.js');
+            break;
+        case 'profile-page':
+            import('./pages/dashboard/profile.js');
             break;
         default:
             break;
