@@ -7,18 +7,11 @@
 @import 'components/loader';
 @import 'components/alert';
 @import 'components/header';
+@import 'components/footer';
 @import 'components/table';
 @import 'components/form';
 @import 'components/modal';
 
 @import 'pages/login-page';
 @import 'pages/target-asset-classes-page';
-
-.table-navigation {
-    display: flex;
-    margin-bottom: 20px;
-
-    ul {
-        display: flex;
-    }
-}
+@import 'pages/profile-page';

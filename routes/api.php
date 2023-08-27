@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\User\AssetController as UserAssetController;
 use App\Http\Controllers\Api\User\AssetClassController as UserAssetClassController;
 use App\Http\Controllers\Api\User\RebalancingController;
+use App\Http\Controllers\Api\User\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
         Route::get('assets', [UserAssetController::class, 'getAssets']);
         Route::post('assets', [UserAssetController::class, 'store']);
         Route::put('assets', [UserAssetController::class, 'update']);
+
+        Route::get('profile', [ProfileController::class, 'getData']);
+        Route::put('profile', [ProfileController::class, 'updateData']);
     });
 
     Route::put('rebalancing/buy', [RebalancingController::class, 'buy']);

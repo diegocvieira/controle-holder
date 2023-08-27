@@ -1,0 +1,15 @@
+#profile-page {
+    .form-content {
+        display: flex;
+        gap: 25px;
+
+        .form {
+            flex: 1;
+            flex-direction: column;
+
+            .fields-container {
+                flex: 1 1 0;
+            }
+        }
+    }
+}

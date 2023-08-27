@@ -1,7 +1,17 @@
 <template id="header-template">
     <div style="display: flex; align-items: flex-end;">
         <header id="header">
-            <button type="button" @click="openOrHideAside()">OPEN/HIDE</button>
+            <a href="#" id="hamburger" @click.prevent="openOrHideAside()">
+                <svg id="ham-icon" version="1.1" viewBox="0 0 24 24">
+                    <rect id="one" y="3" rx="1.25" ry="1.25" />
+                    <rect id="two" y="11" rx="1.25" ry="1.25" />
+                    <rect id="three" y="18" rx="1.25" ry="1.25" />
+                </svg>
+            </a>
+
+            <a href="/dashboard">
+                <img :src="asset('resources/images/logo.png')" width="170px" />
+            </a>
         </header>
 
         <aside id="aside">
@@ -118,17 +128,20 @@
                         icon: `<svg viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z"></path>
                             </svg>`,
-                        dropdown_items: [],
-                        is_active: false
-                    },
-                    {
-                        name: 'Sair',
-                        slug: 'logout',
-                        url: '/api/auth/logout',
-                        icon: `<svg viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"></path>
-                            </svg>`,
-                        dropdown_items: [],
+                        dropdown_items: [
+                            {
+                                name: 'Conta',
+                                url: '/dashboard/profile',
+                                slug: 'account',
+                                is_active: false
+                            },
+                            {
+                                name: 'Sair',
+                                url: '/api/auth/logout',
+                                slug: 'logout',
+                                is_active: false
+                            }
+                        ],
                         is_active: false
                     }
                 ]
@@ -155,6 +168,11 @@
             },
             openOrHideAside: function(linkUrl = false) {
                 const aside = document.getElementById('aside');
+                const hamburger = document.getElementById('hamburger');
+
+                if (linkUrl === false) {
+                    hamburger.classList.toggle('open');
+                }
 
                 if (window.getComputedStyle(aside).width == '0px' || linkUrl != '#' && aside.classList.contains('aside-large')) {
                     aside.classList.toggle('aside-large');
