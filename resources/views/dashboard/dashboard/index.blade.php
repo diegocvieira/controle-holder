@@ -1,13 +1,13 @@
-@extends('layouts/master')
+@extends('layouts.dashboard', [
+    'page' => 'dashboard',
+    'headerComponent' => true,
+    'loaderComponent' => true,
+    'alertComponent' => true,
+    'modalComponent' => true
+])
 
 @section('content')
 
-<main class="main" id="dashboard-page">
-    <header-component page="dashboard"></header-component>
-
-    <div class="main-content">
-        dashboard
-    </div>
-</main>
+teste
 
 @endsection

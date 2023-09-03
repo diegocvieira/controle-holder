@@ -9,6 +9,8 @@
     .field-container {
         display: flex;
         width: 100%;
+        flex-wrap: wrap;
+        flex-direction: column;
 
         &:not(:last-child) {
             margin-bottom: 20px;
@@ -27,9 +29,40 @@
     }
 }
 
+.label {
+    font-weight: 700;
+    font-size: 16px;
+    color: $whiteColor;
+    margin-bottom: 8px;
+}
+
+.field-icon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+
+    .field-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.input-has-label {
+    position: relative;
+
+    .select-field, .input-field {
+        padding-left: 40px;
+    }
+}
+
 .select-field, .input-field {
-    background-color: transparent;
-    border: 2px solid #354251;
+    background-color: #1e293b;
+    border: 1px solid #374151;
     color: $whiteColor;
     border-radius: 5px;
     width: 100%;

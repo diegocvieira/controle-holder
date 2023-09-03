@@ -2,8 +2,8 @@
     .progress-bar {
         width: 100%;
         height: 20px;
-        border: 1px solid $darkBlueColor;
-        background-color: $darkBlueColor;
+        border: 1px solid $blackColor;
+        background-color: $blackColor;
         border-radius: 10px;
         overflow: hidden;
 
@@ -30,7 +30,7 @@
             margin: 20px 20px 0 20px;
             display: flex;
             flex-direction: column;
-            background-color: $darkBlueColor;
+            background-color: #0f172a;
             min-width: 300px;
             border-radius: 5px;
             padding: 40px 20px 20px 20px;
@@ -42,12 +42,12 @@
             }
 
             &__percentage {
-                background-color: #0F172A;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
+                background-color: #1e293b;
+                width: 34px;
+                height: 34px;
+                border-radius: 5px;
                 color: #ffffff;
-                font-size: 12px;
+                font-size: 10px;
                 display: flex;
                 justify-content: center;
                 align-items: center;

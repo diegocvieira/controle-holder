@@ -5,6 +5,75 @@
     width: 100%;
     height: $headerHeight;
     z-index: 1;
+    display: flex;
+    align-items: center;
+
+    #hamburger {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        padding: 0 20px;
+
+        &:hover #ham-icon {
+            #one {
+                width: 12px;
+            }
+
+            #two {
+                width: 24px;
+            }
+
+            #three {
+                width: 18px;
+            }
+        }
+
+        &.open #ham-icon {
+            #one {
+                width: 24px;
+                transform: rotate(45deg) translate(4px, -2px);
+            }
+
+            #two {
+                width: 18px;
+                opacity: 0;
+            }
+
+            #three {
+                width: 24px;
+                transform: rotate(-45deg) translate(-14px, -3px);
+            }
+        }
+
+        #ham-icon {
+            cursor: pointer;
+            fill: #ffffff;
+            transition: all 0.3s ease;
+            width: 24px;
+            height: 24px;
+
+            &:hover {
+                fill: $blueColor;
+            }
+
+            #one, #two, #three {
+                transition: 0.3s;
+                height: 2.5px;
+            }
+
+            #one {
+                width: 24px;
+            }
+
+            #two {
+                width: 18px;
+            }
+
+            #three {
+                width: 12px;
+            }
+        }
+    }
 }
 
 #aside {
@@ -38,11 +107,6 @@
             li {
                 display: flex;
                 flex-wrap: wrap;
-
-                &:last-child {
-                    flex: auto;
-                    align-items: flex-end;
-                }
 
                 a {
                     padding: 15px 20px;
@@ -97,6 +161,6 @@
     #aside {
         position: fixed;
         width: 0;
-        background-color: $blackColor;
+        background-color: $darkGreyColor;
     }
 }

@@ -1,0 +1,19 @@
+#footer {
+    flex: auto;
+    align-items: flex-end;
+    display: flex;
+    margin-top: 50px;
+
+    .footer {
+        &__content {
+            height: 40px;
+            // background-color: #0f172a;
+            width: 100%;
+            padding: 20px;
+        }
+
+        &__copyright {
+            text-align: center;
+        }
+    }
+}
