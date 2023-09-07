@@ -1,13 +1,10 @@
 @extends('layouts.dashboard', [
     'page' => 'dashboard',
-    'headerComponent' => true,
-    'loaderComponent' => true,
-    'alertComponent' => true,
-    'modalComponent' => true
+    'headerComponent' => true
 ])
 
 @section('content')
 
-teste
+<pie-component :chartdata="chartdata"></pie-component>
 
 @endsection
