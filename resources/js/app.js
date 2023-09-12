@@ -1,8 +1,22 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import axios from 'axios';
 
-window.Vue = Vue;
-window.Vue.prototype.asset = window.asset;
+import VueSliderComponent from 'vue-slider-component';
+
+import HeaderComponent from './components/header-component.vue';
+import PieComponent from './components/pie-component.vue';
+import AlertComponent from './components/alert-component.vue';
+import ModalComponent from './components/modal-component.vue';
+import LoaderComponent from './components/loader-component.vue';
+
+import MoneyFormatPlugin from './plugins/money-format-plugin';
+
+import Dashboard from './pages/dashboard/dashboard.js';
+import TargetAssets from './pages/dashboard/target-assets.js';
+import TargetAssetClasses from './pages/dashboard/target-asset-classes.js';
+import Reabalancing from './pages/dashboard/rebalancing.js';
+import Profile from './pages/dashboard/profile.js';
+import Login from './pages/auth/login.js';
 
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -13,26 +27,73 @@ function loadPageScript() {
     const mainElement = document.querySelector('main');
     const mainId = mainElement.getAttribute('id');
 
-    switch (mainId) {
-        case 'target-assets-page':
-            import('./pages/dashboard/target-assets.js');
-            break;
-        case 'rebalancing-page':
-            import('./pages/dashboard/rebalancing.js');
-            break;
-        case 'login-page':
-            import('./pages/auth/login.js');
-            break;
-        case 'dashboard-page':
-            import('./pages/dashboard/dashboard.js');
-            break;
-        case 'target-asset-classes-page':
-            import('./pages/dashboard/target-asset-classes.js');
-            break;
-        case 'profile-page':
-            import('./pages/dashboard/profile.js');
-            break;
-        default:
-            break;
+    const pages = {
+        'target-asset-classes-page': {
+            component: TargetAssetClasses,
+            extraComponents: {
+                'VueSliderComponent': VueSliderComponent,
+                'LoaderComponent': LoaderComponent,
+                'HeaderComponent': HeaderComponent
+            }
+        },
+        'target-assets-page': {
+            component: TargetAssets,
+            extraComponents: {
+                'AlertComponent': AlertComponent,
+                'ModalComponent': ModalComponent,
+                'LoaderComponent': LoaderComponent,
+                'HeaderComponent': HeaderComponent
+            }
+        },
+        'rebalancing-page': {
+            component: Reabalancing,
+            extraComponents: {
+                'AlertComponent': AlertComponent,
+                'ModalComponent': ModalComponent,
+                'LoaderComponent': LoaderComponent,
+                'HeaderComponent': HeaderComponent
+            },
+            plugins: [MoneyFormatPlugin]
+        },
+        'dashboard-page': {
+            component: Dashboard,
+            extraComponents: {
+                'PieComponent': PieComponent,
+                'HeaderComponent': HeaderComponent
+            }
+        },
+        'profile-page': {
+            component: Profile,
+            extraComponents: {
+                'AlertComponent': AlertComponent,
+                'LoaderComponent': LoaderComponent,
+                'HeaderComponent': HeaderComponent
+            }
+        },
+        'login-page': {
+            component: Login,
+            extraComponents: {
+                'AlertComponent': AlertComponent,
+                'HeaderComponent': HeaderComponent
+            }
+        }
+    };
+
+    const appConfig = pages[mainId];
+
+    if (appConfig) {
+        const app = createApp(appConfig.component);
+
+        for (const componentName in appConfig.extraComponents) {
+            app.component(componentName, appConfig.extraComponents[componentName]);
+        }
+
+        for (const plugin in appConfig.plugins) {
+            app.use(appConfig.plugins[plugin]);
+        }
+
+        app.config.globalProperties.asset = window.asset;
+
+        app.mount('#' + mainId);
     }
 }

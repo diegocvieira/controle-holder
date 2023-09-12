@@ -43,7 +43,7 @@
 
             <h3 class="asset-class__title">@{{ assetClass.name }}</h3>
 
-            <vue-slider :ref="assetClass.slider" v-model="assetClass.percentage" v-bind="sliderOptions" @drag-end="saveAssetClasses(assetClass.slug)"></vue-slider>
+            <vue-slider-component :ref="assetClass.slider" v-model="assetClass.percentage" v-bind="sliderOptions" @drag-end="saveAssetClasses(assetClass.slug)"></vue-slider-component>
         </div>
     </div>
 @endsection

@@ -1,6 +1,6 @@
 export default {
-    install(Vue, options) {
-        Vue.prototype.$moneyFormat = function (number, currency = 'BRL') {
+    install(app, options) {
+        app.config.globalProperties.$moneyFormat = function (number, currency = 'BRL') {
             const numericValue = number.toString().replace(/\D/g, '');
             const locale = currency === 'BRL' ? 'pt-BR' : 'en-US';
 

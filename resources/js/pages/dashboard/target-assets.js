@@ -1,10 +1,4 @@
-import HeaderComponent from '../../components/header-component.vue';
-import AlertComponent from '../../components/alert-component.vue';
-import ModalComponent from '../../components/modal-component.vue';
-import LoaderComponent from '../../components/loader-component.vue';
-
-export default new Vue({
-    el: '#target-assets-page',
+export default {
     data () {
         return {
             filterOptions: [
@@ -164,11 +158,5 @@ export default new Vue({
             },
             deep: true
         }
-    },
-    components: {
-        HeaderComponent,
-        AlertComponent,
-        ModalComponent,
-        LoaderComponent
     }
-});
+};

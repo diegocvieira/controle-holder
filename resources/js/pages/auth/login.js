@@ -1,8 +1,4 @@
-import HeaderComponent from '../../components/header-component.vue';
-import AlertComponent from '../../components/alert-component.vue';
-
-export default new Vue({
-    el: '#login-page',
+export default {
     data () {
         return {
             email: '',
@@ -39,9 +35,5 @@ export default new Vue({
 
             return true;
         }
-    },
-    components: {
-        HeaderComponent,
-        AlertComponent
     }
-});
+};

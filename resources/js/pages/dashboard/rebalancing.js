@@ -1,13 +1,4 @@
-import HeaderComponent from '../../components/header-component.vue';
-import ModalComponent from '../../components/modal-component.vue';
-import LoaderComponent from '../../components/loader-component.vue';
-import AlertComponent from '../../components/alert-component.vue';
-import MoneyFormatPlugin from '../../plugins/money-format-plugin';
-
-Vue.use(MoneyFormatPlugin);
-
-export default new Vue({
-    el: '#rebalancing-page',
+export default {
     data () {
         return {
             wallet: [],
@@ -193,11 +184,5 @@ export default new Vue({
             },
             deep: true
         }
-    },
-    components: {
-        HeaderComponent,
-        ModalComponent,
-        LoaderComponent,
-        AlertComponent
     }
-});
+};

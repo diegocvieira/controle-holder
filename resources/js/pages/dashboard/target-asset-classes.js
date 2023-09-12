@@ -1,9 +1,4 @@
-import VueSlider from 'vue-slider-component';
-import HeaderComponent from '../../components/header-component.vue';
-import LoaderComponent from '../../components/loader-component.vue';
-
-export default new Vue({
-    el: '#target-asset-classes-page',
+export default {
     data () {
         return {
             progressBar: 0,
@@ -117,10 +112,5 @@ export default new Vue({
             },
             deep: true
         }
-    },
-    components: {
-        VueSlider,
-        HeaderComponent,
-        LoaderComponent
     }
-});
+};

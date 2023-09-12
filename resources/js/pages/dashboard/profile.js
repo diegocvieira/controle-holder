@@ -1,9 +1,4 @@
-import HeaderComponent from '../../components/header-component.vue';
-import LoaderComponent from '../../components/loader-component.vue';
-import AlertComponent from '../../components/alert-component.vue';
-
-export default new Vue({
-    el: '#profile-page',
+export default {
     data () {
         return {
             name: '',
@@ -54,10 +49,5 @@ export default new Vue({
     },
     updated() {
         this.$refs.loader.show = false;
-    },
-    components: {
-        HeaderComponent,
-        LoaderComponent,
-        AlertComponent
     }
-});
+};
