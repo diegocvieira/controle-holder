@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="left-content">
-        <a href="#">
+        <a href="{{ route('home') }}">
             <img src="{{ Vite::asset('resources/images/logo.png') }}" class="logo" />
         </a>
     </div>

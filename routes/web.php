@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
