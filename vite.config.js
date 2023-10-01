@@ -19,8 +19,14 @@ export default defineConfig({
         vue()
     ],
     build: {
-        commonjsOptions: {
-           requireReturnsDefault: true, // Setting to make prod-build working with vue-slider-component
+        rollupOptions: {
+            output:{
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        return id.toString().split('node_modules/')[1].split('/')[0].toString();
+                    }
+                }
+            }
         }
-      }
+    }
 });
