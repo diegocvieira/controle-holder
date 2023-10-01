@@ -1,11 +1,81 @@
 {
-  "resources/js/target-asset-classes.js": {
-    "file": "assets/target-asset-classes-cb3e5c65.js",
+  "_@vue-f44da537.js": {
+    "file": "assets/@vue-f44da537.js"
+  },
+  "_axios-21b846bc.js": {
+    "file": "assets/axios-21b846bc.js"
+  },
+  "_echarts-edc542b1.js": {
+    "file": "assets/echarts-edc542b1.js",
+    "imports": [
+      "_zrender-27541adf.js",
+      "_tslib-54e39b60.js"
+    ]
+  },
+  "_resize-detector-a5205554.js": {
+    "file": "assets/resize-detector-a5205554.js"
+  },
+  "_tslib-54e39b60.js": {
+    "file": "assets/tslib-54e39b60.js"
+  },
+  "_vue-10d67cef.js": {
+    "file": "assets/vue-10d67cef.js",
+    "imports": [
+      "_@vue-f44da537.js"
+    ]
+  },
+  "_vue-demi-03deb48b.js": {
+    "file": "assets/vue-demi-03deb48b.js",
+    "imports": [
+      "_vue-10d67cef.js"
+    ]
+  },
+  "_vue-echarts-8070bf30.js": {
+    "file": "assets/vue-echarts-8070bf30.js",
+    "imports": [
+      "_vue-10d67cef.js",
+      "_resize-detector-a5205554.js",
+      "_@vue-f44da537.js",
+      "_echarts-edc542b1.js"
+    ]
+  },
+  "_vue-slider-component-25dd7d97.js": {
+    "file": "assets/vue-slider-component-25dd7d97.js",
+    "imports": [
+      "_vue-10d67cef.js"
+    ]
+  },
+  "_zrender-27541adf.js": {
+    "file": "assets/zrender-27541adf.js",
+    "imports": [
+      "_tslib-54e39b60.js"
+    ]
+  },
+  "resources/images/logo.png": {
+    "file": "assets/logo-72bb548d.png",
+    "src": "resources/images/logo.png"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/logo-72bb548d.png"
+    ],
+    "file": "assets/app-c32dd558.js",
+    "imports": [
+      "_vue-10d67cef.js",
+      "_axios-21b846bc.js",
+      "_vue-slider-component-25dd7d97.js",
+      "_@vue-f44da537.js",
+      "_vue-echarts-8070bf30.js",
+      "_echarts-edc542b1.js",
+      "_resize-detector-a5205554.js",
+      "_zrender-27541adf.js",
+      "_tslib-54e39b60.js"
+    ],
     "isEntry": true,
-    "src": "resources/js/target-asset-classes.js"
+    "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-2dd6c067.css",
+    "file": "assets/app-c7052a72.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
