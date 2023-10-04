@@ -35,11 +35,6 @@
             @yield('template_content')
         </main>
 
-        <script>
-            window.asset = function(url) {
-                return "{{ Vite::asset('/') }}" + url;
-            }
-        </script>
         <script type="module" src="{{ Vite::asset('resources/js/app.js') }}"></script>
     </body>
 </html>

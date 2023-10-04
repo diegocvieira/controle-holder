@@ -10,7 +10,7 @@
             </a>
 
             <a href="/dashboard">
-                <img :src="asset('resources/images/logo.png')" class="logo" />
+                <img src="/resources/images/logo.png" class="logo" />
             </a>
         </header>
 
