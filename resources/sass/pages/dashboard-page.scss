@@ -1,0 +1,31 @@
+#dashboard-page {
+    .charts {
+        display: flex;
+        background-color: #101d2e;
+        padding: 50px 0;
+        border-radius: 15px;
+
+        .chart {
+            width: 50%;
+            height: 400px;
+        }
+    }
+
+    @media screen and (max-width: $fullhd) {
+        .charts {
+            flex-wrap: wrap;
+
+            .line {
+                border: 0;
+                border-top: 2px solid #1e293b;
+                height: 2px;
+                width: 100%;
+                margin: 50px 0;
+            }
+
+            .chart {
+                width: 100%;
+            }
+        }
+    }
+}

@@ -60,7 +60,8 @@ function loadPageScript() {
             extraComponents: {
                 'PieComponent': PieComponent,
                 'HeaderComponent': HeaderComponent
-            }
+            },
+            plugins: [MoneyFormatPlugin]
         },
         'profile-page': {
             component: Profile,
@@ -91,8 +92,6 @@ function loadPageScript() {
         for (const plugin in appConfig.plugins) {
             app.use(appConfig.plugins[plugin]);
         }
-
-        app.config.globalProperties.asset = window.asset;
 
         app.mount('#' + mainId);
     }
