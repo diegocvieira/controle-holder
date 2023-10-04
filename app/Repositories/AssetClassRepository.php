@@ -15,13 +15,16 @@ class AssetClassRepository
 
     public function getAll(): object
     {
-        return $this->model->orderBy('name', 'ASC')
-            ->get();
+        return $this->model->orderBy('name', 'ASC')->get();
     }
 
-    public function getBySlug(string $slug): object
+    public function getBySlug(string $slug): ?object
     {
-        return $this->model->where('slug', $slug)
-            ->first();
+        return $this->model->where('slug', $slug)->first();
+    }
+
+    public function createAssetClass(array $data): void
+    {
+        $this->model->create($data);
     }
 }

@@ -17,4 +17,9 @@ class AssetRepository
     {
         return $this->model->where('ticker', $ticker)->first();
     }
+
+    public function createAsset(array $data): void
+    {
+        $this->model->create($data);
+    }
 }
