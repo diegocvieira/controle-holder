@@ -4,10 +4,10 @@ export default {
             filterOptions: [
                 {
                     name: 'Todos',
-                    slug: 'all'
+                    slug: ''
                 }
             ],
-            classFilter: 'all',
+            classFilter: '',
             wallet: [],
             form: {
                 asset_class: '',
@@ -84,7 +84,7 @@ export default {
         filterTickets(value) {
             this.classFilter = value;
 
-            if (value != 'all') {
+            if (value != '') {
                 this.form.asset_class = value;
             }
         },
@@ -134,11 +134,11 @@ export default {
     },
     computed: {
         filteredWallet() {
-            if (this.classFilter == 'all') {
+            if (this.classFilter === '') {
                 return this.wallet;
-            } else {
-                return this.wallet.filter(item => item.asset_class.slug == this.classFilter);
             }
+
+            return this.wallet.filter(item => item.asset_class.slug == this.classFilter);
         }
     },
     watch: {

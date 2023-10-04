@@ -7,7 +7,7 @@
 ])
 
 @section('content')
-    @include ('partials.page-header', [
+    @include ('partials.page-header-title', [
         'page' => 'target',
         'title' => 'Ativos'
     ])
@@ -39,7 +39,7 @@
         <nav class="is-flex mb-20">
             <ul class="is-flex">
                 <li v-for="filterOption in filterOptions">
-                    <a href="#" @click.prevent="filterTickets(filterOption.slug)" class="link">@{{ filterOption.name }}</a>
+                    <a href="#" @click.prevent="filterTickets(filterOption.slug)" :class="'link ' + (filterOption.slug === classFilter ? 'is-active' : '')">@{{ filterOption.name }}</a>
                 </li>
             </ul>
         </nav>
