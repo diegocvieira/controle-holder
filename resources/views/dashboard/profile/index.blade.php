@@ -7,7 +7,7 @@
 
 @section('content')
 
-@include('partials.page-header', [
+@include('partials.page-header-title', [
     'page' => 'profile',
     'title' => 'Perfil'
 ])
