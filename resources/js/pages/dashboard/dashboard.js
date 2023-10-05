@@ -32,13 +32,12 @@ export default {
                         return;
                     }
 
-                    const quantity = this.wallet.filter(asset => asset.assetClassSlug === assetClass.slug).length;
                     const price = this.wallet.filter(asset => asset.assetClassSlug === assetClass.slug).reduce((acc, asset) => acc + parseFloat(asset.totalAmount), 0);
 
                     this.wallet.push({
                         ticker: assetClass.name,
                         rating: assetClass.percentage,
-                        totalAmount: (quantity * price).toFixed(2),
+                        totalAmount: price.toFixed(2),
                         assetClassSlug: 'asset-classes'
                     });
                 });
