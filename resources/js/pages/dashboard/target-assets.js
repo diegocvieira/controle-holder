@@ -147,13 +147,13 @@ export default {
                 assets.map((asset) => {
                     const totalRatings = assets.reduce((accumulator, currentValue) => {
                         if (currentValue.asset_class.slug === asset.asset_class.slug) {
-                            return accumulator + parseInt(currentValue.rating);
+                            return accumulator + currentValue.rating;
                         } else {
                             return accumulator;
                         }
                     }, 0);
 
-                    asset.idealPercentage = ((parseInt(asset.rating) / totalRatings) * 100).toFixed(2);
+                    asset.idealPercentage = ((asset.rating / totalRatings) * 100).toFixed(2);
                 });
             },
             deep: true

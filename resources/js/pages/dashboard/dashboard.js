@@ -67,7 +67,7 @@ export default {
                     this.wallet.push({
                         ticker: asset.ticker,
                         rating: asset.rating,
-                        totalAmount: (parseInt(asset.quantity) * asset.price).toFixed(2),
+                        totalAmount: (asset.quantity * asset.price).toFixed(2),
                         assetClassSlug: asset.asset_class.slug
                     });
                 };

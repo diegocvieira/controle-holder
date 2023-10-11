@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
             $table->foreignId('user_asset_class_id')->constrained('user_asset_classes')->onDelete('cascade');
-            $table->integer('quantity');
-            $table->integer('rating');
+            $table->decimal('quantity');
+            $table->decimal('rating');
             $table->timestamps();
             $table->softDeletes();
         });

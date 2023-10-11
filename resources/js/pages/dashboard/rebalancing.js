@@ -75,9 +75,9 @@ export default {
                     remainingAmount = totalValue - totalInvestedValue;
 
                     const totalAmount = assets.reduce((accumulator, currentValue) => {
-                        return accumulator + parseInt(currentValue.quantity) * currentValue.price;
+                        return accumulator + currentValue.quantity * currentValue.price;
                     }, 0);
-                    asset.currentPercentage = (parseInt(asset.quantity) * asset.price / totalAmount * 100).toFixed(2);
+                    asset.currentPercentage = (asset.quantity * asset.price / totalAmount * 100).toFixed(2);
 
                     this.sortAssetsByInvestmentDifference(assets, remainingAmount);
                 }
@@ -96,14 +96,14 @@ export default {
             axios.get('/api/user/assets').then(response => {
                 const assets = response.data.data;
                 const totalRatings = assets.reduce((accumulator, currentValue) => {
-                    return accumulator + parseInt(currentValue.rating);
+                    return accumulator + currentValue.rating;
                 }, 0);
 
                 this.wallet = assets.map(asset => {
                     return {
                         ticker: asset.ticker,
                         quantity: asset.quantity,
-                        idealPercentage: ((parseInt(asset.rating) / totalRatings) * 100).toFixed(2),
+                        idealPercentage: ((asset.rating / totalRatings) * 100).toFixed(2),
                         currentPercentage: 0,
                         rating: asset.rating,
                         price: asset.price ? asset.price : null,
@@ -155,9 +155,9 @@ export default {
                 const asset = this.wallet.find(asset => asset.ticker === data.ticker);
 
                 if (data.operation === 'buy') {
-                    asset.quantity = asset.quantity + parseInt(data.quantity);
+                    asset.quantity = asset.quantity + data.quantity;
                 } else {
-                    asset.quantity = asset.quantity - parseInt(data.quantity);
+                    asset.quantity = asset.quantity - data.quantity;
                 }
 
                 console.log(response);
@@ -174,11 +174,11 @@ export default {
         wallet: {
             handler(assets) {
                 const totalAmount = assets.reduce((accumulator, currentValue) => {
-                    return accumulator + parseInt(currentValue.quantity) * currentValue.price;
+                    return accumulator + currentValue.quantity * currentValue.price;
                 }, 0);
 
                 assets.forEach(function(asset) {
-                    asset.currentPercentage = asset.price ? (parseInt(asset.quantity) * asset.price / totalAmount * 100).toFixed(2) : null;
+                    asset.currentPercentage = asset.price ? (asset.quantity * asset.price / totalAmount * 100).toFixed(2) : null;
                     asset.investedAmount = asset.price ? (asset.quantity * asset.price).toFixed(2) : null;
                 });
             },

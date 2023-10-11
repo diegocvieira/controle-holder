@@ -35,8 +35,8 @@ class AssetController extends Controller
             return [
                 'ticker' => $asset->asset->ticker,
                 'price' => Helper::getPriceFromSession($asset->asset->ticker),
-                'quantity' => $asset->quantity,
-                'rating' => $asset->rating,
+                'quantity' => Helper::formatDecimalValue($asset->quantity),
+                'rating' => Helper::formatDecimalValue($asset->rating),
                 'asset_class' => [
                     'name' => $asset->userAssetClass->assetClass->name,
                     'slug' => $asset->userAssetClass->assetClass->slug,

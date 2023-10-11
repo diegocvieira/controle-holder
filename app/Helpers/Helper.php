@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
-    public static function formatRealToDollar($value)
-    {
-        return number_format(str_replace(['.', ','], ['', '.'], $value), 2, '.', '');
-    }
-
-    public static function getPriceFromSession($ticker)
+    public static function getPriceFromSession(string $ticker): ?string
     {
         $cacheKey = 'asset_price_' . $ticker;
 
@@ -20,5 +15,14 @@ class Helper
         }
 
         return null;
+    }
+
+    public static function formatDecimalValue(float $value): float
+    {
+        if (floor($value) == $value) {
+            return number_format($value, 0, '.', '.');
+        }
+
+        return rtrim(rtrim(number_format($value, 2, '.', ''), '0'), '.');
     }
 }

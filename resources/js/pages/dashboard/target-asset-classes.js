@@ -101,7 +101,7 @@ export default {
 
                 if (this.progressBar > 100 && indexChanged !== null) {
                     const assetChanged = assetClasses[indexChanged];
-                    const newPercentage = parseInt(assetChanged.percentage) - 1;
+                    const newPercentage = assetChanged.percentage - 1;
 
                     assetChanged.percentage = newPercentage;
 
