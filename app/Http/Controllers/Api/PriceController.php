@@ -6,86 +6,109 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Helpers\Helper;
+use Illuminate\Support\Facades\Http;
 
 class PriceController extends Controller
 {
-    private $apiKey = '9F9ZM08SVJWHSWZ1';
-
-    public function getPrice(Request $request)
+    public function getPrice(Request $request): array
     {
-        // $cachedPrices = Cache::get('prices');
-
-        // if ($cachedPrices && array_key_exists($ticket, $cachedPrices) && ($cachedPrices[$ticket]['date'] >= Carbon::now()->subDays(1) || in_array(Carbon::now()->dayOfWeek, [0, 6]))) {
-        //     return $cachedPrices[$ticket]['price'];
-        // }
-
-        // $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $ticket . '.sa&apikey=' . $this->apiKey;
-
-        // $json = file_get_contents($url);
-        // $data = json_decode($json, true);
-
-        // $cachedPrices[$ticket] = [
-        //     'price' => $data['Global Quote']['05. price'],
-        //     'date' => date('Y-m-d H:i:s')
-        // ];
-
-        // Cache::put('prices', $cachedPrices);
-
-        // return $cachedPrices[$ticket]['price'];
-
-        // $prices[] = [
-        //     'ticker' => $data['ticker'],
-        //     'price' => 12.50
-        // ];
-        // continue;
-
-        $ticker = $request->ticker;
         $assetClass = $request->asset_class;
-        $cacheKey = 'asset_price_' . $ticker;
+        $ticker = $request->ticker;
 
-        if (Cache::has($cacheKey)) {
+        if (Cache::has('asset_price_' . $ticker)) {
             return [
                 'ticker' => $ticker,
                 'price' => Helper::getPriceFromSession($ticker)
             ];
         }
 
-        $curl = curl_init();
-        $requestType = 'GET';
-        $url = 'https://investidor10.com.br/' . $assetClass . '/' . strtolower($ticker) . '/';
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => $requestType,
-            CURLOPT_POSTFIELDS => '',
-            CURLOPT_HTTPHEADER => [],
-        ]);
+        $price = $this->getPriceFromGoogle($assetClass, $ticker);
 
-        $response = curl_exec($curl);
-        curl_close($curl);
-        libxml_use_internal_errors(true);
-        $dom = new \DOMDocument();
-        $dom->loadHTML($response);
-        $xpath = new \DOMXPath($dom);
+        if ($price === '') {
+            $price = $this->getPriceFromInvestidor10($assetClass, $ticker);
+        }
 
-        $price = $xpath->query('//div[@class="_card cotacao"]//span[@class="value"]')->item(0)->nodeValue;
-        $price = preg_replace('/[^\d,.]+/', '', $price);
-        $price = Helper::formatRealToDollar($price);
+        if ($price === '') {
+            $price = $this->getPriceFromAlphavantage($assetClass, $ticker);
+        }
 
-        Cache::put($cacheKey, $price, 86400);
+        if ($price !== '') {
+            Cache::put('asset_price_' . $ticker, $price, 86400);
+        }
 
         return [
             'ticker' => $ticker,
             'price' => $price
         ];
+    }
 
-        // CRIPTOMOEDAS CONFIG
-        // $url = 'https://investidor10.com.br/criptomoedas/bitcoin/';
-        // $price = $xpath->query('//section[@id="cards-ticker"]//div[@class="_card"]')->item(1)->nodeValue;
+    public function getPriceFromGoogle(string $assetClass, string $ticker): string
+    {
+        if ($assetClass === 'cryptocurrencies') {
+            $url = 'https://www.google.com/finance/quote/' . $ticker . '-BRL';
+        } else {
+            $url = 'https://www.google.com/finance/quote/' . $ticker . ':BVMF';
+        }
+
+        $response = Http::get($url);
+        $html = $response->body();
+
+        libxml_use_internal_errors(true);
+
+        $dom = new \DOMDocument();
+        $dom->loadHTML($html);
+
+        $xpath = new \DOMXPath($dom);
+        $price = $xpath->query('//div[@class="YMlKec fxKbKc"]')->item(0)->nodeValue ?? '';
+
+        $price = preg_replace('/[^\d,.]+/', '', $price);
+        $price = str_replace(',', '', $price);
+
+        return $price;
+    }
+
+    public function getPriceFromInvestidor10(string $assetClass, string $ticker): string
+    {
+        if ($assetClass === 'cryptocurrencies') {
+            return '';
+        } else {
+            $url = 'https://investidor10.com.br/' . $assetClass . '/' . $ticker . '/';
+        }
+
+        $response = Http::get($url);
+        $html = $response->body();
+
+        libxml_use_internal_errors(true);
+
+        $dom = new \DOMDocument();
+        $dom->loadHTML($html);
+
+        $xpath = new \DOMXPath($dom);
+        $price = $xpath->query('//div[@class="_card cotacao"]//span[@class="value"]')->item(0)->nodeValue ?? '';
+
+        $price = preg_replace('/[^\d,.]+/', '', $price);
+        $price = number_format(str_replace(['.', ','], ['', '.'], $price), 2, '.', '');
+
+        return $price;
+    }
+
+    public function getPriceFromAlphavantage(string $assetClass, string $ticker): string
+    {
+        $apiKey = '9F9ZM08SVJWHSWZ1';
+
+        if ($assetClass === 'cryptocurrencies') {
+            $url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=' . $ticker . '&to_currency=BRL&apikey=' . $apiKey;
+        } else {
+            $url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' . $ticker . '.sa&apikey=' . $apiKey;
+        }
+
+        $response = Http::get($url);
+        $data = $response->json();
+
+        if ($assetClass === 'cryptocurrencies') {
+            return $data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+        }
+
+        return $data['Global Quote']['05. price'];
     }
 }
