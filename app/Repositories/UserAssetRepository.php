@@ -50,4 +50,9 @@ class UserAssetRepository
     {
         $this->model->create($data);
     }
+
+    public function getAssetsCountByUser($userId): int
+    {
+        return $this->model->where('user_id', $userId)->count();
+    }
 }

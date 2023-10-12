@@ -52,6 +52,8 @@ class AssetController extends Controller
     {
         $userId = Auth::id();
 
+        $request->validateMaxQuantity();
+
         $asset = $request->validateAsset();
         $assetClass = $request->validateAssetClass($asset->asset_class_id);
 

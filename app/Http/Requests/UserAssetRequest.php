@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetRepository;
+use App\Repositories\UserAssetRepository;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -14,11 +15,13 @@ class UserAssetRequest extends FormRequest
 {
     protected $userAssetClassRepository;
     protected $assetRepository;
+    protected $userAssetRepository;
 
-    public function __construct(UserAssetClassRepository $userAssetClassRepository, AssetRepository $assetRepository)
+    public function __construct(UserAssetClassRepository $userAssetClassRepository, AssetRepository $assetRepository, UserAssetRepository $userAssetRepository)
     {
         $this->userAssetClassRepository = $userAssetClassRepository;
         $this->assetRepository = $assetRepository;
+        $this->userAssetRepository = $userAssetRepository;
     }
 
     /**
@@ -73,6 +76,18 @@ class UserAssetRequest extends FormRequest
         ], 422));
     }
 
+    public function validateMaxQuantity(): void
+    {
+        $count = $this->userAssetRepository->getAssetsCountByUser($this->user()->id);
+
+        if ($count >= env('ASSET_MAX_QUANTITY')) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => trans('asset.max_quantity')
+            ], 400));
+        }
+    }
+
     public function validateAsset(): object
     {
         $asset = $this->assetRepository->getAssetByTicker($this->ticker);
@@ -83,7 +98,7 @@ class UserAssetRequest extends FormRequest
 
         throw new HttpResponseException(response()->json([
             'success' => false,
-            'message' => trans('asset.asset_not_found')
+            'message' => trans('asset.not_found')
         ], 404));
     }
 
