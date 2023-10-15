@@ -230,13 +230,13 @@
             }
         },
         mounted() {
-            this.items.forEach(link => {
+            this.filteredItems.forEach(link => {
                 if (link.slug === this.page) {
                     link.is_active = true;
                 }
 
                 link.dropdown_items.forEach(dropdownLink => {
-                    if (dropdownLink.slug === this.page) {
+                    if (dropdownLink.slug == this.page) {
                         dropdownLink.is_active = true;
                         link.is_active = true;
                         this.choice = link.slug;
