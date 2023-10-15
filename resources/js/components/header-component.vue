@@ -1,16 +1,16 @@
 <template id="header-template">
     <div style="display: flex; align-items: flex-end;">
         <header id="header">
-            <a href="#" id="hamburger" @click.prevent="openOrHideAside()">
+            <button id="hamburger" @click.prevent="openOrHideAside()">
                 <svg id="ham-icon" version="1.1" viewBox="0 0 24 24">
                     <rect id="one" y="3" rx="1.25" ry="1.25" />
                     <rect id="two" y="11" rx="1.25" ry="1.25" />
                     <rect id="three" y="18" rx="1.25" ry="1.25" />
                 </svg>
-            </a>
+            </button>
 
             <a href="/dashboard">
-                <img src="/resources/images/logo.png" class="logo" />
+                <img src="/resources/images/logo.png" class="logo" alt="HolderFolio" />
             </a>
         </header>
 
