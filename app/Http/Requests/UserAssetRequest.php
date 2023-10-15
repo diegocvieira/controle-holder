@@ -80,7 +80,7 @@ class UserAssetRequest extends FormRequest
     {
         $count = $this->userAssetRepository->getAssetsCountByUser($this->user()->id);
 
-        if ($count >= env('ASSET_MAX_QUANTITY')) {
+        if ($count >= config('asset.max_quantity')) {
             throw new HttpResponseException(response()->json([
                 'success' => false,
                 'message' => trans('asset.max_quantity')

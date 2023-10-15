@@ -6,6 +6,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Legal Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the legal name of your application.
+    |
+    */
+
+    'legal_name' => env('APP_LEGAL_NAME', 'HolderFolio, Inc.'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
     |
@@ -15,7 +26,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'HolderFolio'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +65,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://holderfolio.com.br'),
 
     'asset_url' => env('ASSET_URL', '/'),
 
