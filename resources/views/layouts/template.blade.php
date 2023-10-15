@@ -17,7 +17,7 @@
     <body>
         <main class="main" id="{{ isset($page) ? $page . '-page' : '' }}">
             @isset($headerComponent)
-                <header-component page="{{ $page ?? '' }}"></header-component>
+                <header-component page="{{ $page ?? '' }}" is_logged="{{ $isLogged ?? true }}"></header-component>
             @endisset
 
             @isset($loaderComponent)

@@ -74,7 +74,18 @@ function loadPageScript() {
         'login-page': {
             component: Login,
             extraComponents: {
-                'AlertComponent': AlertComponent,
+                'AlertComponent': AlertComponent
+            }
+        },
+        'terms-of-service-page': {
+            component: {},
+            extraComponents: {
+                'HeaderComponent': HeaderComponent
+            }
+        },
+        'privacy-policy-page': {
+            component: {},
+            extraComponents: {
                 'HeaderComponent': HeaderComponent
             }
         }

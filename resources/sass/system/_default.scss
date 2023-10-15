@@ -4,6 +4,10 @@ body, html {
     color: $whiteColor;
 }
 
+a {
+    color: #2563eb;
+}
+
 [v-cloak] {
     display: none;
 }
@@ -13,10 +17,13 @@ body, html {
     overflow: hidden;
     height: 100vh;
 
+    &-dashboard-wrapper {
+        overflow: auto;
+        width: 100%;
+    }
+
     &-dashboard-content {
         transition: .5s;
-        flex: 1;
-        overflow: auto;
         margin: $headerHeight auto 0 auto;
         padding: 0 20px;
         display: flex;
@@ -38,6 +45,12 @@ body, html {
             display: flex;
             align-items: center;
             flex-direction: column;
+        }
+
+        .left-content {
+            .logo {
+                width: 300px;
+            }
         }
 
         .right-content {

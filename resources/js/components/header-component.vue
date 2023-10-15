@@ -17,7 +17,7 @@
         <aside id="aside">
             <nav>
                 <ul>
-                    <li v-for="(item, key) in items" :key="key">
+                    <li v-for="(item, key) in filteredItems" :key="key">
                         <a :href="item.url" class="link" :class="item.is_active == true ? 'is-active' : ''" v-on:click.prevent="handleLinkAction(item.slug, item.url)" :title="item.name">
                             <span class="icon" :class="item.slug" v-html="item.icon"></span>
 
@@ -49,12 +49,12 @@
 <script>
     export default {
         name: 'header-component',
-        props: ['page'],
+        props: ['page', 'is_logged'],
         template: '#header-template',
-        data () {
+        data() {
             return {
                 choice: '',
-                items: [
+                loggedItems: [
                     {
                         name: 'Dashboard',
                         slug: 'dashboard',
@@ -140,6 +140,58 @@
                         ],
                         is_active: false
                     }
+                ],
+                items: [
+                    {
+                        name: 'Início',
+                        slug: 'home',
+                        url: '/',
+                        icon: `<svg viewBox="0 0 500 500">
+                                <path fill="currentColor" d="M250,90.5l-190,160h65v168h74v-68c0-28.12,22.88-51,51-51s51,22.88,51,51v68h74v-168h65L250,90.5z"></path>
+                            </svg>`,
+                        dropdown_items: [],
+                        is_active: false
+                    }, {
+                        name: 'Login',
+                        slug: 'login',
+                        url: '/login',
+                        icon: `<svg viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"></path>
+                            </svg>`,
+                        dropdown_items: [],
+                        is_active: false
+                    }, {
+                        name: 'Cadastro',
+                        slug: 'register',
+                        url: '/register',
+                        icon: `<svg viewBox="0 0 14 14">
+                                <path fill="currentColor" d="M6.904 2.994a2.008 2.008 0 0 0-2.008 2.01 2.008 2.008 0 0 0 2.008 2.008 2.008 2.008 0 0 0 2.008-2.008 2.008 2.008 0 0 0-2.008-2.01Zm-.047 5.014A3.983 3.983 0 0 0 3 11.014h4.965c-.025-.167-.053-.333-.053-.506 0-.781.267-1.495.701-2.078a3.937 3.937 0 0 0-1.756-.422zm4.553 0c-.64 0-1.28.243-1.767.73a2.504 2.504 0 0 0 0 3.537 2.504 2.504 0 0 0 3.537 0 2.504 2.504 0 0 0 0-3.537 2.495 2.495 0 0 0-1.77-.73zm-.498 1.002h1v.974h.998v1h-.998v1.018h-1v-1.018h-.994v-1h.994V9.01z"></path>
+                            </svg>`,
+                        dropdown_items: [],
+                        is_active: false
+                    }, {
+                        name: 'Termos',
+                        slug: 'terms',
+                        url: '#',
+                        icon: `<svg viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M13.191,0 C16.28,0 18,1.78 18,4.83 L18,4.83 L18,15.16 C18,18.26 16.28,20 13.191,20 L13.191,20 L4.81,20 C1.77,20 0,18.26 0,15.16 L0,15.16 L0,4.83 C0,1.78 1.77,0 4.81,0 L4.81,0 Z M5.08,13.74 C4.78,13.71 4.49,13.85 4.33,14.11 C4.17,14.36 4.17,14.69 4.33,14.95 C4.49,15.2 4.78,15.35 5.08,15.31 L5.08,15.31 L12.92,15.31 C13.319,15.27 13.62,14.929 13.62,14.53 C13.62,14.12 13.319,13.78 12.92,13.74 L12.92,13.74 Z M12.92,9.179 L5.08,9.179 C4.649,9.179 4.3,9.53 4.3,9.96 C4.3,10.39 4.649,10.74 5.08,10.74 L5.08,10.74 L12.92,10.74 C13.35,10.74 13.7,10.39 13.7,9.96 C13.7,9.53 13.35,9.179 12.92,9.179 L12.92,9.179 Z M8.069,4.65 L5.08,4.65 L5.08,4.66 C4.649,4.66 4.3,5.01 4.3,5.44 C4.3,5.87 4.649,6.22 5.08,6.22 L5.08,6.22 L8.069,6.22 C8.5,6.22 8.85,5.87 8.85,5.429 C8.85,5 8.5,4.65 8.069,4.65 L8.069,4.65 Z"></path>
+                            </svg>`,
+                        dropdown_items: [
+                            {
+                                name: 'Termos de Serviço',
+                                url: '/legal/terms-of-service',
+                                slug: 'terms-of-service',
+                                is_active: false
+                            },
+                            {
+                                name: 'Política de Privacidade',
+                                url: '/legal/privacy-policy',
+                                slug: 'privacy-policy',
+                                is_active: false
+                            }
+                        ],
+                        is_active: false
+                    }
                 ]
             }
         },
@@ -177,7 +229,7 @@
                 }
             }
         },
-        mounted () {
+        mounted() {
             this.items.forEach(link => {
                 if (link.slug === this.page) {
                     link.is_active = true;
@@ -191,6 +243,15 @@
                     }
                 });
             });
+        },
+        computed: {
+            filteredItems() {
+                if (this.is_logged == true) {
+                    return this.loggedItems;
+                }
+
+                return this.items;
+            }
         }
     }
 </script>

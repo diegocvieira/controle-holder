@@ -28,6 +28,16 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::group(['prefix' => 'legal', 'as' => 'legal.'], function () {
+    Route::get('terms-of-service', function () {
+        return view('terms-of-service');
+    })->name('terms-of-service');
+
+    Route::get('privacy-policy', function () {
+        return view('privacy-policy');
+    })->name('privacy-policy');
+});
+
 Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 

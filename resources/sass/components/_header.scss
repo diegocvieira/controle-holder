@@ -111,6 +111,7 @@
             li {
                 display: flex;
                 flex-wrap: wrap;
+                white-space: nowrap;
 
                 a {
                     padding: 15px 20px;
@@ -161,7 +162,7 @@
     }
 }
 
-@media screen and (max-width: $mobile) {
+@media screen and (max-width: $desktop) {
     #aside {
         position: fixed;
         width: 0;
