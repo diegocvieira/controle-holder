@@ -1,7 +1,8 @@
 @extends('layouts.dashboard', [
     'page' => 'privacy-policy',
-    'isLogged' => false,
-    'headerComponent' => true
+    'isLogged' => auth()->check(),
+    'headerComponent' => true,
+    'metaTitle' => 'Política de Privacidade'
 ])
 
 @section('content')
@@ -78,7 +79,7 @@
         <div class="item">
             <h2>10. Contato</h2>
 
-            <p>Se você tiver alguma dúvida sobre esta Política de Privacidade, por favor, entre em contato através do nosso e-mail: <a href="mailto:contact@holderfolio.com.br">contact@holderfolio.com.br</a>.</p>
+            <p>Se você tiver alguma dúvida sobre esta Política de Privacidade, por favor, entre em contato através do nosso e-mail: <a href="mailto:{{ config('mail.from.address') }}">{{ config('mail.from.address') }}</a>.</p>
         </div>
     </div>
 @endsection

@@ -51,6 +51,38 @@
       "_tslib-54e39b60.js"
     ]
   },
+  "resources/images/favicons/android-chrome-96x96.png": {
+    "file": "assets/android-chrome-96x96-c80bcc43.png",
+    "src": "resources/images/favicons/android-chrome-96x96.png"
+  },
+  "resources/images/favicons/apple-touch-icon.png": {
+    "file": "assets/apple-touch-icon-54d01f82.png",
+    "src": "resources/images/favicons/apple-touch-icon.png"
+  },
+  "resources/images/favicons/favicon-16x16.png": {
+    "file": "assets/favicon-16x16-8b3d5b0d.png",
+    "src": "resources/images/favicons/favicon-16x16.png"
+  },
+  "resources/images/favicons/favicon-32x32.png": {
+    "file": "assets/favicon-32x32-ba2f60ce.png",
+    "src": "resources/images/favicons/favicon-32x32.png"
+  },
+  "resources/images/favicons/favicon.ico": {
+    "file": "assets/favicon-38689544.ico",
+    "src": "resources/images/favicons/favicon.ico"
+  },
+  "resources/images/favicons/mstile-150x150.png": {
+    "file": "assets/mstile-150x150-6f092805.png",
+    "src": "resources/images/favicons/mstile-150x150.png"
+  },
+  "resources/images/favicons/safari-pinned-tab.svg": {
+    "file": "assets/safari-pinned-tab-f51d9ad5.svg",
+    "src": "resources/images/favicons/safari-pinned-tab.svg"
+  },
+  "resources/images/favicons/site.webmanifest": {
+    "file": "assets/site-9b60ba1a.webmanifest",
+    "src": "resources/images/favicons/site.webmanifest"
+  },
   "resources/images/logo.png": {
     "file": "assets/logo-72bb548d.png",
     "src": "resources/images/logo.png"
@@ -59,7 +91,7 @@
     "assets": [
       "assets/logo-72bb548d.png"
     ],
-    "file": "assets/app-e9be01d7.js",
+    "file": "assets/app-a1842dc2.js",
     "imports": [
       "_vue-10d67cef.js",
       "_axios-21b846bc.js",
@@ -75,7 +107,7 @@
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-c7052a72.css",
+    "file": "assets/app-68998232.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }

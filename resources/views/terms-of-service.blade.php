@@ -1,7 +1,8 @@
 @extends('layouts.dashboard', [
     'page' => 'terms-of-service',
-    'isLogged' => false,
-    'headerComponent' => true
+    'isLogged' => auth()->check(),
+    'headerComponent' => true,
+    'metaTitle' => 'Termos de Serviço'
 ])
 
 @section('content')
@@ -22,7 +23,7 @@
 
             <p>O seu acordo conosco inclui estes Termos e a nossa Política de Privacidade. Você reconhece que leu e compreendeu os Acordos, e concorda em ficar vinculado por eles.</p>
 
-            <p>Se você não concorda (ou não pode cumprir) com os Acordos, então você não pode usar o Serviço, mas por favor nos avise por e-mail em contact@holderfolio.com.br para que possamos tentar encontrar uma solução. Estes Termos se aplicam a todos os visitantes, usuários e outras pessoas que desejam acessar ou usar o Serviço.</p>
+            <p>Se você não concorda (ou não pode cumprir) com os Acordos, então você não pode usar o Serviço, mas por favor nos avise por e-mail em {{ config('mail.from.address') }} para que possamos tentar encontrar uma solução. Estes Termos se aplicam a todos os visitantes, usuários e outras pessoas que desejam acessar ou usar o Serviço.</p>
 
             <p>Obrigado por ser responsável.</p>
         </div>
@@ -98,7 +99,7 @@
         <div class="item">
             <h2>12. Contato</h2>
 
-            <p>Por favor, envie seus comentários, sugestões, solicitações de suporte técnico para nosso e-mail: <a href="mailto:contact@holderfolio.com.br">contact@holderfolio.com.br</a>.</p>
+            <p>Por favor, envie seus comentários, sugestões, solicitações de suporte técnico para nosso e-mail: <a href="mailto:{{ config('mail.from.address') }}">{{ config('mail.from.address') }}</a>.</p>
         </div>
     </div>
 @endsection

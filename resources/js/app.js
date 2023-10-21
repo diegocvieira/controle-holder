@@ -1,3 +1,5 @@
+import.meta.glob(['../images/**']);
+
 import { createApp } from 'vue';
 import axios from 'axios';
 
