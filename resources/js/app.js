@@ -90,6 +90,12 @@ function loadPageScript() {
             extraComponents: {
                 'HeaderComponent': HeaderComponent
             }
+        },
+        'pricing-page': {
+            component: {},
+            extraComponents: {
+                'HeaderComponent': HeaderComponent
+            }
         }
     };
 

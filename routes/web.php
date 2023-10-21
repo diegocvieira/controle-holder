@@ -28,6 +28,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('pricing', function () {
+    return view('pricing');
+})->name('pricing');
+
 Route::group(['prefix' => 'legal', 'as' => 'legal.'], function () {
     Route::get('terms-of-service', function () {
         return view('terms-of-service');
