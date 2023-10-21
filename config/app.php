@@ -6,6 +6,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application SEO Description
+    |--------------------------------------------------------------------------
+    |
+    | This value is the SEO description of your application.
+    |
+    */
+
+    'seo_description' => env('APP_SEO_DESCRIPTION', 'Potencialize sua estratégia Buy and Hold com o HolderFolio. Rebalanceie ativos e construa sua carteira ideal.'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Legal Name
     |--------------------------------------------------------------------------
     |

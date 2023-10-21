@@ -11,18 +11,18 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     	<meta name="theme-color" content="#1e293b">
 
-        <meta name="description" content="Potencialize sua estratégia Buy and Hold com o HolderFolio. Rebalanceie ativos e construa sua carteira ideal.">
+        <meta name="description" content="{{ config('app.seo_description') }}">
         <meta name="keywords" content="holder, portfolio, ativos, rebalancear, meta">
 
         <meta property="og:title" content="{{ isset($metaTitle) ? $metaTitle . ' · ' : '' }}{{ config('app.name') }}">
-        <meta property="og:description" content="Potencialize sua estratégia Buy and Hold com o HolderFolio. Rebalanceie ativos e construa sua carteira ideal.">
+        <meta property="og:description" content="{{ config('app.seo_description') }}">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url()->current() }}">
         <meta property="og:image" content="{{ Vite::asset('resources/images/social-banner.png') }}">
 
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="{{ isset($metaTitle) ? $metaTitle . ' · ' : '' }}{{ config('app.name') }}">
-        <meta name="twitter:description" content="Potencialize sua estratégia Buy and Hold com o HolderFolio. Rebalanceie ativos e construa sua carteira ideal.">
+        <meta name="twitter:description" content="{{ config('app.seo_description') }}">
         <meta name="twitter:image" content="{{ Vite::asset('resources/images/social-banner.png') }}">
 
         <meta name="msapplication-TileColor" content="#da532c">
