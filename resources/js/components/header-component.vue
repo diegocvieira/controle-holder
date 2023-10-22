@@ -36,7 +36,7 @@
 
                         <ul class="dropdown-menu" v-if="item.dropdown_items.length > 0" v-show="isActiveMenu(item.slug)">
                             <li v-for="(dropdown_item, key) in item.dropdown_items" :key="key">
-                                <a :href="dropdown_item.url" class="link" :class="dropdown_item.is_active == true ? 'is-active' : ''">{{ dropdown_item.name}}</a>
+                                <a :href="dropdown_item.url" class="link" :class="dropdown_item.is_active == true ? 'is-active' : ''" v-on:click.prevent="handleLinkAction(dropdown_item.slug, dropdown_item.url)">{{ dropdown_item.name}}</a>
                             </li>
                         </ul>
                     </li>
