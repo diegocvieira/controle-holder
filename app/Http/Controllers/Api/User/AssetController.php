@@ -11,6 +11,7 @@ use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserAssetRequest;
+use Illuminate\Http\Response;
 
 class AssetController extends Controller
 {
@@ -82,7 +83,7 @@ class AssetController extends Controller
         ], 200);
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request): Response
     {
         $userId = Auth::id();
 
@@ -93,6 +94,6 @@ class AssetController extends Controller
 
         $this->userAssetRepository->updateAsset($userId, $request->ticker, $dataToUpdate);
 
-        return response()->json([], 204);
+        return response()->noContent();
     }
 }

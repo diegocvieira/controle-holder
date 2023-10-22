@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
 
 class ProfileController extends Controller
 {
@@ -31,7 +32,7 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    public function updateData(ProfileUpdateRequest $request): JsonResponse
+    public function updateData(ProfileUpdateRequest $request): Response
     {
         $userId = Auth::id();
 
@@ -48,6 +49,6 @@ class ProfileController extends Controller
 
         $this->userRepository->updateData($userId, $dataToUpdate);
 
-        return response()->json([], 204);
+        return response()->noContent();
     }
 }

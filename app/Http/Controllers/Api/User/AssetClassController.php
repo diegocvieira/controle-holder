@@ -8,6 +8,7 @@ use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetClassRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class AssetClassController extends Controller
 {
@@ -48,15 +49,13 @@ class AssetClassController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $userId = Auth::id();
         $assetClassId = $this->assetClassRepository->getBySlug($request->slug)->id;
 
         $this->userAssetClassRepository->save($userId, $assetClassId, $request->percentage);
 
-        return response()->json([
-            'success' => true
-        ], 204);
+        return response()->noContent();
     }
 }
