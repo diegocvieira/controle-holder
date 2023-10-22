@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Api\Auth\RegisteredUserController;
 
 use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\User\AssetController as UserAssetController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Api\User\ProfileController;
 
 Route::middleware('guest')->group(function () {
     Route::post('auth/login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('auth/register', [RegisteredUserController::class, 'store']);
 });
 
 Route::middleware('auth')->group(function () {

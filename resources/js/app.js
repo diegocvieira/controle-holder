@@ -19,6 +19,7 @@ import TargetAssetClasses from './pages/dashboard/target-asset-classes.js';
 import Reabalancing from './pages/dashboard/rebalancing.js';
 import Profile from './pages/dashboard/profile.js';
 import Login from './pages/auth/login.js';
+import Register from './pages/auth/register.js';
 
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -75,6 +76,12 @@ function loadPageScript() {
         },
         'login-page': {
             component: Login,
+            extraComponents: {
+                'AlertComponent': AlertComponent
+            }
+        },
+        'register-page': {
+            component: Register,
             extraComponents: {
                 'AlertComponent': AlertComponent
             }

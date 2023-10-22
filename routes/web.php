@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Web\Auth\RegisteredUserController;
 
 use App\Http\Controllers\Web\Dashboard\DashboardController;
 use App\Http\Controllers\Web\Dashboard\TargetController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Web\Dashboard\ProfileController;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 });
 
 Route::get('/', function () {
