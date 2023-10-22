@@ -30,16 +30,16 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Attempt to authenticate the request's credentials.
      *
-     * @return array<string, string>
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function messages(): array
+    public function authenticate(): void
     {
-        return [
-            'email.required' => 'O e-mail é obrigatório',
-            'email.email' => 'O e-mail precisa ser um endereço válido',
-            'password.required' => 'A senha é obrigatória'
-        ];
+        if (!Auth::attempt($this->only('email', 'password'), true)) {
+            throw ValidationException::withMessages([
+                'message' => trans('auth.failed'),
+            ]);
+        }
     }
 }
