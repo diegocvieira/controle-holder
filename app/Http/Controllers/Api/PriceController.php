@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class PriceController extends Controller
 {
+    protected $helper;
+
+    public function __construct(Helper $helper)
+    {
+        $this->helper = $helper;
+    }
+
     public function getPrice(Request $request): array
     {
         $assetClass = $request->asset_class;
@@ -18,7 +25,7 @@ class PriceController extends Controller
         if (Cache::has('asset_price_' . $ticker)) {
             return [
                 'ticker' => $ticker,
-                'price' => Helper::getPriceFromSession($ticker)
+                'price' => $this->helper->getPriceFromSession($ticker)
             ];
         }
 

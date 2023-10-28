@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
-    public static function getPriceFromSession(string $ticker): ?string
+    public function getPriceFromSession(string $ticker): ?string
     {
         $cacheKey = 'asset_price_' . $ticker;
 
@@ -17,7 +17,7 @@ class Helper
         return null;
     }
 
-    public static function formatDecimalValue(float $value): float
+    public function formatDecimalValue(float $value): float
     {
         if (floor($value) == $value) {
             return number_format($value, 0, '.', '.');
