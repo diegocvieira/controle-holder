@@ -11,19 +11,20 @@ use App\Repositories\UserAssetClassRepository;
 use App\Repositories\AssetRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserAssetRequest;
-use Illuminate\Http\Response;
 
 class AssetController extends Controller
 {
     protected $userAssetRepository;
     protected $userAssetClassRepository;
     protected $assetRepository;
+    protected $helper;
 
-    public function __construct(UserAssetRepository $userAssetRepository, UserAssetClassRepository $userAssetClassRepository, AssetRepository $assetRepository)
+    public function __construct(UserAssetRepository $userAssetRepository, UserAssetClassRepository $userAssetClassRepository, AssetRepository $assetRepository, Helper $helper)
     {
         $this->userAssetRepository = $userAssetRepository;
         $this->userAssetClassRepository = $userAssetClassRepository;
         $this->assetRepository = $assetRepository;
+        $this->helper = $helper;
     }
 
     public function getAssets(): JsonResponse
@@ -35,9 +36,9 @@ class AssetController extends Controller
         $data = $assets->map(function ($asset) {
             return [
                 'ticker' => $asset->asset->ticker,
-                'price' => Helper::getPriceFromSession($asset->asset->ticker),
-                'quantity' => Helper::formatDecimalValue($asset->quantity),
-                'rating' => Helper::formatDecimalValue($asset->rating),
+                'price' => $this->helper->getPriceFromSession($asset->asset->ticker),
+                'quantity' => $this->helper->formatDecimalValue($asset->quantity),
+                'rating' => $this->helper->formatDecimalValue($asset->rating),
                 'asset_class' => [
                     'name' => $asset->userAssetClass->assetClass->name,
                     'slug' => $asset->userAssetClass->assetClass->slug,
@@ -46,7 +47,9 @@ class AssetController extends Controller
             ];
         })->all();
 
-        return response()->json(['data' => $data], 200);
+        return response()->json([
+            'data' => $data
+        ]);
     }
 
     public function store(UserAssetRequest $request): JsonResponse
@@ -77,13 +80,12 @@ class AssetController extends Controller
         ];
 
         return response()->json([
-            'success' => true,
-            'message' => 'Ativo adicionado com sucesso!',
+            'message' => trans('asset.created'),
             'data' => $responseData
-        ], 200);
+        ]);
     }
 
-    public function update(Request $request): Response
+    public function update(Request $request): JsonResponse
     {
         $userId = Auth::id();
 
@@ -94,6 +96,19 @@ class AssetController extends Controller
 
         $this->userAssetRepository->updateAsset($userId, $request->ticker, $dataToUpdate);
 
-        return response()->noContent();
+        return response()->json([
+            'message' => trans('asset.updated')
+        ]);
+    }
+
+    public function delete(string $ticker): JsonResponse
+    {
+        $userId = Auth::id();
+
+        $this->userAssetRepository->deleteAsset($userId, $ticker);
+
+        return response()->json([
+            'message' => trans('asset.deleted')
+        ]);
     }
 }

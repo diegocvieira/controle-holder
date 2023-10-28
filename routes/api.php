@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('assets', [UserAssetController::class, 'getAssets']);
         Route::post('assets', [UserAssetController::class, 'store']);
         Route::put('assets', [UserAssetController::class, 'update']);
+        Route::delete('assets/{ticker}', [UserAssetController::class, 'delete']);
 
         Route::get('profile', [ProfileController::class, 'getData']);
         Route::put('profile', [ProfileController::class, 'updateData']);

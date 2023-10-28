@@ -55,4 +55,11 @@ class UserAssetRepository
     {
         return $this->model->where('user_id', $userId)->count();
     }
+
+    public function deleteAsset(int $userId, string $ticker): void
+    {
+        $this->model->where('user_id', $userId)
+            ->whereRelation('asset', 'ticker', $ticker)
+            ->delete();
+    }
 }

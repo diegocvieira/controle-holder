@@ -66,7 +66,7 @@ export default {
             }
 
             axios.put('/api/user/assets', data).then(response => {
-                this.$refs.alert.showSuccess('Ativo alterado com sucesso!');
+                this.$refs.alert.showSuccess(response.data.message);
             }).catch(error => console.log(error));
         },
         deleteAsset(ticker) {
@@ -79,7 +79,11 @@ export default {
             this.$refs.modal.show = true;
         },
         deleteConfirm(ticker) {
-            console.log(ticker);
+            axios.delete('/api/user/assets/' + ticker).then(response => {
+                this.wallet = this.wallet.filter(asset => asset.ticker !== ticker);
+
+                this.$refs.alert.showSuccess(response.data.message);
+            }).catch(error => console.log(error));
         },
         filterTickets(value) {
             this.classFilter = value;
