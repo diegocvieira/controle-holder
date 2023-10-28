@@ -119,6 +119,7 @@ export default {
                 });
 
                 this.getAssetsPrice();
+                this.sortAssetsByAssetClass();
             }).catch(error => console.log(error));
         },
         getAssetsPrice() {
@@ -161,7 +162,18 @@ export default {
                 }
 
                 console.log(response);
-            }).catch(error => console.log(error));
+            }).catch(error => {
+                this.$refs.alert.showError(error.response.data.message);
+            });
+        },
+        sortAssetsByAssetClass() {
+            this.wallet.sort((a, b) => {
+                if (a.asset_class.slug !== b.asset_class.slug) {
+                    return a.asset_class.slug.localeCompare(b.asset_class.slug);
+                }
+
+                return b.rating - a.rating;
+            });
         }
     },
     created () {

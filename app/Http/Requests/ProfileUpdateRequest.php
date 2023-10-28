@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 
 class ProfileUpdateRequest extends FormRequest
@@ -33,18 +33,6 @@ class ProfileUpdateRequest extends FormRequest
     }
 
     /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    // public function messages(): array
-    // {
-    //     return [
-    //         'new_password.required' => trans('validation.required', ['attribute' => 'Nova senha'])
-    //     ];
-    // }
-
-    /**
      * Handle a failed validation attempt.
      *
      * @param  \Illuminate\Contracts\Validation\Validator $validator
@@ -52,11 +40,10 @@ class ProfileUpdateRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator): void
     {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
+        throw ValidationException::withMessages([
             'message' => $validator->errors()->first()
-        ], 422));
+        ]);
     }
 }

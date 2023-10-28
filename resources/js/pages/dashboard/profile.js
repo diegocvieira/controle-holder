@@ -1,5 +1,5 @@
 export default {
-    data () {
+    data() {
         return {
             name: '',
             email: '',
@@ -36,11 +36,9 @@ export default {
                 this.newPassword = '';
                 this.confirmPassword = '';
 
-                this.$refs.alert.showSuccess('Dados alterados com sucesso!');
+                this.$refs.alert.showSuccess(response.data.message);
             }).catch(error => {
-                if (error.response.data.success === false) {
-                    this.$refs.alert.showError(error.response.data.message)
-                }
+                this.$refs.alert.showError(error.response.data.message)
             });
         }
     },

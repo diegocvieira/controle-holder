@@ -25,8 +25,7 @@ class RebalancingController extends Controller
 
         if (!$asset) {
             return response()->json([
-                'success' => false,
-                'message' => 'Ativo não encontrado.'
+                'message' => trans('asset.not_found')
             ], 404);
         }
 
@@ -45,8 +44,7 @@ class RebalancingController extends Controller
 
         if (!$asset) {
             return response()->json([
-                'success' => false,
-                'message' => 'Ativo não encontrado.'
+                'message' => trans('asset.not_found')
             ], 404);
         }
 
@@ -54,8 +52,7 @@ class RebalancingController extends Controller
 
         if ($newQuantity < 0) {
             return response()->json([
-                'success' => false,
-                'Quantidade insuficiente para vender.'
+                'message' => trans('asset.insufficient_quantity_to_sell')
             ], 400);
         }
 
