@@ -9,7 +9,7 @@
         border-spacing: 0;
 
         thead {
-            background-color: #101d2e;
+            background-color: $darkBlueColor;
 
             tr th {
                 padding: 15px 10px;
@@ -23,7 +23,7 @@
                 transition: 0.2s ease;
 
                 &:nth-child(even) {
-                    background-color: #101d2e;
+                    background-color: $darkBlueColor;
                 }
 
                 &:hover {
