@@ -6,14 +6,23 @@
 
     .footer {
         &__content {
-            height: 40px;
-            // background-color: #0f172a;
             width: 100%;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        &__copyright {
-            text-align: center;
+        &__coffee {
+            display: flex;
+            align-items: center;
+
+            svg {
+                width: 24px;
+                height: 24px;
+                margin-left: 5px;
+            }
         }
     }
 }

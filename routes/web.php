@@ -30,9 +30,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('pricing', function () {
-    return view('pricing');
-})->name('pricing');
+Route::get('contribute', function () {
+    return view('contribute');
+})->name('contribute');
 
 Route::group(['prefix' => 'legal', 'as' => 'legal.'], function () {
     Route::get('terms-of-service', function () {

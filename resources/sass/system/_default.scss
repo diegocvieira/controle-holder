@@ -128,6 +128,18 @@ a {
     &:hover {
         color: $whiteColor;
         background-color: $blueColor;
+
+        .icon {
+            fill: $whiteColor;
+        }
+    }
+
+    .icon {
+        width: 26px;
+        height: 26px;
+        fill: $blueColor;
+        margin-left: 12px;
+        transition: .2s ease;
     }
 }
 
@@ -188,7 +200,7 @@ a {
     &__icon {
         width: 48px;
         height: 48px;
-        background-color: #101d2e;
+        background-color: $darkBlueColor;
         border-radius: 50%;
         align-items: center;
         display: flex;

@@ -12,6 +12,7 @@ import ModalComponent from './components/modal-component.vue';
 import LoaderComponent from './components/loader-component.vue';
 
 import MoneyFormatPlugin from './plugins/money-format-plugin';
+import CopyToClipboardPlugin from './plugins/copy-to-clipboard-plugin';
 
 import Dashboard from './pages/dashboard/dashboard.js';
 import TargetAssets from './pages/dashboard/target-assets.js';
@@ -20,6 +21,7 @@ import Reabalancing from './pages/dashboard/rebalancing.js';
 import Profile from './pages/dashboard/profile.js';
 import Login from './pages/auth/login.js';
 import Register from './pages/auth/register.js';
+import Contribute from './pages/web/contribute.js';
 
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -98,11 +100,12 @@ function loadPageScript() {
                 'HeaderComponent': HeaderComponent
             }
         },
-        'pricing-page': {
-            component: {},
+        'contribute-page': {
+            component: Contribute,
             extraComponents: {
                 'HeaderComponent': HeaderComponent
-            }
+            },
+            plugins: [CopyToClipboardPlugin]
         }
     };
 

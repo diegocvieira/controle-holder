@@ -1,0 +1,114 @@
+#contribute-page {
+    .description {
+        text-align: center;
+        margin-bottom: 30px;
+
+        h2 {
+            font-weight: normal;
+        }
+    }
+
+    .payment-info {
+        .qr-data {
+            display: flex;
+            background-color: $darkBlueColor;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px;
+
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            p {
+                font-size: 1rem;
+                text-align: center;
+                margin: 0;
+            }
+
+            img {
+                width: 168px;
+                height: 168px;
+                border-radius: 8px;
+                border: 8px solid white;
+                margin: 30px 0 60px 0;
+            }
+
+            button {
+                width: 350px;
+                font-weight: 700;
+                height: 56px;
+                border-radius: 10px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .pix-data {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 40px 25%;
+            border: 2px solid $darkBlueColor;
+
+            .line {
+                border-color: $darkBlueColor;
+                border-color: $darkBlueColor;
+                width: 100%;
+            }
+
+            .bank-data {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+
+                .item {
+                    display: flex;
+                    width: 100%;
+                    margin: 10px 0;
+
+                    span {
+                        flex: auto;
+
+                        &:first-child {
+                            font-weight: 700;
+                        }
+
+                        &:last-child {
+                            justify-content: flex-end;
+                            display: flex;
+                            margin-left: 30px;
+                            text-align: right;
+                        }
+
+                        .button {
+                            height: auto;
+                            width: auto;
+                            border: 0;
+                            font-weight: 700;
+                            padding: 0;
+
+                            &:hover {
+                                background-color: transparent;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: $mobile) {
+            .qr-data {
+                padding: 20px;
+
+                .button {
+                    width: 100%;
+                }
+
+            }
+
+            .pix-data {
+                padding: 20px;
+            }
+        }
+    }
+}

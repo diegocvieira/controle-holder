@@ -87,11 +87,19 @@
     "file": "assets/logo-72bb548d.png",
     "src": "resources/images/logo.png"
   },
+  "resources/images/pix.png": {
+    "file": "assets/pix-5f0bd96e.png",
+    "src": "resources/images/pix.png"
+  },
+  "resources/images/social-banner.png": {
+    "file": "assets/social-banner-e04cce1b.png",
+    "src": "resources/images/social-banner.png"
+  },
   "resources/js/app.js": {
     "assets": [
       "assets/logo-72bb548d.png"
     ],
-    "file": "assets/app-a1842dc2.js",
+    "file": "assets/app-e9099e06.js",
     "imports": [
       "_vue-10d67cef.js",
       "_axios-21b846bc.js",
@@ -107,7 +115,7 @@
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-68998232.css",
+    "file": "assets/app-5afd6d83.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
