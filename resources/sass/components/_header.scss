@@ -165,6 +165,11 @@
 }
 
 @media screen and (max-width: $desktop) {
+    #header {
+        background-color: $darkGreyColor;
+        box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
     #aside {
         position: fixed;
         width: 0;
