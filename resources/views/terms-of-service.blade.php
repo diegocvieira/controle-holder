@@ -1,6 +1,5 @@
 @extends('layouts.dashboard', [
     'page' => 'terms-of-service',
-    'isLogged' => auth()->check(),
     'headerComponent' => true,
     'metaTitle' => 'Termos de Serviço'
 ])

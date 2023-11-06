@@ -1,6 +1,5 @@
 @extends('layouts.dashboard', [
     'page' => 'privacy-policy',
-    'isLogged' => auth()->check(),
     'headerComponent' => true,
     'metaTitle' => 'Política de Privacidade'
 ])

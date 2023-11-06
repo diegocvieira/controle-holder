@@ -1,6 +1,5 @@
 @extends('layouts.dashboard', [
     'page' => 'contribute',
-    'isLogged' => auth()->check(),
     'headerComponent' => true,
     'metaTitle' => 'Nos compre um café'
 ])
