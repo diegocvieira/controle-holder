@@ -83,6 +83,10 @@
     "file": "assets/site-9b60ba1a.webmanifest",
     "src": "resources/images/favicons/site.webmanifest"
   },
+  "resources/images/investment-banner.webp": {
+    "file": "assets/investment-banner-e13a2a03.webp",
+    "src": "resources/images/investment-banner.webp"
+  },
   "resources/images/logo.png": {
     "file": "assets/logo-72bb548d.png",
     "src": "resources/images/logo.png"
@@ -99,7 +103,7 @@
     "assets": [
       "assets/logo-72bb548d.png"
     ],
-    "file": "assets/app-e9099e06.js",
+    "file": "assets/app-b65fa3d5.js",
     "imports": [
       "_vue-10d67cef.js",
       "_axios-21b846bc.js",
@@ -115,7 +119,7 @@
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-5afd6d83.css",
+    "file": "assets/app-0555b89e.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }

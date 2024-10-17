@@ -106,6 +106,12 @@ function loadPageScript() {
                 'HeaderComponent': HeaderComponent
             },
             plugins: [CopyToClipboardPlugin]
+        },
+        'home-page': {
+            component: {},
+            extraComponents: {
+                'HeaderComponent': HeaderComponent
+            }
         }
     };
 
