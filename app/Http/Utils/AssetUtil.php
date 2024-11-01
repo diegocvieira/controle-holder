@@ -72,7 +72,7 @@ class AssetUtil
         return $price;
     }
 
-    public function getPriceFromCache(string $assetClass, string $ticker): string
+    public function getPriceFromCache(string $assetClass, string $ticker): ?string
     {
         if ($assetClass === 'renda-fixa') {
             return "1.00";
