@@ -1,0 +1,58 @@
+@use '../system/variables';
+
+#target-asset-classes-page {
+    .asset-classes {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-top: 50px;
+
+        .asset-class {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid variables.$darkWhiteColor;
+            min-width: 300px;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+
+            @media screen and (max-width: variables.$mobile) {
+                width: 100%;
+            }
+
+            &__percentage {
+                background-color: variables.$darkGreyColor;
+                width: 34px;
+                height: 34px;
+                border-radius: 5px;
+                color: variables.$whiteColor;
+                font-size: 0.6rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: auto
+            }
+
+            &__icon {
+                width: 44px;
+                height: 44px;
+                margin: 10px auto 0 auto;
+                color: variables.$greyColor;
+
+                svg {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            &__title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin: 15px 0;
+                color: variables.$greyColor;
+            }
+        }
+    }
+}
