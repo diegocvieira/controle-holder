@@ -1,0 +1,72 @@
+@use '../system/variables.scss';
+
+.notification {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 390px;
+    z-index: 50;
+    overflow: hidden;
+    padding: 1.5rem;
+
+    &.success {
+        .notification__content {
+            border-color: variables.$greenColor;
+
+            .notification__content__background {
+                background-color: variables.$darkGreenColor;
+            }
+        }
+    }
+
+    &__content {
+        background-color: variables.$blackColor;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        transition-duration: .15s;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        border-radius: .375rem;
+        animation: slideIn .15s ease-out;
+        border: 1px solid variables.$redColor;
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+
+        &__background {
+            background-color: variables.$darkRedColor;
+            filter: blur(16px);
+            border-radius: 9999px;
+            width: 160px;
+            height: 200px;
+            top: -1rem;
+            left: -5rem;
+            position: absolute;
+        }
+
+        &__icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 15px;
+        }
+
+        &__description {
+            color: variables.$whiteColor;
+            font-weight: 600;
+            font-size: .875rem;
+        }
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(100px) scale(.85);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}

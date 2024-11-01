@@ -1,0 +1,121 @@
+@use '../system/variables.scss';
+
+.modal {
+    animation: fade-in .2s ease;
+    background-color: variables.$transparentBlackColor;
+    z-index: 40;
+    inset: 0;
+    position: fixed;
+
+    &__content {
+        animation: open-scale-in-fade .2s ease-in-out;
+        border-radius: 10px;
+        background: variables.$blackColor;
+        transition-duration: .2s;
+        border: 1px solid variables.$darkWhiteColor;
+        padding: 2rem;
+        transform: translate(-50%,-50%);
+        max-width: 32rem;
+        width: 100%;
+        max-height: 90vh;
+        top: 50%;
+        left: 50%;
+        position: fixed;
+
+        &__header {
+            display: flex;
+            margin-bottom: 1.5rem;
+
+            &__title {
+                color: variables.$whiteColor;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            &__close-button {
+                background-color: transparent;
+                border: 0;
+                margin-left: auto;
+                color: variables.$greyColor;
+                transition: .2s ease;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 1.5rem;
+                height: 1.5rem;
+                padding: 0;
+
+                &:hover {
+                    background-color: variables.$darkGreyColor;
+                }
+            }
+        }
+
+        &__body {
+            &__description {
+                color: variables.$greyColor;
+                margin: 0;
+                font-size: .875rem;
+            }
+        }
+
+        &__footer {
+            display: flex;
+            gap: .5rem;
+
+            &__button {
+                background-color: transparent;
+                border: 0;
+                transition: .2s ease;
+                color: variables.$greyColor;
+                cursor: pointer;
+                border-radius: 5px;
+                width: auto;
+                height: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: .875rem;
+                font-weight: 600;
+                margin-top: 1.5rem;
+                padding: 0 .75rem;
+
+                &:hover {
+                    background-color: variables.$darkGreyColor;
+                }
+
+                &.is-red-button {
+                    color: variables.$lightRedColor;
+                    background-color: variables.$darkRedColor;
+
+                    &:hover {
+                        background-color: variables.$redColor;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes open-scale-in-fade {
+    0% {
+        opacity: 0;
+        transform: scale(.98);
+        animation-composition: add, accumulate;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        animation-composition: add, accumulate;
+    }
+}

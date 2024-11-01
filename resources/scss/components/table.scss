@@ -1,0 +1,87 @@
+@use '../system/variables';
+
+.table {
+    margin-top: 50px;
+    text-align: center;
+    overflow: auto;
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+
+        thead {
+            th {
+                border: 1px solid variables.$darkWhiteColor;
+                border-left-width: 0;
+                border-right-width: 0;
+                background-color: variables.$darkestGreyColor;
+                font-weight: 600;
+                color: variables.$greyColor;
+                font-size: .75rem;
+                padding: 10px;
+
+                &:first-child {
+                    border-left-width: 1px;
+                    border-radius: 5px 0 0 5px;
+                }
+
+                &:last-child {
+                    border-right-width: 1px;
+                    border-radius: 0 5px 5px 0;
+                }
+            }
+        }
+
+        tbody {
+            td {
+                font-size: .875rem;
+                color: variables.$whiteColor;
+                padding: 20px;
+                border-bottom: 1px solid variables.$darkWhiteColor;
+
+                .asset-class {
+                    border-radius: 5px;
+                    padding: 5px 10px;
+
+                    &.acoes {
+                        background-color: variables.$redColor;
+                    }
+
+                    &.fiis {
+                        background-color: variables.$blueColor;
+                    }
+
+                    &.criptomoedas {
+                        background-color: variables.$yellowColor;
+                    }
+
+                    &.renda-fixa {
+                        background-color: variables.$greenColor;
+                    }
+                }
+
+                .button {
+                    cursor: pointer;
+                    padding: 5px;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    background-color: transparent;
+                    border: 0;
+                    color: variables.$greyColor;
+                    transition: .2s ease;
+                    border-radius: 5px;
+                    margin: 0 3px;
+
+                    &:hover {
+                        background-color: variables.$darkGreyColor;
+                    }
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+@use '../system/variables';
+
+#aside {
+    width: 300px;
+    height: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #e1f2fe2f;
+
+    @media (max-width: variables.$mobile) {
+        display: none;
+    }
+
+    .logo {
+
+    }
+
+    nav {
+        margin-top: 50px;
+        height: 100%;
+
+        ul {
+            height: 100%;
+            flex-direction: column;
+            display: flex;
+
+            li {
+                margin: 5px 0;
+
+                &:last-child {
+                    margin-top: auto;
+                }
+
+                a {
+                    font-size: .875rem;
+                    color: variables.$greyColor;
+                    transition: .2s ease;
+                    border-radius: 5px;
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+
+                    &:hover, &.is-active {
+                        background-color: variables.$darkestGreyColor;
+                        color: variables.$whiteColor;
+                    }
+
+                    svg {
+                        width: 18px;
+                        height: 18px;
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
