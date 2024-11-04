@@ -26,7 +26,7 @@ class BrapiClient
     {
         $data = $this->request($ticker);
 
-        return $data['longName'];
+        return $data['longName'] ?? '';
     }
 
     public function getAssetPrice(string $assetClass, string $ticker): float
