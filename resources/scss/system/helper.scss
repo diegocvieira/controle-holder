@@ -1,3 +1,5 @@
+@use 'variables';
+
 .is-relative {
     position: relative;
 }
@@ -22,6 +24,14 @@
     margin-left: 5px;
 }
 
+.padding-1 {
+    padding: 1rem;
+}
+
+.max-width-70 {
+    max-width: 70rem;
+}
+
 .max-w-450 {
     max-width: 450px;
 }
@@ -32,4 +42,8 @@
 
 .font-bold {
     font-weight: 700;
+}
+
+.border-top {
+    border-top: 1px solid variables.$darkWhiteColor;
 }

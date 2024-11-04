@@ -2,12 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
+import userRoutes from './routes/user.js';
 
 import { useAuthStore } from '@/stores/auth.js';
 
 const routes = [
     ...authRoutes,
     ...dashboardRoutes,
+    ...userRoutes,
     // {
     //     path: '/:pathMatch(.*)*',
     //     name: 'notFound',

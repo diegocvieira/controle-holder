@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AssetClassController;
 use App\Http\Controllers\Api\User\AssetClassController as UserAssetClassController;
 use App\Http\Controllers\Api\User\AssetController as UserAssetController;
 use App\Http\Controllers\Api\PriceController;
+use App\Http\Controllers\Api\User\ProfileController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -20,6 +21,12 @@ Route::get('/asset-classes', [AssetClassController::class, 'index'])->middleware
 Route::post('/prices', [PriceController::class, 'getPrice'])->middleware('auth:sanctum');
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/', 'show');
+        Route::put('/', 'updateProfile');
+        Route::put('/password', 'updatePassword');
+    });
+
     Route::prefix('asset-classes')->controller(UserAssetClassController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('/', 'store');

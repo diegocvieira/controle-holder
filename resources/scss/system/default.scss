@@ -21,14 +21,20 @@ body {
 #layout-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - 250px);
     height: 100%;
+
+    @media (max-width: variables.$mobile) {
+        width: 100%;
+    }
 }
 
 main {
     padding: 2rem;
     overflow-y: auto;
     width: 100%;
+    max-width: 64rem;
+    margin: 0 auto;
 }
 
 .container {
@@ -76,7 +82,7 @@ main {
 
 .page-title {
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.8rem;
     color: #FCFDFFEF;
     margin: 0 0 3rem 0;
 }
