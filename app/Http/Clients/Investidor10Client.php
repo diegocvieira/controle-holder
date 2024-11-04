@@ -57,8 +57,6 @@ class Investidor10Client
             $price = $xpath->query('//div[@class="_card cotacao"]//span[@class="value"]')->item(0)->nodeValue ?? '';
         }
 
-        // return $price;
-
         $price = preg_replace('/[^\d,.]+/', '', $price);
         return number_format(str_replace(['.', ','], ['', '.'], $price), 2, '.', '');
     }
