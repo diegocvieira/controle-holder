@@ -3,7 +3,7 @@
         <h1 class="page-title">Meta de ativos</h1>
 
         <div class="asset-classes">
-            <div class="asset-class" v-for="(assetClass, index) in assetClasses" :key="index">
+            <div class="asset-class" v-for="(assetClass, index) in this.userAssetClassStore.assetClasses" :key="index">
                 <input type="radio" name="asset_class" :value="assetClass.slug" v-model="selectedAssetClass" :id="assetClass.slug" class="is-hidden asset-class__input" />
                 <label :for="assetClass.slug" class="asset-class__label">{{ assetClass.name }}</label>
             </div>
@@ -102,6 +102,9 @@
 import Modal from '@/components/Modal.vue';
 import Notification from '@/components/Notification.vue';
 
+import { useUserAssetClassStore } from '@/stores/userAssetClass';
+import { useUserAssetStore } from '@/stores/userAsset';
+
 export default {
     components: {
         Modal,
@@ -109,8 +112,6 @@ export default {
     },
     data() {
         return {
-            assetClasses: [],
-            assets: [],
             selectedAssetClass: '',
             selectedAsset: {},
             form: {
@@ -121,12 +122,19 @@ export default {
         }
     },
     computed: {
+        userAssetClassStore() {
+            return useUserAssetClassStore();
+        },
+        userAssetStore() {
+            return useUserAssetStore();
+        },
         filteredAssets() {
-            return this.assets.filter(asset => asset.asset_class === this.selectedAssetClass);
+            return this.userAssetStore.assets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
         }
     },
     methods: {
         addAsset() {
+            const assetClass = this.userAssetClassStore.assetClasses.find(assetClass => assetClass.slug === this.selectedAssetClass);
             const data = {
                 ticker: this.form.ticker.toUpperCase(),
                 quantity: this.form.quantity,
@@ -134,18 +142,8 @@ export default {
                 asset_class: this.selectedAssetClass
             };
 
-            axios.post('/api/user/assets', data, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-                })
+            this.userAssetStore.create(data, assetClass)
                 .then(() => {
-                    this.assets.push({
-                        ticker: data.ticker,
-                        quantity: data.quantity,
-                        rating: data.rating,
-                        asset_class: this.selectedAssetClass,
-                        idealPercentage: 0
-                    });
-
                     this.form = { ticker: '', quantity: '', rating: '' };
 
                     this.$refs.notification.showSuccess('Ativo adicionado com sucesso.');
@@ -163,15 +161,10 @@ export default {
                 'ticker': this.selectedAsset.ticker,
                 'quantity': this.selectedAsset.quantity,
                 'rating': this.selectedAsset.rating
-            }
+            };
 
-            axios.put('/api/user/assets', data, {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-                })
+            this.userAssetStore.update(data)
                 .then(() => {
-                    const asset = this.assets.find(asset => asset.ticker === this.selectedAsset.ticker);
-                    Object.assign(asset, this.selectedAsset);
-
                     this.$refs.notification.showSuccess('Ativo alterado com sucesso.');
                     this.$refs.editAssetModal.hide();
                 })
@@ -184,12 +177,8 @@ export default {
             this.$refs.deleteAssetModal.show();
         },
         deleteAsset() {
-            axios.delete(`/api/user/assets/${this.selectedAsset.ticker}`, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                })
+            this.userAssetStore.delete(this.selectedAsset.ticker)
                 .then(() => {
-                    this.assets = this.assets.filter(asset => asset.ticker !== this.selectedAsset.ticker);
-
                     this.$refs.notification.showSuccess('Ativo excluído com sucesso.');
                     this.$refs.deleteAssetModal.hide();
                 })
@@ -197,69 +186,54 @@ export default {
                     this.$refs.notification.showError(error.response?.data?.message ?? 'Ocorreu um erro inesperado.');
                 });
         },
-        getUserAssetClasses() {
-            return axios.get('/api/user/asset-classes', {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-                })
-                .then(response => {
-                    const data = response.data.data;
-
-                    data.forEach(userAssetClass => {
-                        this.assetClasses.push({
-                            name: userAssetClass.asset_class.name,
-                            slug: userAssetClass.asset_class.slug
-                        });
-                    });
-
-                    this.selectedAssetClass = data[0]?.asset_class.slug;
+        getAssetClasses() {
+            return this.userAssetClassStore.getAssetClasses()
+                .then(() => {
+                    this.selectedAssetClass = this.userAssetClassStore.assetClasses[0]?.slug;
                 })
                 .catch(() => {
                     this.$refs.notification.showError('Ocorreu um erro ao carregar suas classes de ativos.');
                 });
         },
         getAssets() {
-            axios.get('/api/user/assets', {
-                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-                })
-                .then(response => {
-                    response.data.data.map(asset => {
-                        this.assets.push({
-                            ticker: asset.ticker,
-                            quantity: asset.quantity,
-                            rating: asset.rating,
-                            asset_class: asset.asset_class.slug,
-                            idealPercentage: 0
-                        });
-                    });
+            return this.userAssetStore.getAssets()
+                .then(() => {
+                    this.setAssetsIdealPercentage();
+                    this.sortAssetsByRating();
                 })
                 .catch(() => {
                     this.$refs.notification.showError('Ocorreu um erro ao carregar seus ativos.');
                 });
+        },
+        setAssetsIdealPercentage() {
+            this.userAssetStore.assets.forEach(asset => {
+                const totalRatings = this.userAssetStore.assets.reduce((accumulator, currentValue) => {
+                    if (currentValue.assetClass.slug === asset.assetClass.slug) {
+                        return accumulator + parseFloat(currentValue.rating);
+                    } else {
+                        return accumulator;
+                    }
+                }, 0);
+
+                asset.idealPercentage = ((parseFloat(asset.rating) / totalRatings) * 100).toFixed(2);
+            });
+        },
+        sortAssetsByRating() {
+            this.userAssetStore.assets.sort((a, b) => b.rating - a.rating);
         }
     },
     async created () {
-        await this.getUserAssetClasses();
+        await this.getAssetClasses();
         this.getAssets();
     },
     updated () {
         // this.$refs.loader.show = false;
     },
     watch: {
-        assets: {
-            handler(assets) {
-                assets.map((asset) => {
-                    const totalRatings = assets.reduce((accumulator, currentValue) => {
-                        if (currentValue.asset_class === asset.asset_class) {
-                            return accumulator + parseFloat(currentValue.rating);
-                        } else {
-                            return accumulator;
-                        }
-                    }, 0);
-
-                    asset.idealPercentage = ((parseFloat(asset.rating) / totalRatings) * 100).toFixed(2);
-                });
-
-                assets.sort((a, b) => b.rating - a.rating);
+        'userAssetStore.assets': {
+            handler() {
+                this.setAssetsIdealPercentage();
+                this.sortAssetsByRating();
             },
             deep: true
         }

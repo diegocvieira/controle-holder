@@ -1,5 +1,5 @@
 <template>
-    <main id="target-assets-page">
+    <main id="target-assets-page" class="max-width-70">
         <h1 class="page-title">Rebalanceamento</h1>
 
         <form method="POST" class="form inline-form" @submit.prevent="calculateInvestment">
@@ -12,7 +12,7 @@
             </div>
         </form>
 
-        <template v-if="assets.length > 0">
+        <template v-if="userAssetStore.assets.length > 0">
             <div class="table">
                 <table>
                     <thead>
@@ -33,13 +33,13 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(asset, assetKey) in assets" :key="assetKey">
+                        <tr v-for="(asset, assetKey) in userAssetStore.assets" :key="assetKey">
                             <td>{{ assetKey + 1 }}</td>
                             <td><span :class="'asset-class ' + asset.assetClass.slug">{{ asset.assetClass.name }}</span></td>
                             <td>{{ asset.ticker }}</td>
                             <td>{{ asset.price ? formatPrice(asset.price) : '-' }}</td>
                             <td>{{ asset.quantity }}</td>
-                            <td>{{ asset.investedAmount ? formatPrice(asset.investedAmount) : '-' }}</td>
+                            <td>{{ asset.price ? formatPrice((asset.quantity * asset.price).toFixed(2)) : '-' }}</td>
                             <td>{{ asset.idealPercentage }}%</td>
                             <td>{{ asset.currentPercentage ? asset.currentPercentage + '%' : '-' }}</td>
                             <td>{{ asset.currentPercentage ? (asset.idealPercentage - asset.currentPercentage).toFixed(2) + '%' : '-' }}</td>
@@ -67,6 +67,8 @@
 import Modal from '@/components/Modal.vue';
 import Notification from '@/components/Notification.vue';
 
+import { useUserAssetStore } from '@/stores/userAsset';
+
 export default {
     components: {
         Modal,
@@ -74,8 +76,12 @@ export default {
     },
     data() {
         return {
-            assets: [],
             investmentAmount: 'R$ 0,00'
+        }
+    },
+    computed: {
+        userAssetStore() {
+            return useUserAssetStore();
         }
     },
     methods: {
@@ -93,60 +99,15 @@ export default {
             }).format(numericValue / 100);
         },
         getAssets() {
-            axios.get('/api/user/assets', {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                })
-                .then(response => {
-                    const assets = response.data.data;
-                    const totalRatings = assets.reduce((accumulator, currentValue) => {
-                        return accumulator + currentValue.rating;
-                    }, 0);
-
-                    assets.map(asset => {
-                        this.assets.push({
-                            ticker: asset.ticker,
-                            quantity: asset.quantity,
-                            rating: asset.rating,
-                            idealPercentage: ((asset.rating / totalRatings) * 100).toFixed(2),
-                            currentPercentage: 0,
-                            investedAmount: null,
-                            price: asset.price ? asset.price : null,
-                            assetClass: {
-                                name: asset.asset_class.name,
-                                slug: asset.asset_class.slug
-                            },
-                            investmentQuantity: 0,
-                            investmentAmount: 0
-                        });
-                    });
-
-                    this.getAssetsPrice();
+            this.userAssetStore.getAssets()
+                .then(() => {
+                    this.setAssetsPercentages();
+                    this.sortAssetsByClass();
+                    this.userAssetStore.getPrices();
                 })
                 .catch(() => {
                     this.$refs.notification.showError('Ocorreu um erro ao carregar seus ativos.');
                 });
-        },
-        getAssetsPrice() {
-            this.assets.forEach(asset => {
-                if (asset.price) {
-                    return;
-                }
-
-                const data = {
-                    ticker: asset.ticker,
-                    asset_class: asset.assetClass.slug
-                };
-
-                axios.post('/api/prices', data, {
-                        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                    })
-                    .then(response => {
-                        asset.price = response.data.data.price;
-                    })
-                    .catch(() => {
-                        this.$refs.notification.showError(`Não foi possível carregar o preço do ativo ${asset.ticker}.`);
-                    });
-            });
         },
         sortAssetsByInvestmentDifference(assets, remainingAmount) {
             return assets.sort((a, b) => {
@@ -164,7 +125,7 @@ export default {
         calculateInvestment() {
             if (!this.investmentAmount) {
                 return;
-            } else if (this.assets.length === 0) {
+            } else if (this.userAssetStore.assets.length === 0) {
                 this.$refs.notification.showError('Você ainda não tem nenhum ativo cadastrado.');
                 return;
             }
@@ -173,7 +134,7 @@ export default {
             let totalInvestedValue = 0;
             let remainingAmount = 0;
             let stopCalculating = false;
-            const assets = JSON.parse(JSON.stringify(this.assets));
+            const assets = JSON.parse(JSON.stringify(this.userAssetStore.assets));
 
             this.sortAssetsByInvestmentDifference(assets, remainingAmount);
 
@@ -187,9 +148,7 @@ export default {
                     totalInvestedValue += Number(asset.price);
                     remainingAmount = totalValue - totalInvestedValue;
 
-                    const totalAmount = assets.reduce((accumulator, currentValue) => {
-                        return accumulator + currentValue.quantity * currentValue.price;
-                    }, 0);
+                    const totalAmount = assets.reduce((accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.price, 0);
                     asset.currentPercentage = (asset.quantity * asset.price / totalAmount * 100).toFixed(2);
 
                     this.sortAssetsByInvestmentDifference(assets, remainingAmount);
@@ -197,11 +156,29 @@ export default {
             }
 
             assets.forEach(asset => {
-                const assetSelected = this.assets.find(data => data.ticker === asset.ticker);
+                const assetSelected = this.userAssetStore.assets.find(data => data.ticker === asset.ticker);
                 assetSelected.investmentQuantity = asset.quantity - assetSelected.quantity;
                 assetSelected.investmentAmount = (assetSelected.investmentQuantity * asset.price).toFixed(2);
             });
         },
+        setAssetsPercentages() {
+            const totalRatings = this.userAssetStore.assets.reduce((accumulator, currentValue) => accumulator + currentValue.rating, 0);
+            const totalAmount = this.userAssetStore.assets.reduce((accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.price, 0);
+
+            this.userAssetStore.assets.forEach(function(asset) {
+                asset.currentPercentage = asset.price ? (asset.quantity * asset.price / totalAmount * 100).toFixed(2) : null;
+                asset.idealPercentage = ((asset.rating / totalRatings) * 100).toFixed(2);
+            });
+        },
+        sortAssetsByClass() {
+            this.userAssetStore.assets.sort((a, b) => {
+                if (a.assetClass.slug !== b.assetClass.slug) {
+                    return a.assetClass.slug.localeCompare(b.assetClass.slug);
+                }
+
+                return b.rating - a.rating;
+            });
+        }
     },
     async created () {
         this.getAssets();
@@ -210,25 +187,10 @@ export default {
         // this.$refs.loader.show = false;
     },
     watch: {
-        assets: {
-            handler(assets) {
-                const totalAmount = assets.reduce((accumulator, currentValue) => {
-                    return accumulator + currentValue.quantity * currentValue.price;
-                }, 0);
-
-                assets.forEach(function(asset) {
-                    console.log(asset);
-                    asset.currentPercentage = asset.price ? (asset.quantity * asset.price / totalAmount * 100).toFixed(2) : null;
-                    asset.investedAmount = asset.price ? (asset.quantity * asset.price).toFixed(2) : null;
-                });
-
-                assets.sort((a, b) => {
-                    if (a.assetClass.slug !== b.assetClass.slug) {
-                        return a.assetClass.slug.localeCompare(b.assetClass.slug);
-                    }
-
-                    return b.rating - a.rating;
-                });
+        'userAssetStore.assets': {
+            handler() {
+                this.setAssetsPercentages();
+                this.sortAssetsByClass();
             },
             deep: true
         }

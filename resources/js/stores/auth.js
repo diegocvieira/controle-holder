@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 // import { useLoaderStore } from '@/stores/loader';
 // import { useModalStore } from '@/stores/modal';
 // import { getErrorMessage } from '@/utils/errorHandler';
-// import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user';
 
 export const useAuthStore = defineStore('authStore', {
     state: () => {
@@ -14,12 +14,8 @@ export const useAuthStore = defineStore('authStore', {
     },
     getters: {
         check(state) {
-            // return state.user ? true : false;
             return localStorage.getItem('token') ? true : false;
-        },
-        // isAdmin(state) {
-        //     return state.user.is_admin;
-        // }
+        }
     },
     actions: {
         async generateCSRF() {
@@ -54,31 +50,21 @@ export const useAuthStore = defineStore('authStore', {
                 // .catch(error => modalStore.show(getErrorMessage(error)))
                 // .finally(() => loaderStore.hide());
         },
-        async getUser() {
-            // if (!localStorage.getItem('token')) {
-            //     return;
-            // }
-
-            // await axios.get('/api/user', {
-            //         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
-            //     })
-            //     .then(response => this.user = response.data.data);
-        },
         async logout() {
             // const loaderStore = useLoaderStore();
             // const modalStore = useModalStore();
-            // const userStore = useUserStore();
+            const userStore = useUserStore();
 
             // loaderStore.show();
 
-            await axios.post('/api/logout', {}, {
+            await axios.post('/api/auth/logout', {}, {
                     headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
                 })
                 .then(() => {
                     this.token = null;
                     this.user = null;
                     localStorage.removeItem('token');
-                    // userStore.resetUser();
+                    userStore.resetData();
 
                     this.router.push({ name: 'login' });
                 });

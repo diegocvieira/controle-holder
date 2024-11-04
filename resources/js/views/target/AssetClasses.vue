@@ -5,7 +5,7 @@
         <vue-slider-component v-model="progressBar" v-bind="{ disabled: true, tooltip: 'always', dotSize: 20, tooltipPlacement: 'bottom' }" :tooltip-formatter="'{value}%'"></vue-slider-component>
 
         <div class="asset-classes">
-            <div class="asset-class" v-for="(assetClass, index) in assetClasses" :key="index">
+            <div class="asset-class" v-for="(assetClass, index) in this.assetClassStore.assetClasses" :key="index">
                 <div class="asset-class__percentage">{{ assetClass.percentage }}%</div>
 
                 <div class="asset-class__icon">
@@ -23,108 +23,109 @@
 
                 <h3 class="asset-class__title">{{ assetClass.name }}</h3>
 
-                <vue-slider-component :ref="assetClass.slider" v-model="assetClass.percentage" v-bind="{ tooltip: 'none', dotSize: 15 }" @drag-end="saveAssetClasses(assetClass.slug)"></vue-slider-component>
+                <vue-slider-component
+                    :ref="`${assetClass.slug}_slider`"
+                    v-model="assetClass.percentage"
+                    v-bind="{ tooltip: 'none', dotSize: 15, clickable: false }"
+                    @drag-end="saveAssetClasses(assetClass.slug)"
+                    @drag-start="setAssetClass(assetClass)"
+                ></vue-slider-component>
             </div>
         </div>
+
+        <Notification ref="notification"></Notification>
     </main>
 </template>
 
 <script>
 import VueSliderComponent from 'vue-slider-component';
+import Notification from '@/components/Notification.vue';
+
+import { useAssetClassStore } from '@/stores/assetClass';
+import { useUserAssetClassStore } from '@/stores/userAssetClass';
 
 export default {
     components: {
-        VueSliderComponent
+        VueSliderComponent,
+        Notification
     },
     data() {
         return {
             progressBar: 0,
-            assetClasses: []
+            assetClassSelected: null
+        }
+    },
+    computed: {
+        assetClassStore() {
+            return useAssetClassStore();
+        },
+        userAssetClassStore() {
+            return useUserAssetClassStore();
         }
     },
     methods: {
         getAssetClasses() {
-            return axios.get('/api/asset-classes', {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                })
-                .then(response => {
-                    this.assetClasses = response.data.data.map(assetClass => {
-                        return {
-                            name: assetClass.name,
-                            slug: assetClass.slug,
-                            percentage: 0,
-                            last_percentage: 0,
-                            slider: `slider_${assetClass.slug}`
-                        };
-                    });
-                })
-                .catch(error => console.log(error));
+            return this.assetClassStore.getAssetClasses()
+                .catch(error => {
+                    console.log(error);
+                });
         },
         getUserAssetClasses() {
-            return axios.get('/api/user/asset-classes', {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                })
-                .then(response => {
-                    response.data.data.forEach(userAssetClass => {
-                        const assetClass = this.assetClasses.find(assetClass => assetClass.slug === userAssetClass.asset_class.slug);
-
+            return this.userAssetClassStore.getAssetClasses()
+                .then(() => {
+                    this.userAssetClassStore.assetClasses.forEach(userAssetClass => {
+                        const assetClass = this.assetClassStore.assetClasses.find(assetClass => assetClass.slug === userAssetClass.slug);
                         assetClass.percentage = userAssetClass.percentage;
-                        assetClass.last_percentage = 0;
                     });
                 })
                 .catch(error => console.log(error));
         },
         saveAssetClasses(assetClassSlug) {
-            const assetClass = this.assetClasses.find(assetClass => assetClass.slug === assetClassSlug);
-
-            if (assetClass.last_percentage === assetClass.percentage) {
+            if (this.progressBar > 100) {
                 return;
             }
 
-            assetClass.last_percentage = assetClass.percentage;
+            const assetClass = this.assetClassStore.assetClasses.find(assetClass => assetClass.slug === assetClassSlug);
 
             const data = {
                 slug: assetClass.slug,
                 percentage: assetClass.percentage
             };
 
-            axios.post('/api/user/asset-classes', data, {
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-                })
-                .catch(error => console.log(error));
+            this.userAssetClassStore.save(data)
+                .catch(error => {
+                    this.$refs.notification.showError(error.response?.data?.message ?? 'Ocorreu um erro inesperado.');
+                });
+        },
+        setAssetClass(assetClass) {
+            this.assetClassSelected = assetClass;
+        },
+        setProgressBar() {
+            this.progressBar = this.assetClassStore.assetClasses.reduce((total, assetClass) => total + assetClass.percentage, 0);
+
+            if (this.progressBar > 100) {
+                const newPercentage = this.assetClassSelected.percentage - 1;
+
+                this.assetClassSelected.percentage = newPercentage;
+
+                this.$nextTick(() => {
+                    this.$refs[`${this.assetClassSelected.slug}_slider`][0].setValue(newPercentage);
+                });
+            }
         }
     },
     async created() {
         await this.getAssetClasses();
         await this.getUserAssetClasses();
+        this.setProgressBar();
     },
     updated() {
         // this.$refs.loader.show = false;
     },
     watch: {
-        assetClasses: {
-            handler(assetClasses) {
-                let indexChanged = null;
-                this.progressBar = 0;
-
-                assetClasses.map((assetClass, index) => {
-                    if (assetClass.percentage !== assetClass.last_percentage) {
-                        indexChanged = index;
-                    }
-
-                    this.progressBar += assetClass.percentage;
-                });
-
-                if (this.progressBar > 100 && indexChanged !== null) {
-                    const assetChanged = assetClasses[indexChanged];
-                    const newPercentage = assetChanged.percentage - 1;
-
-                    assetChanged.percentage = newPercentage;
-
-                    this.$nextTick(() => {
-                        this.$refs[assetChanged.slider][0].setValue(newPercentage);
-                    });
-                }
+        'assetClassStore.assetClasses': {
+            handler() {
+                this.setProgressBar();
             },
             deep: true
         }

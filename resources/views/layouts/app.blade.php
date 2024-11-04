@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#05050a">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Encontre as melhores ofertas e condições para comprar e vender passagens aéreas. O jeito mais seguro de viajar gastando menos ou lucrar com suas milhas.">
     <meta name="keywords" content="viagem, viajar, passagem, voo, oferta">

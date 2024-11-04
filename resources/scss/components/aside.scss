@@ -1,7 +1,7 @@
 @use '../system/variables';
 
 #aside {
-    width: 300px;
+    width: 250px;
     height: 100%;
     padding: 15px;
     display: flex;
@@ -10,10 +10,6 @@
 
     @media (max-width: variables.$mobile) {
         display: none;
-    }
-
-    .logo {
-
     }
 
     nav {
