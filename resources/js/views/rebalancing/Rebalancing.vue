@@ -64,14 +64,12 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
 import Notification from '@/components/Notification.vue';
 
 import { useUserAssetStore } from '@/stores/userAsset';
 
 export default {
     components: {
-        Modal,
         Notification
     },
     data() {
