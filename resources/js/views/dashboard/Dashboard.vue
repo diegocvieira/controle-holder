@@ -1,87 +1,124 @@
 <template>
-    <Aside page="dashboard"></Aside>
+    <main id="dashboard-page" class="max-width-70">
+        <h1 class="page-title">Visão geral</h1>
 
-    <div id="layout-content">
-        <Header page="dashboard"></Header>
+        <div class="asset-classes">
+            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.assetClasses" :key="index">
+                <input type="radio" name="asset_class" :value="assetClass.slug" v-model="selectedAssetClass" :id="assetClass.slug" class="is-hidden asset-class__input" />
+                <label :for="assetClass.slug" class="asset-class__label">{{ assetClass.name }}</label>
+            </div>
+        </div>
 
-        <main id="dashboard-page">
-            <h2>Conteúdo Principal</h2>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-            <p>Este é o conteúdo principal da página. Ele fica abaixo do header e ao lado do aside.</p>
-        </main>
-    </div>
+        <div v-if="filteredAssets.length > 0">
+            <div class="charts">
+                <div class="chart">
+                    <div class="chart__title">
+                        <h2>Atual</h2>
+                    </div>
+
+                    <PieChart :data="chartCurrent"></PieChart>
+                </div>
+
+                <div class="chart">
+                    <div class="chart__title">
+                        <h2>Meta</h2>
+                    </div>
+
+                    <PieChart :data="chartIdeal"></PieChart>
+                </div>
+            </div>
+        </div>
+        <div class="empty-content" v-else>
+            <h2>Ainda não há ativos</h2>
+            <p>Adicione ativos e eles aparecerão aqui.</p>
+        </div>
+
+        <Notification ref="notification"></Notification>
+    </main>
 </template>
 
 <script>
-import Aside from '@/components/Aside.vue';
-import Header from '@/components/Header.vue';
+import Notification from '@/components/Notification.vue';
+import PieChart from '@/components/PieChart.vue';
+
+import { useUserAssetClassStore } from '@/stores/userAssetClass';
+import { useUserAssetStore } from '@/stores/userAsset';
 
 export default {
     components: {
-        Aside,
-        Header
+        Notification,
+        PieChart
     },
+    data() {
+        return {
+            selectedAssetClass: '',
+            chartCurrent: {
+                data: [],
+                tooltipType: ''
+            },
+            chartIdeal: {
+                data: [],
+                tooltipType: 'percentage'
+            }
+        }
+    },
+    computed: {
+        userAssetClassStore() {
+            return useUserAssetClassStore();
+        },
+        userAssetStore() {
+            return useUserAssetStore();
+        },
+        filteredAssets() {
+            return this.userAssetStore.assets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
+        }
+    },
+    methods: {
+        getAssetClasses() {
+            return this.userAssetClassStore.getAssetClasses()
+                .then(() => {
+                    this.selectedAssetClass = this.userAssetClassStore.assetClasses[0]?.slug;
+                })
+                .catch(() => {
+                    this.$refs.notification.showError('Ocorreu um erro ao carregar suas classes de ativos.');
+                });
+        },
+        getAssets() {
+            return this.userAssetStore.getAssets()
+                .then(() => {
+                    this.userAssetStore.getPrices();
+                })
+                .catch(() => {
+                    this.$refs.notification.showError('Ocorreu um erro ao carregar seus ativos.');
+                });
+        },
+        loadGraphs() {
+            this.chartCurrent.data = this.filteredAssets.map(asset => ({
+                name: asset.ticker,
+                value: (asset.quantity * asset.price).toFixed(2)
+            }));
+
+            this.chartIdeal.data = this.filteredAssets.map(asset => ({
+                name: asset.ticker,
+                value: asset.rating
+            }));
+        }
+    },
+    async created () {
+        await this.getAssetClasses();
+        await this.getAssets();
+        this.loadGraphs();
+    },
+    updated () {
+        // this.$refs.loader.show = false;
+    },
+    watch: {
+        selectedAssetClass: {
+            handler(assetClass) {
+                this.chartIdeal.tooltipType = assetClass === 'asset-classes' ? 'percentage' : 'rating';
+                this.loadGraphs();
+            }
+        }
+    }
 };
 </script>

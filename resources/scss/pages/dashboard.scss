@@ -1,0 +1,55 @@
+@use '../system/variables';
+
+#dashboard-page {
+    .asset-classes {
+        display: flex;
+        margin: 0 0 3rem 0;
+        gap: 10px;
+
+        .asset-class {
+            &__input:checked + .asset-class__label {
+                color: variables.$whiteColor;
+                background-color: color(display-p3 0.882 0.953 0.996/0.111);
+            }
+
+            &__label:hover {
+                background-color: color(display-p3 0.882 0.953 0.996/0.111);
+            }
+
+            &__label {
+                color: variables.$greyColor;
+                font-weight: 600;
+                font-size: .875rem;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+        }
+    }
+
+    .charts {
+        display: flex;
+        gap: 20px;
+
+        .chart {
+            width: 50%;
+            height: 600px;
+            padding-bottom: 100px;
+            border-radius: .5rem;
+            border: 1px solid variables.$darkWhiteColor;
+
+            &__title {
+                border-bottom: 1px solid variables.$darkWhiteColor;
+                padding: 1rem;
+
+                h2 {
+                    color: variables.$whiteColor;
+                    font-weight: 700;
+                    margin: 0;
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}

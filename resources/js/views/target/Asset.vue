@@ -3,7 +3,7 @@
         <h1 class="page-title">Meta de ativos</h1>
 
         <div class="asset-classes">
-            <div class="asset-class" v-for="(assetClass, index) in this.userAssetClassStore.assetClasses" :key="index">
+            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.assetClasses" :key="index">
                 <input type="radio" name="asset_class" :value="assetClass.slug" v-model="selectedAssetClass" :id="assetClass.slug" class="is-hidden asset-class__input" />
                 <label :for="assetClass.slug" class="asset-class__label">{{ assetClass.name }}</label>
             </div>

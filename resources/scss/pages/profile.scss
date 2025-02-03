@@ -8,12 +8,12 @@
 
         &__section-title {
             border-bottom: 1px solid variables.$darkWhiteColor;
+            padding: 1rem;
 
             h2 {
                 font-size: 1rem;
                 color: variables.$whiteColor;
                 font-weight: 700;
-                padding: 1rem;
             }
         }
 
