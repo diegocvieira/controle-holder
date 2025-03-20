@@ -8,7 +8,7 @@
     <meta name="description" content="Encontre as melhores ofertas e condições para comprar e vender passagens aéreas. O jeito mais seguro de viajar gastando menos ou lucrar com suas milhas.">
     <meta name="keywords" content="viagem, viajar, passagem, voo, oferta">
 
-    <!-- <link rel="apple-touch-icon" sizes="57x57" href="{{ Vite::asset('resources/images/favicons/favicon@57x57.png') }}">
+    @php /*<link rel="apple-touch-icon" sizes="57x57" href="{{ Vite::asset('resources/images/favicons/favicon@57x57.png') }}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ Vite::asset('resources/images/favicons/favicon@60x60.png') }}">
     <link rel="apple-touch-icon" sizes="72x72" href="{{ Vite::asset('resources/images/favicons/favicon@72x72.png') }}">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ Vite::asset('resources/images/favicons/favicon@76x76.png') }}">
@@ -17,24 +17,24 @@
     <link rel="apple-touch-icon" sizes="144x144" href="{{ Vite::asset('resources/images/favicons/favicon@144x144.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ Vite::asset('resources/images/favicons/favicon@152x152.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ Vite::asset('resources/images/favicons/favicon@180x180.png') }}">
-    <link rel="icon shortcut" type="image/x-icon" href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}"> -->
+    <link rel="icon shortcut" type="image/x-icon" href="{{ Vite::asset('resources/images/favicons/favicon.ico') }}">*/ @endphp
 
     <title>Tripwall</title>
 
-    <!-- <link rel="preload" href="{{ Vite::asset('resources/files/DMSans.woff2') }}" as="font" type="font/woff2" crossorigin> -->
+    @php //<link rel="preload" href="{{ Vite::asset('resources/files/DMSans.woff2') }}" as="font" type="font/woff2" crossorigin> @endphp
 
     @vite('resources/scss/app.scss')
 
     <meta property="og:site_name" content="Tripwall"/>
     <meta property="og:title" content="Tripwall">
     <meta property="og:description" content="Encontre as melhores ofertas e condições para comprar e vender passagens aéreas. O jeito mais seguro de viajar gastando menos ou lucrar com suas milhas.">
-    <!-- <meta property="og:image" content="{{ Vite::asset('resources/images/cover.webp') }}"> -->
+    @php //<meta property="og:image" content="{{ Vite::asset('resources/images/cover.webp') }}"> @endphp
     <meta property="og:url" content="Tripwall">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Tripwall">
     <meta name="twitter:description" content="Encontre as melhores ofertas e condições para comprar e vender passagens aéreas. O jeito mais seguro de viajar gastando menos ou lucrar com suas milhas.">
-    <!-- <meta name="twitter:image" content="{{ Vite::asset('resources/images/cover.webp') }}"> -->
+    @php //<meta name="twitter:image" content="{{ Vite::asset('resources/images/cover.webp') }}"> @endphp
 
     <meta name="robots" content="index, follow">
 </head>
