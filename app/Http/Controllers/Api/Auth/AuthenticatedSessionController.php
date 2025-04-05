@@ -13,24 +13,19 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): JsonResponse
     {
         $request->authenticate();
-        $request->session()->regenerate();
 
-        $token = $request->user()->createToken('User Access Token');
+        $user = $request->user();
+        $token = $user->createToken('User Access Token')->plainTextToken;
 
         return response()->json([
             'data' => [
-                'token' => $token->plainTextToken
+                'token' => $token
             ]
         ]);
     }
 
     public function destroy(Request $request): Response
     {
-        auth()->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         $request->user('sanctum')->currentAccessToken()->delete();
 
         return response()->noContent();
