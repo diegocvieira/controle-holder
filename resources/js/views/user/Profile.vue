@@ -60,14 +60,12 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
 import Notification from '@/components/Notification.vue';
 
 import { useUserStore } from '@/stores/user';
 
 export default {
     components: {
-        Modal,
         Notification
     },
     data() {
@@ -132,12 +130,6 @@ export default {
 
             return true;
         }
-    },
-    created () {
-        this.userStore.getData()
-            .catch(() => {
-                this.$refs.notification.showError('Ocorreu um erro ao carregar seus dados.');
-            });
     },
     updated () {
         // this.$refs.loader.show = false;

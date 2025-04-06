@@ -5,6 +5,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import userRoutes from './routes/user.js';
 
 import { useAuthStore } from '@/stores/auth.js';
+import { useUserStore } from '@/stores/user.js';
 
 const routes = [
     ...authRoutes,
@@ -32,10 +33,11 @@ router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title || 'Longview';
 
     const authStore = useAuthStore();
+    const userStore = useUserStore();
 
-    // if (!authStore.user) {
-    //     await authStore.getUser();
-    // }
+    if (authStore.check && !userStore.user.email) {
+        await userStore.getData();
+    }
 
     if (!to.meta.requiresAuth || to.meta.requiresAuth && authStore.check) {
         next();

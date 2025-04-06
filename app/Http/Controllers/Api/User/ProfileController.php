@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests\User\UpdateProfileRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Models\User;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -17,8 +18,16 @@ class ProfileController extends Controller
 
     public function show(): JsonResponse
     {
-        $data = $this->user->select('name', 'email')
-            ->findOrFail(auth()->id());
+        $user = $this->user->with('subscriptions')->findOrFail(auth()->id());
+        $subscription = $user->activeSubscription() ?? null;
+
+        $data = [
+            'id' => $user->uuid,
+            'name' => $user->name,
+            'email' => $user->email,
+            'current_plan' => $subscription->plan_code ?? 'FREE',
+            'current_plan_cancel_at' => isset($subscription->cancel_at) ? Carbon::parse($subscription->cancel_at)->format('d/m/Y') : ''
+        ];
 
         return response()->json([
             'data' => $data

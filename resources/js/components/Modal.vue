@@ -11,7 +11,7 @@
 
             <div class="modal__content__body">
                 <slot name="body">
-                    <p class="modal__content__body__description">{{ description }}</p>
+                    <p class="modal__content__body__description" v-html="description"></p>
                 </slot>
             </div>
 

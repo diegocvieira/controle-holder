@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\AssetClassController;
 use App\Http\Controllers\Api\User\AssetClassController as UserAssetClassController;
 use App\Http\Controllers\Api\User\AssetController as UserAssetController;
 use App\Http\Controllers\Api\PriceController;
+use App\Http\Controllers\Api\Payment\StripeWebhookController;
+use App\Http\Controllers\Api\Payment\SubscriptionController;
 use App\Http\Controllers\Api\User\ProfileController;
 
 Route::prefix('auth')->group(function () {
@@ -19,6 +21,16 @@ Route::prefix('auth')->group(function () {
 Route::get('/asset-classes', [AssetClassController::class, 'index'])->middleware('auth:sanctum');
 
 Route::post('/prices', [PriceController::class, 'getPrice'])->middleware('auth:sanctum');
+
+Route::prefix('/stripe/webhook')->group(function () {
+    Route::post('/checkout-completed', [StripeWebhookController::class, 'handleCheckoutCompleted']);
+    Route::post('/subscription-canceled', [StripeWebhookController::class, 'handleSubscriptionCanceled']);
+});
+
+Route::prefix('subscriptions')->middleware('auth:sanctum')->group(function () {
+    Route::post('/schedule-cancelation', [SubscriptionController::class, 'scheduleCancelation']);
+    Route::post('/resume', [SubscriptionController::class, 'resumeSubscription']);
+});
 
 Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::controller(ProfileController::class)->group(function () {

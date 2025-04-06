@@ -41,5 +41,15 @@ export default [
             menuSection: 'rebalancing',
             requiresAuth: true
         }
+    }, {
+        path: '/dashboard/premium',
+        name: 'plans',
+        component: () => Promise.resolve(import('@/views/plan/Plan.vue')),
+        meta: {
+            title: 'PREMIUM | Longview',
+            layout: DashboardLayout,
+            menuSection: 'plans',
+            requiresAuth: true
+        }
     }
 ];

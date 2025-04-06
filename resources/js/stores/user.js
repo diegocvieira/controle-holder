@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 
+import { useSubscriptionStore } from '@/stores/subscription';
+
 export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
             user: {
                 name: '',
-                email: ''
+                email: '',
+                id: ''
             }
         }
     },
@@ -19,7 +22,13 @@ export const useUserStore = defineStore('userStore', {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 })
                 .then(response => {
-                    this.user = response.data.data;
+                    const data = response.data.data;
+
+                    this.user = data;
+
+                    const subscriptionStore = useSubscriptionStore();
+                    subscriptionStore.currentPlan = data.current_plan;
+                    subscriptionStore.cancelAt = data.current_plan_cancel_at;
                 })
                 .catch((error) => {
                     return Promise.reject(error);
@@ -42,8 +51,9 @@ export const useUserStore = defineStore('userStore', {
             });
         },
         resetData() {
-            this.user.name = null;
-            this.user.email = null;
+            Object.keys(this.user).forEach(key => {
+                this.user[key] = null;
+            });
         }
     }
 });
