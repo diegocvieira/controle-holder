@@ -62,7 +62,6 @@ class GoogleClient
 
         $price = $xpath->query('//div[@class="YMlKec fxKbKc"]')->item(0)->nodeValue ?? '';
         $price = preg_replace('/[^\d,.]+/', '', $price);
-        $price = number_format(str_replace(['.', ','], ['', '.'], $price), 2, '.', '');
 
         if (in_array($assetClass, ['stocks', 'reits', 'etfs-usa'])) {
            return $this->priceUtil->convertDollarToReal($price);
