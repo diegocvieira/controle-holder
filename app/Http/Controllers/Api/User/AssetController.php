@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use App\Models\AssetClass;
 use App\Models\Asset;
 use App\Models\UserAsset;
 use App\Models\UserAssetClass;
@@ -16,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class AssetController extends Controller
 {
-    public function __construct(private AssetClass $assetClass, private Asset $asset, private UserAssetClass $userAssetClass, private UserAsset $userAsset, private AssetUtil $assetUtil)
+    public function __construct(private Asset $asset, private UserAssetClass $userAssetClass, private UserAsset $userAsset, private AssetUtil $assetUtil)
     {
     }
 
