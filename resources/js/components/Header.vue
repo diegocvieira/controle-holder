@@ -8,7 +8,7 @@
         <div id="mobile-menu" v-if="isOpen">
             <ul>
                 <li>
-                    <a href="#" :class="{'is-active': $route.meta.menuSection === 'dashboard'}">Visão geral</a>
+                    <router-link :to="{ name: 'dashboard' }" :class="{'is-active': $route.meta.menuSection === 'dashboard'}" @click="toggleMenu()">Visão geral</router-link>
                 </li>
 
                 <li>
@@ -23,16 +23,16 @@
                     <router-link :to="{ name: 'rebalancing' }" :class="{'is-active': $route.meta.menuSection === 'rebalancing'}" @click="toggleMenu()">Rebalanceamento</router-link>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="#" :class="{'is-active': $route.meta.menuSection === 'wallet'}">Carteira (em breve)</a>
-                </li>
+                </li> -->
 
                 <li>
                     <router-link :to="{ name: 'profile' }" :class="{'is-active': $route.meta.menuSection === 'profile'}" @click="toggleMenu()">Perfil</router-link>
                 </li>
 
                 <li>
-                    <a href="#" :class="{'is-active': $route.meta.menuSection === 'coffee'}">Me compre um café</a>
+                    <router-link :to="{ name: 'premium' }" :class="{'is-active': $route.meta.menuSection === 'premium'}" @click="toggleMenu()">PREMIUM</router-link>
                 </li>
 
                 <li>

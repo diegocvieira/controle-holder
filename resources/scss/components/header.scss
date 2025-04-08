@@ -25,7 +25,7 @@
         border: 0;
         transition: 0.2s ease;
         cursor: pointer;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         margin-left: auto;
@@ -37,6 +37,10 @@
 
         &:focus {
             box-shadow: 0 0 0 2px variables.$darkWhiteColor;
+        }
+
+        @media (max-width: variables.$mobile) {
+            display: flex;
         }
 
         svg {

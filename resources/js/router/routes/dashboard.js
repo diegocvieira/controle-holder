@@ -43,12 +43,12 @@ export default [
         }
     }, {
         path: '/dashboard/premium',
-        name: 'plans',
+        name: 'premium',
         component: () => Promise.resolve(import('@/views/plan/Plan.vue')),
         meta: {
             title: 'PREMIUM | Longview',
             layout: DashboardLayout,
-            menuSection: 'plans',
+            menuSection: 'premium',
             requiresAuth: true
         }
     }
