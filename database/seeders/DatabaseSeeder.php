@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'BDRs',
                 'slug' => 'bdrs'
             ], [
-                'name' => 'ETFs',
-                'slug' => 'etfs'
+                'name' => 'ETFs Brasil',
+                'slug' => 'etfs-brasil'
             ], [
                 'name' => 'Renda Fixa',
                 'slug' => 'renda-fixa'
