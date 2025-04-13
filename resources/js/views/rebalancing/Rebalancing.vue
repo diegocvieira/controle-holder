@@ -25,6 +25,7 @@
                             <th>Valor investido</th>
                             <th>% Meta</th>
                             <th>% Atual</th>
+                            <th>Aportar?</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -49,6 +50,11 @@
                             </td>
                             <td>{{ asset.idealPercentage }}%</td>
                             <td>{{ asset.currentPercentage ? asset.currentPercentage + '%' : '-' }}</td>
+                            <td>
+                                <div class="switch">
+                                    <span :class="['switch__slider', {'is-active': asset.isInvesting}]" @click="toggleInvesting(asset)"></span>
+                                </div>
+                            </td>
                             <td class="is-flex">
                                 <button type="button" class="action-button action-buy-button" title="Comprar" @click="invest(asset.ticker)">
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="cart-plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -100,6 +106,7 @@ import Modal from '@/components/Modal.vue';
 
 import { useUserAssetStore } from '@/stores/userAsset';
 import { useRebalancingStore } from '@/stores/rebalancing';
+import { useSubscriptionStore } from '@/stores/subscription';
 
 export default {
     components: {
@@ -119,6 +126,9 @@ export default {
         },
         rebalancingStore() {
             return useRebalancingStore();
+        },
+        subscriptionStore() {
+            return useSubscriptionStore();
         }
     },
     methods: {
@@ -159,6 +169,14 @@ export default {
                 }
             });
         },
+        toggleInvesting(asset) {
+            if (this.subscriptionStore.isFree) {
+                this.$refs.notification.showError('Atualize seu plano para ter acesso a essa funcionalidade.');
+                return;
+            }
+
+            asset.isInvesting = !asset.isInvesting;
+        },
         calculateInvestment() {
             if (!this.investmentAmount) {
                 return;
@@ -171,7 +189,7 @@ export default {
             let totalInvestedValue = 0;
             let remainingAmount = 0;
             let stopCalculating = false;
-            const assets = JSON.parse(JSON.stringify(this.userAssetStore.assets));
+            const assets = JSON.parse(JSON.stringify(this.userAssetStore.assets)).filter(asset => asset.isInvesting === true);
 
             this.sortAssetsByInvestmentDifference(assets, remainingAmount);
 

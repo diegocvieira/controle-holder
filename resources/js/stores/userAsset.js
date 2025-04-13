@@ -30,7 +30,8 @@ export const useUserAssetStore = defineStore('userAssetStore', {
                                 slug: asset.asset_class.slug
                             },
                             investmentQuantity: 0,
-                            investmentAmount: 0
+                            investmentAmount: 0,
+                            isInvesting: true
                         };
                     });
                 })
