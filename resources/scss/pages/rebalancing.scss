@@ -1,0 +1,49 @@
+@use '../system/variables';
+
+#rebalancing-page {
+    .table {
+        .investment {
+            display: block;
+            margin-top: .5rem;
+            font-weight: 700;
+            color: variables.$lightGreenColor;
+        }
+
+        .action-button {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            border-radius: .2rem;
+            transition: .2s ease;
+            color: variables.$originalWhiteColor;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            &:last-child {
+                margin-left: .5rem;
+            }
+
+            &.action-trade-button {
+                background-color: variables.$greyColor;
+
+                &:hover {
+                    background-color: variables.$darkGreyColor;
+                }
+            }
+
+            &.action-buy-button {
+                background-color: variables.$lightGreenColor;
+
+                &:hover {
+                    background-color: variables.$darkGreenColor;
+                }
+            }
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+}

@@ -92,6 +92,15 @@
                         background-color: variables.$redColor;
                     }
                 }
+
+                &.is-green-button {
+                    color: variables.$lightGreenColor;
+                    background-color: variables.$darkGreenColor;
+
+                    &:hover {
+                        background-color: variables.$greenColor;
+                    }
+                }
             }
         }
     }

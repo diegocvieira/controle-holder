@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\PriceController;
 use App\Http\Controllers\Api\Payment\StripeWebhookController;
 use App\Http\Controllers\Api\Payment\SubscriptionController;
 use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\User\RebalancingController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -49,5 +50,10 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
         Route::post('/', 'store');
         Route::put('/', 'update');
         Route::delete('/{asset}', 'destroy');
+    });
+
+    Route::prefix('rebalancing')->controller(RebalancingController::class)->group(function () {
+        Route::post('/buy', 'buy');
+        Route::post('/sell', 'sell');
     });
 });
