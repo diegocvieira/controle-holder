@@ -38,6 +38,7 @@
                 color: variables.$whiteColor;
                 padding: 20px;
                 border-bottom: 1px solid variables.$darkWhiteColor;
+                white-space: nowrap;
 
                 .asset-class {
                     border-radius: 5px;
