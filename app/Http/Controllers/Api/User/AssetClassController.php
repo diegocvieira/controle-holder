@@ -17,9 +17,17 @@ class AssetClassController extends Controller
 
     public function index(): JsonResponse
     {
-        $data = $this->userAssetClass->with('assetClass')
-            ->where('user_id', auth()->id())
-            ->get();
+        $assetClasses = $this->userAssetClass->where('user_id', auth()->id())->get();
+
+        $data = $assetClasses->map(function ($assetClass) {
+            return [
+                'percentage' => $assetClass->percentage,
+                'asset_class' => [
+                    'name' => $assetClass->assetClass->name,
+                    'slug' => $assetClass->assetClass->slug
+                ]
+            ];
+        })->all();
 
         return response()->json([
             'data' => $data

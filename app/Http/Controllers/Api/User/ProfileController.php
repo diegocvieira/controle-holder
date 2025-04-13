@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
     public function show(): JsonResponse
     {
-        $user = $this->user->with('subscriptions')->findOrFail(auth()->id());
+        $user = $this->user->findOrFail(auth()->id());
         $subscription = $user->activeSubscription() ?? null;
 
         $data = [

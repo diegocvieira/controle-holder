@@ -21,9 +21,7 @@ class AssetController extends Controller
 
     public function index(): JsonResponse
     {
-        $assets = $this->userAsset->with('userAssetClass')
-            ->where('user_id', auth()->id())
-            ->get();
+        $assets = $this->userAsset->where('user_id', auth()->id())->get();
 
         $data = $assets->map(function ($asset) {
             return [
