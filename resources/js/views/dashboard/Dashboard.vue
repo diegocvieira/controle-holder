@@ -93,15 +93,17 @@ export default {
                 });
         },
         loadGraphs() {
-            this.chartCurrent.data = this.filteredAssets.map(asset => ({
-                name: asset.ticker,
-                value: (asset.quantity * asset.price).toFixed(2)
-            }));
+            this.$nextTick(() => {
+                this.chartCurrent.data = this.filteredAssets.map(asset => ({
+                    name: asset.ticker,
+                    value: (asset.quantity * asset.price).toFixed(2)
+                }));
 
-            this.chartIdeal.data = this.filteredAssets.map(asset => ({
-                name: asset.ticker,
-                value: asset.rating
-            }));
+                this.chartIdeal.data = this.filteredAssets.map(asset => ({
+                    name: asset.ticker,
+                    value: asset.rating
+                }));
+            });
         }
     },
     async created () {
