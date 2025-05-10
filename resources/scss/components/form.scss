@@ -8,6 +8,10 @@
 
     &.inline-form {
         flex-direction: row;
+
+        @media (max-width: variables.$mobile) {
+            flex-direction: column;
+        }
     }
 
     &__field {

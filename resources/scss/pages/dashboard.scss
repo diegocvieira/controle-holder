@@ -5,8 +5,11 @@
         display: flex;
         margin: 0 0 3rem 0;
         gap: 10px;
+        overflow-x: auto;
 
         .asset-class {
+            display: flex;
+
             &__input:checked + .asset-class__label {
                 color: variables.$whiteColor;
                 background-color: color(display-p3 0.882 0.953 0.996/0.111);
@@ -24,6 +27,7 @@
                 border-radius: 5px;
                 cursor: pointer;
                 transition: .2s ease;
+                white-space: nowrap;
             }
         }
     }
@@ -32,12 +36,20 @@
         display: flex;
         gap: 20px;
 
+        @media (max-width: variables.$mobile) {
+            flex-direction: column;
+        }
+
         .chart {
             width: 50%;
             height: 600px;
             padding-bottom: 100px;
             border-radius: .5rem;
             border: 1px solid variables.$darkWhiteColor;
+
+            @media (max-width: variables.$mobile) {
+                width: 100%;
+            }
 
             &__title {
                 border-bottom: 1px solid variables.$darkWhiteColor;
