@@ -15,6 +15,16 @@
         flex: 0 0 70px;
     }
 
+    .longview-logo {
+        width: 100px;
+        margin: 0;
+        display: none;
+
+        @media (max-width: variables.$mobile) {
+            display: flex;
+        }
+    }
+
     .menu-hamburger {
         color: variables.$greyColor;
         background-color: transparent;

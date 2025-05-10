@@ -1,10 +1,8 @@
 <template>
     <aside id="aside">
-        <div class="logo">
-            <a href="#">
-                <h5>Longview</h5>
-            </a>
-        </div>
+        <router-link :to="{ name: 'dashboard' }" class="longview-logo">
+            <img src="/resources/images/logo-longview.webp" alt="Longview" />
+        </router-link>
 
         <nav>
             <ul>

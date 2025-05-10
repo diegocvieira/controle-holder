@@ -1,5 +1,9 @@
 <template>
     <header id="header">
+        <router-link :to="{ name: 'dashboard' }" class="longview-logo">
+            <img src="/resources/images/logo-longview.webp" alt="Longview" />
+        </router-link>
+
         <button type="button" class="menu-hamburger" @click="toggleMenu()">
             <svg v-if="isOpen" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             <svg v-else aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
