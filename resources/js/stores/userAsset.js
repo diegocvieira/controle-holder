@@ -76,7 +76,8 @@ export const useUserAssetStore = defineStore('userAssetStore', {
                         currentPercentage: 0,
                         investedAmount: null,
                         investmentQuantity: 0,
-                        investmentAmount: 0
+                        investmentAmount: 0,
+                        isInvesting: true
                     });
                 })
                 .catch((error) => {
