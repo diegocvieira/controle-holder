@@ -54,7 +54,7 @@ class AssetController extends Controller
                 $assetName = $this->assetUtil->getScrapingName($request->asset_class, $request->ticker);
 
                 if (!$assetName) {
-                    throw ValidationException::withMessages(['message' => "O ativo {$request->ticker} não foi encontrado dentro dessa classe de ativos selecionada."]);
+                    throw ValidationException::withMessages(['message' => "O ativo {$request->ticker} não foi encontrado dentro da classe de ativos selecionada."]);
                 }
             }
 
@@ -64,8 +64,6 @@ class AssetController extends Controller
                 'ticker' => strtoupper($request->ticker)
             ]);
         }
-
-        $request->validateAssetAlreadyAdded($asset->id);
 
         $this->userAsset->create([
             'user_id' => auth()->id(),

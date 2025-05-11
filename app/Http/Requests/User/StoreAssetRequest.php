@@ -29,10 +29,31 @@ class StoreAssetRequest extends FormRequest
         ];
     }
 
-    public function validateAssetAlreadyAdded(int $assetId): void
+    protected function passedValidation(): void
+    {
+        $this->validateMaxQuantity();
+        $this->validateAssetAlreadyAdded();
+    }
+
+    public function validateMaxQuantity(): void
+    {
+        if ($this->user()->activeSubscription()) {
+            return;
+        }
+
+        $count = $this->userAsset->where('user_id', auth()->id())->count();
+
+        if ($count >= config('subscription.max_assets_quantity')) {
+            throw ValidationException::withMessages([
+                'message' => 'Atualize seu plano para cadastrar quantos ativos quiser.'
+            ]);
+        }
+    }
+
+    public function validateAssetAlreadyAdded(): void
     {
         $userAsset = $this->userAsset->where('user_id', auth()->id())
-            ->where('asset_id', $assetId)
+            ->whereRelation('asset', 'ticker', $this->ticker)
             ->first();
 
         if ($userAsset) {

@@ -134,6 +134,13 @@ export default {
     },
     methods: {
         addAsset() {
+            const maxAssetsQuantity = Number(import.meta.env.VITE_SUBSCRIPTION_MAX_ASSETS_QUANTITY);
+
+            if (this.userAssetStore.assets.length >= maxAssetsQuantity) {
+                this.$refs.notification.showError('Atualize seu plano para cadastrar quantos ativos quiser.');
+                return;
+            }
+
             const assetClass = this.userAssetClassStore.assetClasses.find(assetClass => assetClass.slug === this.selectedAssetClass);
             const data = {
                 ticker: this.form.ticker.toUpperCase(),
