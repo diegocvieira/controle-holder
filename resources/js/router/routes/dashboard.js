@@ -4,7 +4,7 @@ export default [
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: () => Promise.resolve(import('@/views/dashboard/Dashboard.vue')),
+        component: () => Promise.resolve(import('@/views/dashboard/Index.vue')),
         meta: {
             title: 'Dashboard | Longview',
             layout: DashboardLayout,
@@ -14,7 +14,7 @@ export default [
     }, {
         path: '/dashboard/meta/classes-de-ativos',
         name: 'targetAssetClasses',
-        component: () => Promise.resolve(import('@/views/target/AssetClasses.vue')),
+        component: () => Promise.resolve(import('@/views/dashboard/TargetAssetClasses.vue')),
         meta: {
             title: 'Meta de classes de ativos | Longview',
             layout: DashboardLayout,
@@ -24,7 +24,7 @@ export default [
     }, {
         path: '/dashboard/meta/ativos',
         name: 'targetAsset',
-        component: () => Promise.resolve(import('@/views/target/Asset.vue')),
+        component: () => Promise.resolve(import('@/views/dashboard/TargetAsset.vue')),
         meta: {
             title: 'Meta de ativos | Longview',
             layout: DashboardLayout,
@@ -34,7 +34,7 @@ export default [
     }, {
         path: '/dashboard/rebalanceamento',
         name: 'rebalancing',
-        component: () => Promise.resolve(import('@/views/rebalancing/Rebalancing.vue')),
+        component: () => Promise.resolve(import('@/views/dashboard/Rebalancing.vue')),
         meta: {
             title: 'Rebalanceamento | Longview',
             layout: DashboardLayout,
@@ -44,11 +44,22 @@ export default [
     }, {
         path: '/dashboard/premium',
         name: 'premium',
-        component: () => Promise.resolve(import('@/views/plan/Plan.vue')),
+        component: () => Promise.resolve(import('@/views/dashboard/Plan.vue')),
         meta: {
             title: 'PREMIUM | Longview',
             layout: DashboardLayout,
             menuSection: 'premium',
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/dashboard/perfil',
+        name: 'profile',
+        component: () => Promise.resolve(import('@/views/dashboard/Profile.vue')),
+        meta: {
+            title: 'Perfil | Longview',
+            layout: DashboardLayout,
+            menuSection: 'profile',
             requiresAuth: true
         }
     }
