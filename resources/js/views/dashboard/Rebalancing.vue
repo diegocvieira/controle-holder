@@ -12,7 +12,7 @@
             </div>
         </form>
 
-        <template v-if="userAssetStore.assets.length > 0">
+        <template v-if="userAssetStore.filteredAssets.length > 0">
             <div class="table">
                 <table>
                     <thead>
@@ -31,7 +31,7 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(asset, assetKey) in userAssetStore.assets" :key="assetKey">
+                        <tr v-for="(asset, assetKey) in userAssetStore.filteredAssets" :key="assetKey">
                             <td>{{ assetKey + 1 }}</td>
                             <td><span :class="'asset-class ' + asset.assetClass.slug">{{ asset.assetClass.name }}</span></td>
                             <td>{{ asset.ticker }}</td>
@@ -107,6 +107,7 @@ import Modal from '@/components/Modal.vue';
 import { useUserAssetStore } from '@/stores/userAsset';
 import { useRebalancingStore } from '@/stores/rebalancing';
 import { useSubscriptionStore } from '@/stores/subscription';
+import { useWalletStore } from '@/stores/wallet';
 
 export default {
     components: {
@@ -180,7 +181,7 @@ export default {
         calculateInvestment() {
             if (!this.investmentAmount) {
                 return;
-            } else if (this.userAssetStore.assets.length === 0) {
+            } else if (this.userAssetStore.filteredAssets.length === 0) {
                 this.$refs.notification.showError('Você ainda não tem nenhum ativo cadastrado.');
                 return;
             }
@@ -189,7 +190,7 @@ export default {
             let totalInvestedValue = 0;
             let remainingAmount = 0;
             let stopCalculating = false;
-            const assets = JSON.parse(JSON.stringify(this.userAssetStore.assets)).filter(asset => asset.isInvesting === true);
+            const assets = JSON.parse(JSON.stringify(this.userAssetStore.filteredAssets)).filter(asset => asset.isInvesting === true);
 
             this.sortAssetsByInvestmentDifference(assets, remainingAmount);
 
@@ -211,7 +212,7 @@ export default {
             }
 
             assets.forEach(asset => {
-                const assetSelected = this.userAssetStore.assets.find(data => data.ticker === asset.ticker);
+                const assetSelected = this.userAssetStore.filteredAssets.find(data => data.ticker === asset.ticker);
                 assetSelected.investmentQuantity = asset.quantity - assetSelected.quantity;
                 assetSelected.investmentAmount = (assetSelected.investmentQuantity * asset.price).toFixed(2);
             });
@@ -255,7 +256,7 @@ export default {
                 });
         },
         invest(ticker) {
-            const asset = this.userAssetStore.assets.find(asset => asset.ticker === ticker);
+            const asset = this.userAssetStore.filteredAssets.find(asset => asset.ticker === ticker);
             const investmentQuantity = asset.investmentQuantity;
 
             if (investmentQuantity === 0) {
@@ -285,16 +286,16 @@ export default {
                 });
         },
         setAssetsPercentages() {
-            const totalRatings = this.userAssetStore.assets.reduce((accumulator, currentValue) => accumulator + currentValue.rating, 0);
-            const totalAmount = this.userAssetStore.assets.reduce((accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.price, 0);
+            const totalRatings = this.userAssetStore.filteredAssets.reduce((accumulator, currentValue) => accumulator + currentValue.rating, 0);
+            const totalAmount = this.userAssetStore.filteredAssets.reduce((accumulator, currentValue) => accumulator + currentValue.quantity * currentValue.price, 0);
 
-            this.userAssetStore.assets.forEach(function(asset) {
+            this.userAssetStore.filteredAssets.forEach(function(asset) {
                 asset.currentPercentage = asset.price ? (asset.quantity * asset.price / totalAmount * 100).toFixed(2) : null;
                 asset.idealPercentage = ((asset.rating / totalRatings) * 100).toFixed(2);
             });
         },
         sortAssetsByClass() {
-            this.userAssetStore.assets.sort((a, b) => {
+            this.userAssetStore.filteredAssets.sort((a, b) => {
                 if (a.assetClass.slug !== b.assetClass.slug) {
                     return a.assetClass.slug.localeCompare(b.assetClass.slug);
                 }
@@ -310,12 +311,18 @@ export default {
         // this.$refs.loader.show = false;
     },
     watch: {
-        'userAssetStore.assets': {
+        'userAssetStore.filteredAssets': {
             handler() {
                 this.setAssetsPercentages();
                 this.sortAssetsByClass();
             },
             deep: true
+        },
+        'walletStore.selectedWallet': {
+            handler() {
+                this.setAssetsPercentages();
+                this.sortAssetsByClass();
+            }
         }
     }
 };

@@ -3,7 +3,7 @@
         <h1 class="page-title">Meta de ativos</h1>
 
         <div class="asset-classes">
-            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.assetClasses" :key="index">
+            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.filteredAssetClasses" :key="index">
                 <input type="radio" name="asset_class" :value="assetClass.slug" v-model="selectedAssetClass" :id="assetClass.slug" class="is-hidden asset-class__input" />
                 <label :for="assetClass.slug" class="asset-class__label">{{ assetClass.name }}</label>
             </div>
@@ -104,6 +104,7 @@ import Notification from '@/components/Notification.vue';
 
 import { useUserAssetClassStore } from '@/stores/userAssetClass';
 import { useUserAssetStore } from '@/stores/userAsset';
+import { useWalletStore } from '@/stores/wallet';
 
 export default {
     components: {
@@ -129,7 +130,10 @@ export default {
             return useUserAssetStore();
         },
         filteredAssets() {
-            return this.userAssetStore.assets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
+            return this.userAssetStore.filteredAssets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
+        },
+        walletStore() {
+            return useWalletStore();
         }
     },
     methods: {
@@ -141,7 +145,7 @@ export default {
                 return;
             }
 
-            const assetClass = this.userAssetClassStore.assetClasses.find(assetClass => assetClass.slug === this.selectedAssetClass);
+            const assetClass = this.userAssetClassStore.filteredAssetClasses.find(assetClass => assetClass.slug === this.selectedAssetClass);
             const data = {
                 ticker: this.form.ticker.toUpperCase(),
                 quantity: this.form.quantity,
@@ -196,7 +200,7 @@ export default {
         getAssetClasses() {
             return this.userAssetClassStore.getAssetClasses()
                 .then(() => {
-                    this.selectedAssetClass = this.userAssetClassStore.assetClasses[0]?.slug;
+                    this.selectedAssetClass = this.userAssetClassStore.filteredAssetClasses[0]?.slug;
                 })
                 .catch(() => {
                     this.$refs.notification.showError('Ocorreu um erro ao carregar suas classes de ativos.');
@@ -213,8 +217,8 @@ export default {
                 });
         },
         setAssetsIdealPercentage() {
-            this.userAssetStore.assets.forEach(asset => {
-                const totalRatings = this.userAssetStore.assets.reduce((accumulator, currentValue) => {
+            this.userAssetStore.filteredAssets.forEach(asset => {
+                const totalRatings = this.userAssetStore.filteredAssets.reduce((accumulator, currentValue) => {
                     if (currentValue.assetClass.slug === asset.assetClass.slug) {
                         return accumulator + parseFloat(currentValue.rating);
                     } else {
@@ -226,7 +230,7 @@ export default {
             });
         },
         sortAssetsByRating() {
-            this.userAssetStore.assets.sort((a, b) => b.rating - a.rating);
+            this.userAssetStore.filteredAssets.sort((a, b) => b.rating - a.rating);
         }
     },
     async created () {
@@ -237,12 +241,19 @@ export default {
         // this.$refs.loader.show = false;
     },
     watch: {
-        'userAssetStore.assets': {
+        'userAssetStore.filteredAssets': {
             handler() {
                 this.setAssetsIdealPercentage();
                 this.sortAssetsByRating();
             },
             deep: true
+        },
+        'walletStore.selectedWallet': {
+            handler() {
+                this.selectedAssetClass = this.userAssetClassStore.filteredAssetClasses[0]?.slug;
+                this.setAssetsIdealPercentage();
+                this.sortAssetsByRating();
+            }
         }
     }
 };

@@ -1,14 +1,25 @@
 import { defineStore } from 'pinia';
 
+import { useWalletStore } from '@/stores/wallet';
+
 export const useUserAssetStore = defineStore('userAssetStore', {
     state: () => {
         return {
             assets: []
         }
     },
+    getters: {
+        filteredAssets: (state) => {
+            const walletStore = useWalletStore();
+
+            return state.assets.filter(asset => {
+                return asset.assetClass.wallet_slug === walletStore.selectedWallet.slug;
+            });
+        }
+    },
     actions: {
         async getAssets() {
-            if (this.assets.length > 0) {
+            if (this.filteredAssets.length > 0) {
                 return Promise.resolve();
             }
 
@@ -27,7 +38,8 @@ export const useUserAssetStore = defineStore('userAssetStore', {
                             price: asset.price,
                             assetClass: {
                                 name: asset.asset_class.name,
-                                slug: asset.asset_class.slug
+                                slug: asset.asset_class.slug,
+                                wallet_slug: asset.asset_class.wallet
                             },
                             investmentQuantity: 0,
                             investmentAmount: 0,
@@ -62,6 +74,9 @@ export const useUserAssetStore = defineStore('userAssetStore', {
             });
         },
         async create(data, selectedAssetClass) {
+            const walletStore = useWalletStore();
+            data.wallet_slug = walletStore.selectedWallet.slug;
+
             await axios.post('/api/user/assets', data, {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 })
@@ -85,6 +100,9 @@ export const useUserAssetStore = defineStore('userAssetStore', {
                 });
         },
         async update(data) {
+            const walletStore = useWalletStore();
+            data.wallet_slug = walletStore.selectedWallet.slug;
+
             await axios.put('/api/user/assets', data, {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 })
@@ -97,7 +115,13 @@ export const useUserAssetStore = defineStore('userAssetStore', {
                 });
         },
         async delete(ticker) {
+            const walletStore = useWalletStore();
+            const data = {
+                wallet_slug: walletStore.selectedWallet.slug
+            };
+
             await axios.delete(`/api/user/assets/${ticker}`, {
+                data: data,
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 })
                 .then(() => {

@@ -6,18 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Models\AssetClass;
-use App\Models\UserAssetClass;
 use App\Http\Requests\User\StoreAssetClassRequest;
 
 class AssetClassController extends Controller
 {
-    public function __construct(private AssetClass $assetClass, private UserAssetClass $userAssetClass)
+    public function __construct(private AssetClass $assetClass)
     {
     }
 
     public function index(): JsonResponse
     {
-        $assetClasses = $this->userAssetClass->where('user_id', auth()->id())->get();
+        $assetClasses = auth()->user()->assetClasses()->get();
 
         $data = $assetClasses->map(function ($assetClass) {
             return [
@@ -25,7 +24,8 @@ class AssetClassController extends Controller
                 'asset_class' => [
                     'name' => $assetClass->assetClass->name,
                     'slug' => $assetClass->assetClass->slug
-                ]
+                ],
+                'wallet_slug' => $assetClass->wallet->slug
             ];
         })->all();
 
@@ -36,17 +36,22 @@ class AssetClassController extends Controller
 
     public function store(StoreAssetClassRequest $request): Response
     {
-        $assetClass = $this->assetClass->where('slug', $request->slug)
-            ->firstOrFail();
+        $assetClass = $this->assetClass->where('slug', $request->slug)->firstOrFail();
+        $wallet = auth()->user()->wallets()->where('slug', $request->wallet_slug)->firstOrFail();
 
         if ($request->percentage > 0) {
-            $this->userAssetClass->updateOrCreate(
-                ['user_id' => auth()->id(), 'asset_class_id' => $assetClass->id],
-                ['percentage' => $request->percentage]
+            auth()->user()->assetClasses()->updateOrCreate(
+                [
+                    'asset_class_id' => $assetClass->id,
+                    'wallet_id' => $wallet->id
+                ], [
+                    'percentage' => $request->percentage
+                ]
             );
         } else {
-            $this->userAssetClass->where('user_id', auth()->id())
+            auth()->user()->assetClasses()
                 ->where('asset_class_id', $assetClass->id)
+                ->where('wallet_id', $wallet->id)
                 ->delete();
         }
 

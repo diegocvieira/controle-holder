@@ -58,4 +58,19 @@ class User extends Authenticatable
     {
         return $this->subscriptions()->where('status', 'paid')->first();
     }
+
+    public function assets(): HasMany
+    {
+        return $this->hasMany(UserAsset::class);
+    }
+
+    public function assetClasses(): HasMany
+    {
+        return $this->hasMany(UserAssetClass::class);
+    }
+
+    public function wallets(): HasMany
+    {
+        return $this->hasMany(Wallet::class);
+    }
 }

@@ -4,16 +4,9 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
-use App\Models\UserAsset;
 
 class StoreAssetRequest extends FormRequest
 {
-    public function __construct(protected UserAsset $userAsset)
-    {
-        parent::__construct();
-        $this->userAsset = $userAsset;
-    }
-
     public function authorize(): bool
     {
         return $this->user() !== null;
@@ -25,7 +18,8 @@ class StoreAssetRequest extends FormRequest
             'ticker' => ['required', 'string'],
             'rating' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
-            'asset_class' => ['required', 'exists:asset_classes,slug']
+            'asset_class' => ['required', 'exists:asset_classes,slug'],
+            'wallet_slug' => ['required', 'string']
         ];
     }
 
@@ -41,7 +35,7 @@ class StoreAssetRequest extends FormRequest
             return;
         }
 
-        $count = $this->userAsset->where('user_id', auth()->id())->count();
+        $count = auth()->user()->assets()->count();
 
         if ($count >= config('subscription.max_assets_quantity')) {
             throw ValidationException::withMessages([
@@ -52,8 +46,9 @@ class StoreAssetRequest extends FormRequest
 
     public function validateAssetAlreadyAdded(): void
     {
-        $userAsset = $this->userAsset->where('user_id', auth()->id())
+        $userAsset = auth()->user()->assets()
             ->whereRelation('asset', 'ticker', $this->ticker)
+            ->whereRelation('userAssetClass.wallet', 'slug', $this->wallet_slug)
             ->first();
 
         if ($userAsset) {

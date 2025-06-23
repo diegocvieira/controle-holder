@@ -1,8 +1,6 @@
 <template>
     <aside id="aside">
-        <router-link :to="{ name: 'dashboard' }" class="longview-logo">
-            <img src="/resources/images/logo-longview.webp" alt="Longview" />
-        </router-link>
+        <Wallet></Wallet>
 
         <nav>
             <ul>
@@ -84,9 +82,15 @@
 </template>
 
 <script>
+
+import Wallet from '@/components/Wallet.vue';
+
 import { useAuthStore } from '@/stores/auth';
 
 export default {
+    components: {
+        Wallet
+    },
     computed: {
         authStore() {
             return useAuthStore();

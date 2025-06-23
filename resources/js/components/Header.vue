@@ -1,8 +1,6 @@
 <template>
     <header id="header">
-        <router-link :to="{ name: 'dashboard' }" class="longview-logo">
-            <img src="/resources/images/logo-longview.webp" alt="Longview" />
-        </router-link>
+        <Wallet></Wallet>
 
         <button type="button" class="menu-hamburger" @click="toggleMenu()">
             <svg v-if="isOpen" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
@@ -58,9 +56,15 @@
 </template>
 
 <script>
+
+import Wallet from '@/components/Wallet.vue';
+
 import { useAuthStore } from '@/stores/auth';
 
 export default {
+    components: {
+        Wallet
+    },
     props: {
         page: {
             type: String,
@@ -83,4 +87,5 @@ export default {
         }
     }
 };
+
 </script>

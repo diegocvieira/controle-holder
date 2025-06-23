@@ -1,8 +1,9 @@
 @use '../system/variables';
 
 #aside {
+    flex: 0 0 250px;
     width: 250px;
-    height: 100%;
+    height: 100vh;
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -12,14 +13,12 @@
         display: none;
     }
 
-    .longview-logo {
-        width: 50%;
-        display: flex;
-        margin: 0;
+    .wallets-content {
+        width: 100%;
     }
 
     nav {
-        margin-top: 50px;
+        margin-top: 2rem;
         height: 100%;
 
         ul {

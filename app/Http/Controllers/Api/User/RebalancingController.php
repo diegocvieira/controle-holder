@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Models\UserAsset;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreAssetRequest;
 use Illuminate\Validation\ValidationException;
 
 class RebalancingController extends Controller
 {
-    public function __construct(private UserAsset $userAsset)
-    {
-    }
-
     public function buy(Request $request): Response
     {
-        $asset = $this->userAsset->where('user_id', auth()->id())
+        $asset = auth()->user()->assets()
             ->whereRelation('asset', 'ticker', $request->ticker)
+            ->whereRelation('userAssetClass.wallet', 'slug', $request->wallet_slug)
             ->firstOrFail();
 
         $newQuantity = $asset->quantity + (int) $request->quantity;
@@ -32,8 +27,9 @@ class RebalancingController extends Controller
 
     public function sell(Request $request): Response
     {
-        $asset = $this->userAsset->where('user_id', auth()->id())
+        $asset = auth()->user()->assets()
             ->whereRelation('asset', 'ticker', $request->ticker)
+            ->whereRelation('userAssetClass.wallet', 'slug', $request->wallet_slug)
             ->firstOrFail();
 
         $newQuantity = (int) $asset->quantity - $request->quantity;

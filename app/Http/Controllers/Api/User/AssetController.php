@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use App\Models\Asset;
-use App\Models\UserAsset;
-use App\Models\UserAssetClass;
+use App\Http\Utils\AssetUtil;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreAssetRequest;
 use App\Http\Requests\User\UpdateAssetRequest;
-use App\Http\Utils\AssetUtil;
+use App\Http\Requests\User\DestroyAssetRequest;
 use Illuminate\Validation\ValidationException;
 
 class AssetController extends Controller
 {
-    public function __construct(private Asset $asset, private UserAssetClass $userAssetClass, private UserAsset $userAsset, private AssetUtil $assetUtil)
+    public function __construct(private Asset $asset, private AssetUtil $assetUtil)
     {
     }
 
     public function index(): JsonResponse
     {
-        $assets = $this->userAsset->where('user_id', auth()->id())->get();
+        $assets = auth()->user()->assets()->get();
 
         $data = $assets->map(function ($asset) {
             return [
@@ -33,6 +32,7 @@ class AssetController extends Controller
                     'name' => $asset->userAssetClass->assetClass->name,
                     'slug' => $asset->userAssetClass->assetClass->slug,
                     'percentage' => $asset->userAssetClass->percentage,
+                    'wallet' => $asset->userAssetClass->wallet->slug
                 ]
             ];
         })->all();
@@ -44,7 +44,11 @@ class AssetController extends Controller
 
     public function store(StoreAssetRequest $request): Response
     {
-        $assetClass = $this->userAssetClass->whereRelation('assetClass', 'slug', $request->asset_class)->firstOrFail();
+        $assetClass = auth()->user()->assetClasses()
+            ->whereRelation('assetClass', 'slug', $request->asset_class)
+            ->whereRelation('wallet', 'slug', $request->wallet_slug)
+            ->firstOrFail();
+
         $asset = $this->asset->where('ticker', $request->ticker)->first();
 
         if (!$asset) {
@@ -65,8 +69,7 @@ class AssetController extends Controller
             ]);
         }
 
-        $this->userAsset->create([
-            'user_id' => auth()->id(),
+        auth()->user()->assets()->create([
             'user_asset_class_id' => $assetClass->id,
             'asset_id' => $asset->id,
             'quantity' => $request->quantity,
@@ -78,8 +81,9 @@ class AssetController extends Controller
 
     public function update(UpdateAssetRequest $request): Response
     {
-        $this->userAsset->where('user_id', auth()->id())
+        auth()->user()->assets()
             ->whereRelation('asset', 'ticker', $request->ticker)
+            ->whereRelation('userAssetClass.wallet', 'slug', $request->wallet_slug)
             ->update([
                 'quantity' => $request->quantity,
                 'rating' => $request->rating
@@ -88,10 +92,11 @@ class AssetController extends Controller
         return response()->noContent();
     }
 
-    public function destroy(string $ticker): Response
+    public function destroy(string $ticker, DestroyAssetRequest $request): Response
     {
-        $this->userAsset->where('user_id', auth()->id())
+        auth()->user()->assets()
             ->whereRelation('asset', 'ticker', $ticker)
+            ->whereRelation('userAssetClass.wallet', 'slug', $request->wallet_slug)
             ->delete();
 
         return response()->noContent();

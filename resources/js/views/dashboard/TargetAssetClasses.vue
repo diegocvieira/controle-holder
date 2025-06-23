@@ -42,6 +42,7 @@ import Notification from '@/components/Notification.vue';
 
 import { useAssetClassStore } from '@/stores/assetClass';
 import { useUserAssetClassStore } from '@/stores/userAssetClass';
+import { useWalletStore } from '@/stores/wallet';
 
 export default {
     components: {
@@ -60,6 +61,9 @@ export default {
         },
         userAssetClassStore() {
             return useUserAssetClassStore();
+        },
+        walletStore() {
+            return useWalletStore();
         }
     },
     methods: {
@@ -72,7 +76,7 @@ export default {
         getUserAssetClasses() {
             return this.userAssetClassStore.getAssetClasses()
                 .then(() => {
-                    this.userAssetClassStore.assetClasses.forEach(userAssetClass => {
+                    this.userAssetClassStore.filteredAssetClasses.forEach(userAssetClass => {
                         const assetClass = this.assetClassStore.assetClasses.find(assetClass => assetClass.slug === userAssetClass.slug);
                         assetClass.percentage = userAssetClass.percentage;
                     });
@@ -84,12 +88,7 @@ export default {
                 return;
             }
 
-            const assetClass = this.assetClassStore.assetClasses.find(assetClass => assetClass.slug === assetClassSlug);
-
-            const data = {
-                slug: assetClass.slug,
-                percentage: assetClass.percentage
-            };
+            const data = this.assetClassStore.assetClasses.find(assetClass => assetClass.slug === assetClassSlug);
 
             this.userAssetClassStore.save(data)
                 .catch(error => {
@@ -127,6 +126,12 @@ export default {
                 this.setProgressBar();
             },
             deep: true
+        },
+        'walletStore.selectedWallet': {
+            handler() {
+                this.assetClassStore.assetClasses.forEach(assetClass => assetClass.percentage = 0);
+                this.getUserAssetClasses();
+            }
         }
     }
 };

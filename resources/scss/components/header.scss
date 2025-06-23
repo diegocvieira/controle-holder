@@ -15,9 +15,7 @@
         flex: 0 0 70px;
     }
 
-    .longview-logo {
-        width: 100px;
-        margin: 0;
+    .wallets {
         display: none;
 
         @media (max-width: variables.$mobile) {

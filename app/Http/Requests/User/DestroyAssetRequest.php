@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAssetRequest extends FormRequest
+class DestroyAssetRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,9 +14,6 @@ class UpdateAssetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ticker' => ['required', 'string'],
-            'rating' => ['required', 'numeric'],
-            'quantity' => ['required', 'numeric'],
             'wallet_slug' => ['required', 'string']
         ];
     }

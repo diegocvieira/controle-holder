@@ -3,7 +3,7 @@
         <h1 class="page-title">Visão geral</h1>
 
         <div class="asset-classes">
-            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.assetClasses" :key="index">
+            <div class="asset-class" v-for="(assetClass, index) in userAssetClassStore.filteredAssetClasses" :key="index">
                 <input type="radio" name="asset_class" :value="assetClass.slug" v-model="selectedAssetClass" :id="assetClass.slug" class="is-hidden asset-class__input" />
                 <label :for="assetClass.slug" class="asset-class__label">{{ assetClass.name }}</label>
             </div>
@@ -43,6 +43,7 @@ import PieChart from '@/components/PieChart.vue';
 
 import { useUserAssetClassStore } from '@/stores/userAssetClass';
 import { useUserAssetStore } from '@/stores/userAsset';
+import { useWalletStore } from '@/stores/wallet';
 
 export default {
     components: {
@@ -69,15 +70,18 @@ export default {
         userAssetStore() {
             return useUserAssetStore();
         },
+        walletStore() {
+            return useWalletStore();
+        },
         filteredAssets() {
-            return this.userAssetStore.assets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
+            return this.userAssetStore.filteredAssets.filter(asset => asset.assetClass.slug === this.selectedAssetClass);
         }
     },
     methods: {
         getAssetClasses() {
             return this.userAssetClassStore.getAssetClasses()
                 .then(() => {
-                    this.selectedAssetClass = this.userAssetClassStore.assetClasses[0]?.slug;
+                    this.selectedAssetClass = this.userAssetClassStore.filteredAssetClasses[0]?.slug;
                 })
                 .catch(() => {
                     this.$refs.notification.showError('Ocorreu um erro ao carregar suas classes de ativos.');
@@ -119,6 +123,11 @@ export default {
             handler(assetClass) {
                 this.chartIdeal.tooltipType = assetClass === 'asset-classes' ? 'percentage' : 'rating';
                 this.loadGraphs();
+            }
+        },
+        'walletStore.selectedWallet': {
+            handler() {
+                this.selectedAssetClass = this.userAssetClassStore.filteredAssetClasses[0]?.slug;
             }
         }
     }
