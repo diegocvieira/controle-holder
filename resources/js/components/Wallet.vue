@@ -6,7 +6,7 @@
                 <span class="wallets-button-icon-letter">{{ walletStore.selectedWallet.name ? walletStore.selectedWallet.name[0] : '' }}</span>
             </div>
             <span class="wallets-button-text">{{ walletStore.selectedWallet.name }}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg>
+            <svg class="wallets-button-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg>
         </button>
 
         <div class="wallets-content" v-if="isOpenWallets">
