@@ -37,7 +37,7 @@ class WalletController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
-    
+
         $data = [
             'name' => $wallet->name,
             'slug' => $wallet->slug
